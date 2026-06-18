@@ -573,5 +573,54 @@ s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
 <!--End of Tawk.to Script-->
-</body>
+script>
+(async function autoListPosts(){
+  // Posts already hardcoded on the page — the script will SKIP these slugs
+  const existing = [
+    "how-to-learn-about-a-neighborhood-before-you-buy",
+    "hyde-park-tampa-neighborhood-guide",
+    "port-tampa-best-kept-secret"
+  ];
+  const owner = "IgnacioBernardoT";
+  const repo  = "ignaciotorano-site";
+  try {
+    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/blog`);
+    if(!res.ok) return;                       // fail quietly, existing cards still show
+    const items = await res.json();
+    const folders = items
+      .filter(i => i.type === "dir")
+      .map(i => i.name)
+      .filter(name => !existing.includes(name));
+    if(!folders.length) return;
+ 
+    const grid = document.querySelector(".blog-grid");
+    if(!grid) return;
+ 
+    // newest first (reverse alpha is a rough proxy; refine later if needed)
+    folders.reverse();
+ 
+    for(const slug of folders){
+      const title = slug.replace(/-/g," ").replace(/\b\w/g, c => c.toUpperCase());
+      const card = document.createElement("a");
+      card.className = "blog-card";
+      card.href = `blog/${slug}/`;
+      card.style = "text-decoration:none;color:inherit";
+      card.innerHTML = `
+        <div class="blog-thumb">
+          <img src="${slug}-feature.png" alt="${title}" loading="lazy"
+               onerror="this.style.display='none'">
+          <span class="blog-category">South Tampa</span>
+        </div>
+        <div class="blog-body">
+          <p class="blog-date">2026</p>
+          <h3 class="blog-card-title">${title}</h3>
+          <p class="blog-excerpt">Read the full article.</p>
+          <span class="blog-read-more">Read Article →</span>
+        </div>`;
+      grid.insertBefore(card, grid.firstChild);  // add to top
+    }
+  } catch(e){ /* fail quietly */ }
+})();
+</script>
+ </body>
 </html>
