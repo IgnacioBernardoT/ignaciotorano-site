@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="psky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#87CEEB"/>
+      <stop offset="100%" stop-color="#C8E8C0"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#psky)"/>
+  <!-- Large elegant home -->
+  <rect x="160" y="220" width="480" height="220" fill="#F2EDE4"/>
+  <!-- Roof -->
+  <polygon points="140,220 400,120 660,220" fill="#C8A882"/>
+  <!-- Dormers -->
+  <polygon points="240,200 270,165 300,200" fill="#B89060"/>
+  <rect x="248" y="175" width="44" height="30" fill="#A8C8D8" opacity="0.7"/>
+  <polygon points="500,200 530,165 560,200" fill="#B89060"/>
+  <rect x="508" y="175" width="44" height="30" fill="#A8C8D8" opacity="0.7"/>
+  <!-- Front columns -->
+  <rect x="210" y="220" width="12" height="120" fill="#E8E0D0"/>
+  <rect x="240" y="220" width="12" height="120" fill="#E8E0D0"/>
+  <rect x="548" y="220" width="12" height="120" fill="#E8E0D0"/>
+  <rect x="578" y="220" width="12" height="120" fill="#E8E0D0"/>
+  <!-- Windows -->
+  <rect x="185" y="250" width="55" height="65" fill="#A8C8D8" opacity="0.7"/>
+  <rect x="270" y="250" width="55" height="65" fill="#A8C8D8" opacity="0.7"/>
+  <rect x="480" y="250" width="55" height="65" fill="#A8C8D8" opacity="0.7"/>
+  <rect x="565" y="250" width="55" height="65" fill="#A8C8D8" opacity="0.7"/>
+  <!-- Door -->
+  <rect x="360" y="300" width="80" height="140" fill="#8B6914" opacity="0.85"/>
+  <rect x="368" y="308" width="28" height="55" fill="#A8C8D8" opacity="0.6"/>
+  <rect x="404" y="308" width="28" height="55" fill="#A8C8D8" opacity="0.6"/>
+  <!-- Front steps -->
+  <rect x="330" y="435" width="140" height="12" fill="#DDD5C0"/>
+  <rect x="320" y="445" width="160" height="12" fill="#CCC4B0"/>
+  <rect x="310" y="455" width="180" height="12" fill="#BBB3A0"/>
+  <!-- Lawn -->
+  <rect x="0" y="460" width="800" height="140" fill="#4A8C2A"/>
+  <!-- Driveway -->
+  <polygon points="320,460 480,460 520,600 280,600" fill="#C8B898"/>
+  <!-- Oak trees -->
+  <rect x="50" y="280" width="20" height="180" fill="#3A2810"/>
+  <ellipse cx="60" cy="250" rx="70" ry="90" fill="#2A5A15"/>
+  <ellipse cx="60" cy="230" rx="55" ry="70" fill="#356820"/>
+  <ellipse cx="30" cy="260" rx="40" ry="55" fill="#2A5A15"/>
+  <rect x="700" y="270" width="20" height="190" fill="#3A2810"/>
+  <ellipse cx="710" cy="240" rx="70" ry="90" fill="#2A5A15"/>
+  <ellipse cx="710" cy="220" rx="55" ry="70" fill="#356820"/>
+  <ellipse cx="740" cy="255" rx="40" ry="55" fill="#2A5A15"/>
+  <!-- Overlay -->
+  <rect width="800" height="600" fill="rgba(10,25,50,0.32)"/>
+</svg>

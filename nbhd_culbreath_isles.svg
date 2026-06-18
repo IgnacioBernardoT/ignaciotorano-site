@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6BA3D6"/>
+      <stop offset="60%" stop-color="#87CEEB"/>
+      <stop offset="100%" stop-color="#B8D4E8"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A90B8"/>
+      <stop offset="100%" stop-color="#2E6B8A"/>
+    </linearGradient>
+  </defs>
+  <!-- Sky -->
+  <rect width="800" height="600" fill="url(#sky)"/>
+  <!-- Sun -->
+  <circle cx="650" cy="80" r="45" fill="#FFF9E6" opacity="0.7"/>
+  <!-- Water -->
+  <rect x="0" y="380" width="800" height="220" fill="url(#water)"/>
+  <!-- Water shimmer -->
+  <rect x="200" y="400" width="60" height="3" fill="#87CEEB" opacity="0.4" rx="2"/>
+  <rect x="500" y="420" width="80" height="3" fill="#87CEEB" opacity="0.3" rx="2"/>
+  <rect x="350" y="440" width="50" height="2" fill="#87CEEB" opacity="0.35" rx="1"/>
+  <rect x="600" y="460" width="70" height="2" fill="#87CEEB" opacity="0.3" rx="1"/>
+  <!-- Waterfront lawn -->
+  <rect x="0" y="340" width="800" height="50" fill="#5A8A30"/>
+  <rect x="0" y="340" width="800" height="15" fill="#6B9C3E" opacity="0.5"/>
+  <!-- Luxury estate 1 (center) -->
+  <rect x="250" y="200" width="200" height="150" fill="#F8F4EE"/>
+  <rect x="260" y="210" width="180" height="5" fill="#E0D8C8"/>
+  <polygon points="240,200 350,140 460,200" fill="#8B7355"/>
+  <polygon points="280,200 350,165 420,200" fill="#7A6548" opacity="0.5"/>
+  <!-- Grand entrance -->
+  <rect x="320" y="280" width="60" height="70" fill="#5A4020" opacity="0.7"/>
+  <path d="M320,280 Q350,265 380,280" fill="#6B5030"/>
+  <!-- Windows -->
+  <rect x="260" y="230" width="30" height="40" fill="#A8D4E8" opacity="0.6"/>
+  <rect x="260" y="230" width="30" height="2" fill="#C8C0B0"/>
+  <rect x="275" y="230" width="2" height="40" fill="#C8C0B0"/>
+  <rect x="410" y="230" width="30" height="40" fill="#A8D4E8" opacity="0.6"/>
+  <rect x="410" y="230" width="30" height="2" fill="#C8C0B0"/>
+  <rect x="425" y="230" width="2" height="40" fill="#C8C0B0"/>
+  <rect x="300" y="240" width="20" height="25" fill="#A8D4E8" opacity="0.6"/>
+  <rect x="380" y="240" width="20" height="25" fill="#A8D4E8" opacity="0.6"/>
+  <!-- Columns -->
+  <rect x="310" y="230" width="6" height="120" fill="#E8E0D0"/>
+  <rect x="385" y="230" width="6" height="120" fill="#E8E0D0"/>
+  <!-- Estate 2 (left, smaller) -->
+  <rect x="40" y="250" width="130" height="100" fill="#F0EBE0"/>
+  <polygon points="35,250 105,200 175,250" fill="#9B8365"/>
+  <rect x="80" y="295" width="35" height="55" fill="#5A4020" opacity="0.7"/>
+  <rect x="48" y="270" width="25" height="30" fill="#A8D4E8" opacity="0.6"/>
+  <rect x="130" y="270" width="25" height="30" fill="#A8D4E8" opacity="0.6"/>
+  <!-- Estate 3 (right, smaller) -->
+  <rect x="560" y="240" width="150" height="110" fill="#F5F0E8"/>
+  <polygon points="555,240 635,185 715,240" fill="#8B7355"/>
+  <rect x="610" y="290" width="35" height="60" fill="#5A4020" opacity="0.7"/>
+  <rect x="568" y="260" width="28" height="35" fill="#A8D4E8" opacity="0.6"/>
+  <rect x="670" y="260" width="28" height="35" fill="#A8D4E8" opacity="0.6"/>
+  <!-- Driveway -->
+  <path d="M350,350 Q350,370 350,380 L340,380 Q340,370 340,355 Z" fill="#C8C0B0" opacity="0.5"/>
+  <!-- Palm trees -->
+  <rect x="210" y="240" width="7" height="110" fill="#7A5C10"/>
+  <ellipse cx="206" cy="228" rx="28" ry="12" fill="#2D5A1B" transform="rotate(-20,206,228)"/>
+  <ellipse cx="220" cy="225" rx="25" ry="10" fill="#3A7023" transform="rotate(15,220,225)"/>
+  <rect x="490" y="230" width="7" height="120" fill="#7A5C10"/>
+  <ellipse cx="486" cy="218" rx="28" ry="12" fill="#2D5A1B" transform="rotate(-15,486,218)"/>
+  <ellipse cx="500" cy="216" rx="25" ry="10" fill="#3A7023" transform="rotate(20,500,216)"/>
+  <!-- Landscaping hedges -->
+  <rect x="255" y="340" width="190" height="12" fill="#3A6520" rx="6"/>
+  <rect x="45" y="342" width="120" height="10" fill="#3A6520" rx="5"/>
+  <rect x="565" y="342" width="140" height="10" fill="#3A6520" rx="5"/>
+  <!-- Private dock -->
+  <rect x="580" y="370" width="80" height="5" fill="#8B6914"/>
+  <rect x="580" y="365" width="4" height="30" fill="#6B5010"/>
+  <rect x="620" y="365" width="4" height="30" fill="#6B5010"/>
+  <rect x="656" y="365" width="4" height="30" fill="#6B5010"/>
+  <!-- Yacht at dock -->
+  <path d="M640,385 Q660,400 700,385 L695,380 Q665,390 645,380 Z" fill="#E8E0D0"/>
+  <rect x="665" y="365" width="3" height="20" fill="#8B6914"/>
+  <!-- Overlay for card text readability -->
+  <rect width="800" height="600" fill="rgba(10,25,50,0.35)"/>
+</svg>

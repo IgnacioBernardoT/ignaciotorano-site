@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#87CEEB"/>
+      <stop offset="50%" stop-color="#F0C27F"/>
+      <stop offset="100%" stop-color="#E8A87C"/>
+    </linearGradient>
+  </defs>
+  <!-- Sky with warm sunset -->
+  <rect width="800" height="600" fill="url(#sky)"/>
+  <!-- Sun low on horizon -->
+  <circle cx="400" cy="280" r="50" fill="#FFD97D" opacity="0.8"/>
+  <circle cx="400" cy="280" r="70" fill="#FFD97D" opacity="0.2"/>
+  <!-- Water -->
+  <rect x="0" y="320" width="800" height="280" fill="#3A7CA5"/>
+  <rect x="0" y="320" width="800" height="20" fill="#5BA3C9" opacity="0.5"/>
+  <!-- Water reflections -->
+  <rect x="350" y="340" width="100" height="4" fill="#FFD97D" opacity="0.3" rx="2"/>
+  <rect x="370" y="360" width="60" height="3" fill="#FFD97D" opacity="0.25" rx="2"/>
+  <rect x="360" y="380" width="80" height="3" fill="#FFD97D" opacity="0.2" rx="2"/>
+  <!-- Land peninsula -->
+  <path d="M0,400 L200,400 Q300,390 350,420 Q380,440 360,480 Q340,520 300,540 L0,540 Z" fill="#6B8C3E"/>
+  <path d="M0,400 L200,400 Q300,390 350,420 Q380,440 360,480 Q340,520 300,540 L0,540 Z" fill="#4A6B2A" opacity="0.3"/>
+  <!-- Fishing pier -->
+  <rect x="280" y="400" width="120" height="6" fill="#8B6914"/>
+  <rect x="280" y="395" width="5" height="40" fill="#6B5010"/>
+  <rect x="320" y="395" width="5" height="40" fill="#6B5010"/>
+  <rect x="360" y="395" width="5" height="40" fill="#6B5010"/>
+  <rect x="395" y="395" width="5" height="40" fill="#6B5010"/>
+  <!-- Small houses along shore -->
+  <rect x="60" y="370" width="50" height="35" fill="#F5F0E8"/>
+  <polygon points="60,370 85,348 110,370" fill="#C8A882"/>
+  <rect x="75" y="385" width="15" height="20" fill="#8B6914" opacity="0.7"/>
+  <rect x="140" y="375" width="45" height="30" fill="#EDE8DF"/>
+  <polygon points="140,375 162,355 185,375" fill="#B89060"/>
+  <rect x="153" y="385" width="12" height="20" fill="#8B6914" opacity="0.7"/>
+  <!-- Palm trees -->
+  <rect x="220" y="350" width="6" height="55" fill="#7A5C10" transform="rotate(-5,223,377)"/>
+  <ellipse cx="218" cy="340" rx="25" ry="12" fill="#2D5A1B" transform="rotate(-15,218,340)"/>
+  <ellipse cx="230" cy="338" rx="22" ry="10" fill="#3A7023" transform="rotate(10,230,338)"/>
+  <rect x="45" y="340" width="6" height="60" fill="#7A5C10"/>
+  <ellipse cx="42" cy="330" rx="22" ry="10" fill="#2D5A1B" transform="rotate(-20,42,330)"/>
+  <ellipse cx="52" cy="328" rx="20" ry="9" fill="#3A7023" transform="rotate(15,52,328)"/>
+  <!-- Boat on water -->
+  <path d="M500,420 Q520,435 560,420 L555,415 Q530,425 505,415 Z" fill="#E8E0D0"/>
+  <rect x="530" y="398" width="3" height="22" fill="#8B6914"/>
+  <polygon points="533,400 533,410 548,405" fill="#F5F0E8"/>
+  <!-- Birds -->
+  <path d="M500,160 Q505,155 510,160" fill="none" stroke="#555" stroke-width="1.5"/>
+  <path d="M530,145 Q535,140 540,145" fill="none" stroke="#555" stroke-width="1.5"/>
+  <path d="M480,175 Q485,170 490,175" fill="none" stroke="#555" stroke-width="1.5"/>
+  <!-- Overlay for card text readability -->
+  <rect width="800" height="600" fill="rgba(10,25,50,0.35)"/>
+</svg>

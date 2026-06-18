@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="bsky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FF7043" opacity="0.8"/>
+      <stop offset="30%" stop-color="#FF8C69"/>
+      <stop offset="55%" stop-color="#87CEEB"/>
+      <stop offset="56%" stop-color="#1a6a9a"/>
+      <stop offset="100%" stop-color="#0d4a7a"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bsky)"/>
+  <!-- Sun -->
+  <circle cx="400" cy="200" r="55" fill="#FFD700" opacity="0.9"/>
+  <circle cx="400" cy="200" r="70" fill="#FFD700" opacity="0.2"/>
+  <!-- Sun reflection -->
+  <polygon points="360,340 440,340 460,600 340,600" fill="#FFD700" opacity="0.15"/>
+  <!-- Water ripples -->
+  <ellipse cx="400" cy="380" rx="380" ry="15" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.25"/>
+  <ellipse cx="400" cy="410" rx="380" ry="15" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.2"/>
+  <ellipse cx="400" cy="440" rx="380" ry="15" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.15"/>
+  <ellipse cx="400" cy="470" rx="380" ry="15" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.1"/>
+  <!-- Bayshore sidewalk/seawall -->
+  <rect x="0" y="330" width="800" height="25" fill="#D4C8B0"/>
+  <rect x="0" y="320" width="800" height="12" fill="#B8AA90"/>
+  <!-- Balustrade -->
+  <rect x="0" y="308" width="800" height="14" fill="#D4C8B0"/>
+  <rect x="20" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="50" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="80" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="110" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="140" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="170" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="200" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="230" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="260" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="290" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="320" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="350" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="380" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="410" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="440" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="470" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="500" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="530" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="560" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="590" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="620" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="650" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="680" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="710" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="740" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <rect x="770" y="295" width="8" height="25" fill="#D4C8B0"/>
+  <!-- Sidewalk -->
+  <rect x="0" y="355" width="800" height="50" fill="#B8B0A0"/>
+  <!-- Road -->
+  <rect x="0" y="405" width="800" height="80" fill="#707070"/>
+  <rect x="100" y="440" width="80" height="5" fill="#fff" opacity="0.5"/>
+  <rect x="300" y="440" width="80" height="5" fill="#fff" opacity="0.5"/>
+  <rect x="500" y="440" width="80" height="5" fill="#fff" opacity="0.5"/>
+  <!-- Palm trees along boulevard -->
+  <rect x="100" y="240" width="7" height="115" fill="#4A3728"/>
+  <ellipse cx="103" cy="230" rx="20" ry="8" fill="#2D7A1B" transform="rotate(-25,103,230)"/>
+  <ellipse cx="103" cy="230" rx="20" ry="8" fill="#2D7A1B" transform="rotate(25,103,230)"/>
+  <ellipse cx="103" cy="232" rx="18" ry="7" fill="#3A8A23" transform="rotate(-60,103,232)"/>
+  <rect x="300" y="230" width="7" height="125" fill="#4A3728"/>
+  <ellipse cx="303" cy="220" rx="20" ry="8" fill="#2D7A1B" transform="rotate(-20,303,220)"/>
+  <ellipse cx="303" cy="220" rx="20" ry="8" fill="#2D7A1B" transform="rotate(30,303,220)"/>
+  <rect x="500" y="245" width="7" height="110" fill="#4A3728"/>
+  <ellipse cx="503" cy="235" rx="20" ry="8" fill="#2D7A1B" transform="rotate(-25,503,235)"/>
+  <ellipse cx="503" cy="235" rx="20" ry="8" fill="#2D7A1B" transform="rotate(20,503,235)"/>
+  <rect x="700" y="235" width="7" height="120" fill="#4A3728"/>
+  <ellipse cx="703" cy="225" rx="20" ry="8" fill="#2D7A1B" transform="rotate(-20,703,225)"/>
+  <ellipse cx="703" cy="225" rx="20" ry="8" fill="#2D7A1B" transform="rotate(25,703,225)"/>
+  <!-- Overlay -->
+  <rect width="800" height="600" fill="rgba(10,25,50,0.3)"/>
+</svg>

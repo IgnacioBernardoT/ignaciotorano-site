@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="wsky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A90D9"/>
+      <stop offset="55%" stop-color="#87CEEB"/>
+      <stop offset="100%" stop-color="#B8D4E8"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#wsky)"/>
+  <!-- Clouds -->
+  <ellipse cx="150" cy="100" rx="80" ry="30" fill="#fff" opacity="0.7"/>
+  <ellipse cx="200" cy="90" rx="60" ry="25" fill="#fff" opacity="0.7"/>
+  <ellipse cx="100" cy="105" rx="50" ry="22" fill="#fff" opacity="0.6"/>
+  <ellipse cx="600" cy="80" rx="90" ry="28" fill="#fff" opacity="0.6"/>
+  <ellipse cx="650" cy="70" rx="65" ry="22" fill="#fff" opacity="0.6"/>
+  <!-- Modern office buildings -->
+  <!-- Building 1 - glass tower -->
+  <rect x="80" y="180" width="90" height="280" fill="#2A4A6A"/>
+  <rect x="82" y="182" width="86" height="276" fill="#3A6A9A"/>
+  <!-- Glass reflections -->
+  <rect x="88" y="188" width="35" height="260" fill="#4A8ABB" opacity="0.4"/>
+  <rect x="130" y="188" width="35" height="260" fill="#2A5A8A" opacity="0.3"/>
+  <!-- Horizontal floors -->
+  <rect x="80" y="220" width="90" height="2" fill="#1A3A5A" opacity="0.5"/>
+  <rect x="80" y="260" width="90" height="2" fill="#1A3A5A" opacity="0.5"/>
+  <rect x="80" y="300" width="90" height="2" fill="#1A3A5A" opacity="0.5"/>
+  <rect x="80" y="340" width="90" height="2" fill="#1A3A5A" opacity="0.5"/>
+  <rect x="80" y="380" width="90" height="2" fill="#1A3A5A" opacity="0.5"/>
+  <!-- Building 2 - wider -->
+  <rect x="220" y="210" width="110" height="250" fill="#1E3A5A"/>
+  <rect x="222" y="212" width="106" height="246" fill="#2A5080"/>
+  <rect x="228" y="218" width="45" height="235" fill="#3A6A9A" opacity="0.35"/>
+  <rect x="220" y="245" width="110" height="2" fill="#0E2A4A" opacity="0.6"/>
+  <rect x="220" y="280" width="110" height="2" fill="#0E2A4A" opacity="0.6"/>
+  <rect x="220" y="315" width="110" height="2" fill="#0E2A4A" opacity="0.6"/>
+  <rect x="220" y="350" width="110" height="2" fill="#0E2A4A" opacity="0.6"/>
+  <rect x="220" y="385" width="110" height="2" fill="#0E2A4A" opacity="0.6"/>
+  <!-- Building 3 - tallest -->
+  <rect x="390" y="140" width="80" height="320" fill="#1A3050"/>
+  <rect x="392" y="142" width="76" height="316" fill="#284878"/>
+  <rect x="398" y="148" width="32" height="305" fill="#3A6A9A" opacity="0.3"/>
+  <rect x="390" y="175" width="80" height="2" fill="#0E2040" opacity="0.7"/>
+  <rect x="390" y="210" width="80" height="2" fill="#0E2040" opacity="0.7"/>
+  <rect x="390" y="245" width="80" height="2" fill="#0E2040" opacity="0.7"/>
+  <rect x="390" y="280" width="80" height="2" fill="#0E2040" opacity="0.7"/>
+  <rect x="390" y="315" width="80" height="2" fill="#0E2040" opacity="0.7"/>
+  <rect x="390" y="350" width="80" height="2" fill="#0E2040" opacity="0.7"/>
+  <rect x="390" y="385" width="80" height="2" fill="#0E2040" opacity="0.7"/>
+  <!-- Building 4 -->
+  <rect x="530" y="195" width="95" height="265" fill="#243C62"/>
+  <rect x="532" y="197" width="91" height="261" fill="#2E5082"/>
+  <rect x="538" y="203" width="38" height="250" fill="#4080B0" opacity="0.3"/>
+  <rect x="530" y="230" width="95" height="2" fill="#142240" opacity="0.6"/>
+  <rect x="530" y="265" width="95" height="2" fill="#142240" opacity="0.6"/>
+  <rect x="530" y="300" width="95" height="2" fill="#142240" opacity="0.6"/>
+  <rect x="530" y="335" width="95" height="2" fill="#142240" opacity="0.6"/>
+  <rect x="530" y="370" width="95" height="2" fill="#142240" opacity="0.6"/>
+  <!-- Building 5 -->
+  <rect x="680" y="225" width="75" height="235" fill="#1E3858"/>
+  <rect x="682" y="227" width="71" height="231" fill="#284A78"/>
+  <rect x="688" y="233" width="30" height="220" fill="#3870A8" opacity="0.3"/>
+  <!-- Ground/road -->
+  <rect x="0" y="460" width="800" height="140" fill="#3A3A3A"/>
+  <rect x="0" y="455" width="800" height="10" fill="#5A8A3A"/>
+  <!-- Road markings -->
+  <rect x="60" y="495" width="70" height="5" fill="#fff" opacity="0.5"/>
+  <rect x="220" y="495" width="70" height="5" fill="#fff" opacity="0.5"/>
+  <rect x="380" y="495" width="70" height="5" fill="#fff" opacity="0.5"/>
+  <rect x="540" y="495" width="70" height="5" fill="#fff" opacity="0.5"/>
+  <rect x="700" y="495" width="70" height="5" fill="#fff" opacity="0.5"/>
+  <!-- Overlay -->
+  <rect width="800" height="600" fill="rgba(10,25,50,0.28)"/>
+</svg>
