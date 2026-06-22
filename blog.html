@@ -624,7 +624,7 @@ window.addEventListener("load", function(){
       for(var j=withDates.length-1;j>=0;j--){
         (function(item){
           var slug=item.slug;
-          var title=slug.replace(/-/g," ").replace(/\\b\\w/g,function(c){return c.toUpperCase();});
+          var title = slug.replace(/-/g," ").replace(/\w\S*/g,function(t){return t.charAt(0).toUpperCase()+t.slice(1);});
           var dateLabel=item.date.getTime()>0?item.date.toLocaleDateString("en-US",{month:"long",year:"numeric"}):"";
           var a=document.createElement("a");
           a.className="blog-card";
