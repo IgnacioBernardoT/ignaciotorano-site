@@ -1,0 +1,48 @@
+name: Rebuild blog and sitemap
+
+# Runs automatically whenever a new/changed post appears under blog/,
+# regenerates blog.html (static cards) and sitemap.xml, and commits them.
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'blog/**'        # only run when blog posts change
+      - 'build_site.py'  # or when the build script itself changes
+
+# Allow the Action to push its commit back to the repo
+permissions:
+  contents: write
+
+# Prevent overlapping runs (e.g. two posts committed close together)
+concurrency:
+  group: rebuild-blog
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run build_site.py
+        run: python build_site.py
+
+      - name: Commit regenerated files (if changed)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Stage only the generated outputs
+          git add blog.html sitemap.xml
+          # Commit only if something actually changed
+          if git diff --cached --quiet; then
+            echo "No changes to blog.html or sitemap.xml — nothing to commit."
+          else
+            git commit -m "Auto-rebuild blog cards + sitemap [skip ci]"
+            git push
+          fi
