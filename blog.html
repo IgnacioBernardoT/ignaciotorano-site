@@ -72,6 +72,15 @@ nav.scrolled{box-shadow:0 2px 24px rgba(0,0,0,0.07)}
 .section-title{font-family:var(--serif);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:400;color:var(--navy-dark)}
 .section-title em{font-style:italic;color:var(--gold)}
 
+/* BLOG SEARCH */
+.blog-search-wrap{max-width:1200px;margin:0 auto 2.5rem;position:relative}
+.blog-search-input{width:100%;padding:16px 20px 16px 52px;font-family:var(--sans);font-size:0.95rem;color:var(--navy-dark);background:var(--warm-white);border:0.5px solid var(--border);outline:none;transition:border-color 0.2s;border-radius:0;-webkit-appearance:none;appearance:none}
+.blog-search-input::placeholder{color:var(--muted)}
+.blog-search-input:focus{border-color:var(--gold)}
+.blog-search-icon{position:absolute;left:20px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.blog-card.hidden,.blog-featured.hidden{display:none}
+.blog-no-results{display:none;text-align:center;padding:3rem 1rem;font-family:var(--serif);font-size:1.3rem;font-style:italic;color:var(--muted)}
+
 .blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:2rem}
 .blog-card{background:var(--warm-white);border:0.5px solid var(--border);transition:box-shadow 0.3s,transform 0.3s;cursor:pointer;text-decoration:none;color:inherit;display:block}
 .blog-card:hover{box-shadow:0 8px 36px rgba(0,0,0,0.08);transform:translateY(-2px)}
@@ -176,9 +185,16 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
         <h2 class="section-title">From the <em>Blog</em></h2>
       </div>
     </div>
+
+    <div class="blog-search-wrap">
+      <svg class="blog-search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="blogSearch" class="blog-search-input" placeholder="Search posts by title, topic, or neighborhood…" aria-label="Search blog posts">
+    </div>
+    <p class="blog-no-results" id="blogNoResults">No posts found. Try a different search.</p>
+
     <div class="blog-grid">
       <!--AUTO_POSTS_START-->
-      <a class="blog-card" href="blog/why-zillow-cant-replace-a-real-cma/" style="text-decoration:none;color:inherit">
+<a class="blog-card" href="blog/why-zillow-cant-replace-a-real-cma/" style="text-decoration:none;color:inherit">
         <div class="blog-thumb">
           <img src="blog/why-zillow-cant-replace-a-real-cma/why-zillow-cant-replace-a-real-cma-feature.png" alt="Why Zillow Can&#x27;t Replace a Real CMA" loading="lazy" onerror="this.onerror=null;this.src='tampa_banner.png'">
           <span class="blog-category">Sellers Guide</span>
@@ -957,6 +973,25 @@ if(window.location.hash){
     article.classList.add('active');
   }
 }
+
+/* BLOG SEARCH — filters all cards (static, featured, onclick) by title/excerpt/category */
+(function(){
+  var input=document.getElementById('blogSearch');
+  var noResults=document.getElementById('blogNoResults');
+  if(!input)return;
+  function run(){
+    var q=input.value.trim().toLowerCase();
+    var cards=document.querySelectorAll('.blog-card, .blog-featured');
+    var visible=0;
+    cards.forEach(function(card){
+      var match=q===''||card.textContent.toLowerCase().indexOf(q)!==-1;
+      card.classList.toggle('hidden',!match);
+      if(match)visible++;
+    });
+    noResults.style.display=(q!==''&&visible===0)?'block':'none';
+  }
+  input.addEventListener('input',run);
+})();
 </script>
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
@@ -971,67 +1006,5 @@ s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
 <!--End of Tawk.to Script-->
-<script>
-window.addEventListener("load", function(){
-  (async function(){
-    var existing = [
-      "condos-vs-townhomes-what-you-actually-own",
-      "how-to-learn-about-a-neighborhood-before-you-buy",
-      "hyde-park-tampa-neighborhood-guide",
-      "port-tampa-best-kept-secret",
-      "tampa-dog-rescue"
-    ];
-    var owner="IgnacioBernardoT", repo="ignaciotorano-site";
-    try{
-      var res = await fetch("https://api.github.com/repos/"+owner+"/"+repo+"/contents/blog");
-      if(!res.ok) return;
-      var items = await res.json();
-      var grid = document.querySelector(".blog-grid");
-      if(!grid) return;
-      var folders = items
-        .filter(function(i){ return i.type==="dir"; })
-        .map(function(i){ return i.name; })
-        .filter(function(n){ return existing.indexOf(n)===-1 && n.indexOf("trim(")===-1; });
-
-      // fetch commit date for each post, then sort newest-first
-      var withDates = [];
-      for (var k=0;k<folders.length;k++){
-        var slug=folders[k], dt=new Date(0);
-        try{
-          var cr=await fetch("https://api.github.com/repos/"+owner+"/"+repo+"/commits?path=blog/"+slug+"&per_page=1");
-          if(cr.ok){ var cm=await cr.json(); if(cm.length){ dt=new Date(cm[0].commit.committer.date);} }
-        }catch(e){}
-        withDates.push({slug:slug,date:dt});
-      }
-      withDates.sort(function(a,b){return b.date-a.date;});
-
-      // insert newest at very top of grid
-      for(var j=withDates.length-1;j>=0;j--){
-        (function(item){
-          var slug=item.slug;
-          var title = slug.replace(/-/g," ").replace(/\w\S*/g,function(t){return t.charAt(0).toUpperCase()+t.slice(1);});
-          var dateLabel=item.date.getTime()>0?item.date.toLocaleDateString("en-US",{month:"long",year:"numeric"}):"";
-          var a=document.createElement("a");
-          a.className="blog-card";
-          a.href="blog/"+slug+"/";
-          a.style="text-decoration:none;color:inherit";
-          a.innerHTML=
-            '<div class="blog-thumb">'+
-              '<img src="blog/'+slug+'/'+slug+'-feature.png" alt="'+title+'" loading="lazy" onerror="this.onerror=null;this.src=\'tampa_banner.png\'">'+
-              '<span class="blog-category">South Tampa</span>'+
-            '</div>'+
-            '<div class="blog-body">'+
-              '<p class="blog-date">'+dateLabel+'</p>'+
-              '<h3 class="blog-card-title">'+title+'</h3>'+
-              '<p class="blog-excerpt">Read the full article.</p>'+
-              '<span class="blog-read-more">Read Article \u2192</span>'+
-            '</div>';
-          grid.insertBefore(a, grid.firstChild);
-        })(withDates[j]);
-      }
-    }catch(e){}
-  })();
-});
-</script>
- </body>
+</body>
 </html>
