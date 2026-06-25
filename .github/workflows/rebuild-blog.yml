@@ -8,6 +8,7 @@ on:
     paths:
       - 'blog/**'        # only run when blog posts change
       - 'build_site.py'  # or when the build script itself changes
+  workflow_dispatch:      # adds a manual "Run workflow" button in the Actions tab
 
 # Allow the Action to push its commit back to the repo
 permissions:
@@ -31,7 +32,12 @@ jobs:
           python-version: '3.12'
 
       - name: Run build_site.py
-        run: python build_site.py
+        run: |
+          # Make.com commits a post in two steps (html, then image). Pull the
+          # very latest main first so we always rebuild against the full repo,
+          # never a stale snapshot taken before the second commit landed.
+          git pull --rebase --autostash origin main || true
+          python build_site.py
 
       - name: Commit regenerated files (if changed)
         run: |
