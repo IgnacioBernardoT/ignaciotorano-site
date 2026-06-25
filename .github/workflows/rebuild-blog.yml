@@ -37,12 +37,23 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # Stage only the generated outputs
           git add blog.html sitemap.xml
-          # Commit only if something actually changed
           if git diff --cached --quiet; then
             echo "No changes to blog.html or sitemap.xml — nothing to commit."
-          else
-            git commit -m "Auto-rebuild blog cards + sitemap [skip ci]"
-            git push
+            exit 0
           fi
+          git commit -m "Auto-rebuild blog cards + sitemap [skip ci]"
+          # Make.com commits a post in two steps (html, then image), so two
+          # Action runs can race. Retry the push, rebasing on the latest main
+          # if the branch moved underneath us.
+          for i in 1 2 3 4 5; do
+            if git push; then
+              echo "Pushed successfully."
+              exit 0
+            fi
+            echo "Push rejected (branch moved). Rebasing and retrying ($i)..."
+            git pull --rebase --autostash origin main || true
+            sleep 3
+          done
+          echo "Push still failing after retries."
+          exit 1
