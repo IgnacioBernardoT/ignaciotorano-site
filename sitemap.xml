@@ -21,12 +21,6 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://ignaciotorano.com/blog/why-south-tampa-homes-go-under-contract-before-showings/</loc>
-    <lastmod>2026-06-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
     <loc>https://ignaciotorano.com/blog/why-zillow-cant-replace-a-real-cma/</loc>
     <lastmod>2026-06-27</lastmod>
     <changefreq>monthly</changefreq>
@@ -46,6 +40,12 @@
   </url>
   <url>
     <loc>https://ignaciotorano.com/blog/why-south-tampa-sellers-shouldnt-wait/</loc>
+    <lastmod>2026-06-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ignaciotorano.com/blog/why-south-tampa-homes-go-under-contract-before-showings/</loc>
     <lastmod>2026-06-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -167,6 +167,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://ignaciotorano.com/blog/port-tampa-living/</loc>
+    <lastmod>2026-06-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://ignaciotorano.com/blog/negotiating-power-beyond-price-in-south-tampa/</loc>
     <lastmod>2026-06-27</lastmod>
     <changefreq>monthly</changefreq>
@@ -174,12 +180,6 @@
   </url>
   <url>
     <loc>https://ignaciotorano.com/blog/port-tampa-best-kept-secret/</loc>
-    <lastmod>2026-06-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://ignaciotorano.com/blog/port-tampa-living/</loc>
     <lastmod>2026-06-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -209,13 +209,13 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://ignaciotorano.com/blog/how-long-does-it-take-to-close-on-a-home-in-florida/</loc>
+    <loc>https://ignaciotorano.com/blog/how-to-learn-about-a-neighborhood-before-you-buy/</loc>
     <lastmod>2026-06-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://ignaciotorano.com/blog/how-to-learn-about-a-neighborhood-before-you-buy/</loc>
+    <loc>https://ignaciotorano.com/blog/how-long-does-it-take-to-close-on-a-home-in-florida/</loc>
     <lastmod>2026-06-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
