@@ -1,6 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XBTLFZ7QLY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XBTLFZ7QLY');
+</script>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1977453569800552');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1977453569800552&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wxx58ydtzo");
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Swann Estates — Tampa Bay Neighborhood Songs</title>
@@ -38,9 +72,43 @@ footer .credit-name{color:var(--cream);font-size:1rem;letter-spacing:.04em;margi
 footer .credit-sub{margin-top:6px;color:rgba(247,243,232,.55)}
 footer p{margin:2px 0}
 @media(max-width:520px){.player{padding:22px}}
+
+/* ===== Site nav (matches ignaciotorano.com) ===== */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap');
+.site-nav{--n-navy:#1B2A4A;--n-navy-dark:#0F1E35;--n-navy-mid:#2A3F63;--n-gold:#C9A96E;--n-gold-light:#DFC08A;--n-white:#FDFCF9;--n-border:rgba(27,42,74,0.12);
+  position:sticky;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;height:74px;background:rgba(253,252,249,0.97);backdrop-filter:blur(14px);border-bottom:.5px solid var(--n-border);font-family:'Jost',sans-serif}
+.site-nav .nav-logo img{height:44px;display:block}
+.site-nav .nav-links{display:flex;align-items:center;gap:2rem;list-style:none;margin:0;padding:0}
+.site-nav .nav-links a{font-size:.72rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--n-navy-mid);text-decoration:none;transition:color .2s}
+.site-nav .nav-links a:hover{color:var(--n-gold)}
+.site-nav .nav-cta{background:var(--n-navy)!important;color:var(--n-white)!important;padding:10px 22px;font-weight:600!important}
+.site-nav .nav-cta:hover{background:var(--n-gold)!important;color:var(--n-navy-dark)!important}
+.site-nav .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.site-nav .hamburger span{display:block;width:24px;height:1.5px;background:var(--n-navy)}
+@media(max-width:960px){
+  .site-nav .nav-links{display:none}
+  .site-nav .nav-links.open{display:flex;flex-direction:column;align-items:flex-start;position:fixed;top:74px;left:0;right:0;background:rgba(253,252,249,0.98);backdrop-filter:blur(14px);padding:1.5rem 5vw;border-bottom:.5px solid var(--n-border);gap:1.2rem;z-index:499}
+  .site-nav .hamburger{display:flex}
+}
+
 </style>
 </head>
 <body>
+<nav class="site-nav" id="siteNav">
+  <a href="https://ignaciotorano.com/" class="nav-logo"><img src="https://ignaciotorano.com/iggy_logo_v2.webp" alt="Ignacio Toraño South Tampa Real Estate"></a>
+  <ul class="nav-links" id="siteNavLinks">
+    <li><a href="https://ignaciotorano.com/#about">About</a></li>
+    <li><a href="https://ignaciotorano.com/#services">Services</a></li>
+    <li><a href="https://ignaciotorano.com/neighborhoods/">Neighborhoods</a></li>
+    <li><a href="https://ignaciotorano.com/videos.html">Videos</a></li>
+    <li><a href="https://ignaciotorano.com/blog.html">Blog</a></li>
+    <li><a href="https://effervescent-churros-d0d56b.netlify.app">Parks</a></li>
+    <li><a href="https://ignaciotorano.com/#testimonials">Reviews</a></li>
+    <li><a href="https://ignaciotorano.com/#contact" class="nav-cta">Let's Connect</a></li>
+  </ul>
+  <div class="hamburger" id="siteNavBurger"><span></span><span></span><span></span></div>
+</nav>
+
 <div class="stripe"></div>
 <header>
   <div class="wrap">
@@ -186,5 +254,10 @@ Under the summer sky.</div>
   <p class="credit-sub">Original neighborhood songs &amp; stories · Happy Fourth of July 🇺🇸</p>
   <p style="margin-top:18px"><a href="../index.html">← Back to all Tampa Bay neighborhoods</a> &nbsp;·&nbsp; <a href="../sources.html">Sources &amp; references</a></p>
 </footer>
+<script>
+(function(){var b=document.getElementById('siteNavBurger'),l=document.getElementById('siteNavLinks');
+if(b&&l){b.addEventListener('click',function(){l.classList.toggle('open')});
+l.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){l.classList.remove('open')})});}})();
+</script>
 </body>
 </html>
