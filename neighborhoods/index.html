@@ -102,6 +102,12 @@ main{max-width:1100px;margin:0 auto;padding:48px 24px 80px}
 .searchwrap input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(178,34,52,.12)}
 .noresults{text-align:center;color:#7a7f88;font-size:1.05rem;padding:30px 0;display:none}
 .noresults a{color:var(--red)}
+.beyond-break{max-width:900px;margin:56px auto 28px;text-align:center;position:relative}
+.beyond-break::before{content:"";position:absolute;top:50%;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(178,34,52,.35) 20%,rgba(178,34,52,.35) 80%,transparent)}
+.beyond-break .bb-inner{position:relative;display:inline-block;background:var(--paper);padding:0 26px}
+.beyond-break .bb-stars{color:var(--red);font-size:1rem;letter-spacing:.4em}
+.beyond-break h2{color:var(--navy);font-size:1.6rem;margin:6px 0 0;letter-spacing:-.01em}
+.beyond-note{text-align:center;max-width:62ch;margin:0 auto 30px;color:#33373f;font-size:1.02rem}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
 .card{display:flex;flex-direction:column;justify-content:space-between;gap:14px;min-height:104px;padding:20px 22px;border-radius:12px;text-decoration:none;border:1px solid rgba(178,34,52,.35);background:#fff;transition:transform .15s ease,box-shadow .15s ease}
@@ -282,6 +288,17 @@ footer .sources a:hover{color:var(--gold)}
 
   <div class="noresults" id="noresults">No neighborhood matches that search yet. <a href="mailto:ignacio@ignaciotorano.com?subject=Add%20my%20Tampa%20neighborhood">Send me a message</a> and I'll add it.</div>
 
+  <div class="beyond-break">
+    <div class="bb-inner">
+      <div class="bb-stars">&#9733; &#9733; &#9733;</div>
+      <h2>By Request: Greater Tampa Bay</h2>
+    </div>
+  </div>
+  <p class="beyond-note">These communities sit beyond Tampa's official neighborhood association map &mdash; but neighbors from across the bay asked for a song of their own. This section grows with every request.</p>
+  <div class="grid" id="grid2">
+  
+  </div>
+
   <div class="cta-banner" style="margin-top:48px;margin-bottom:0">
     <h3>Is your neighborhood missing?</h3>
     <p>If you don't see your Tampa Bay neighborhood here yet, send me a message and I'll write its song and story.</p>
@@ -327,7 +344,7 @@ footer .sources a:hover{color:var(--gold)}
 <script>
 (function(){
   var input = document.getElementById('search');
-  var cards = Array.prototype.slice.call(document.querySelectorAll('#grid .card'));
+  var cards = Array.prototype.slice.call(document.querySelectorAll('#grid .card, #grid2 .card'));
   var noresults = document.getElementById('noresults');
   input.addEventListener('input', function(){
     var q = input.value.trim().toLowerCase();
