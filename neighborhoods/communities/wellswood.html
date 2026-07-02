@@ -67,7 +67,7 @@ header::before{content:"★";position:absolute;font-size:340px;color:rgba(255,25
 h1{font-size:clamp(2.2rem,6vw,4rem);line-height:1.05;letter-spacing:-.01em;max-width:14ch;margin:0 auto}
 .wrap{max-width:760px;margin:0 auto;padding:0 24px}
 .cover{display:block;max-width:712px;width:100%;margin:32px auto 0;border-radius:14px;box-shadow:0 18px 50px rgba(6,21,46,.28);position:relative;z-index:2}
-.player{background:var(--navy);border-radius:14px;padding:28px;margin:24px auto 48px;max-width:712px;box-shadow:0 18px 50px rgba(6,21,46,.18);position:relative;z-index:2}
+.player{background:var(--navy);border-radius:14px;padding:28px;margin:24px auto 48px;max-width:712px;box-shadow:0 18px 50px rgba(6,21,46,.18);position:relative;z-index:2;text-align:center}
 .player h2{color:var(--cream);font-size:1.3rem;margin-bottom:6px}
 .player .style{color:rgba(247,243,232,.6);font-size:.78rem;font-family:Arial,sans-serif;line-height:1.6;margin-bottom:18px}
 .player a.listen{display:inline-flex;align-items:center;gap:10px;background:var(--red);color:#fff;text-decoration:none;padding:13px 26px;border-radius:40px;font-family:Arial,sans-serif;font-weight:bold;font-size:.92rem;letter-spacing:.02em}
@@ -145,6 +145,7 @@ footer p{margin:2px 0}
 .share-row .su-msg.ok{color:#1a7f37}
 .share-row .su-msg.err{color:#c0392b}
 .share-row .su-note{font-family:Arial,sans-serif;font-size:.68rem;color:#8a8f98;margin-top:10px}
+@media(max-width:520px){.share-row .su-form input{flex:1 1 100%;width:100%}}
 
 </style>
 </head>
@@ -177,7 +178,6 @@ footer p{margin:2px 0}
 
 <div class="player">
   <h2>♪ Wellswood, Let the Peacocks Fly</h2>
-  <div class="style">Patriotic • 4th of July Crowd Anthem • Classic Rock Guitars • Latin Brass • Neighborhood Choir</div>
   <a class="listen" href="https://youtu.be/I6Mmm9OI8_A" target="_blank" rel="noopener">▶ Watch on YouTube</a>
 </div>
 

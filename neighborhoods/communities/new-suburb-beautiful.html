@@ -67,7 +67,7 @@ header::before{content:"★";position:absolute;font-size:340px;color:rgba(255,25
 h1{font-size:clamp(2.2rem,6vw,4rem);line-height:1.05;letter-spacing:-.01em;max-width:14ch;margin:0 auto}
 .wrap{max-width:760px;margin:0 auto;padding:0 24px}
 .cover{display:block;max-width:712px;width:100%;margin:32px auto 0;border-radius:14px;box-shadow:0 18px 50px rgba(6,21,46,.28);position:relative;z-index:2}
-.player{background:var(--navy);border-radius:14px;padding:28px;margin:-32px auto 48px;max-width:712px;box-shadow:0 18px 50px rgba(6,21,46,.28);position:relative;z-index:2}
+.player{background:var(--navy);border-radius:14px;padding:28px;margin:-32px auto 48px;max-width:712px;box-shadow:0 18px 50px rgba(6,21,46,.28);position:relative;z-index:2;text-align:center}
 .player.with-cover{margin-top:24px;box-shadow:0 18px 50px rgba(6,21,46,.18)}
 .player h2{color:var(--cream);font-size:1.3rem;margin-bottom:6px}
 .player .style{color:rgba(247,243,232,.6);font-size:.78rem;font-family:Arial,sans-serif;line-height:1.6;margin-bottom:18px}
@@ -146,6 +146,7 @@ footer p{margin:2px 0}
 .share-row .su-msg.ok{color:#1a7f37}
 .share-row .su-msg.err{color:#c0392b}
 .share-row .su-note{font-family:Arial,sans-serif;font-size:.68rem;color:#8a8f98;margin-top:10px}
+@media(max-width:520px){.share-row .su-form input{flex:1 1 100%;width:100%}}
 
 </style>
 </head>
@@ -178,7 +179,6 @@ footer p{margin:2px 0}
 
 <div class="player with-cover">
   <h2>♪ You Get a Tree</h2>
-  <div class="style">Patriotic • 4th of July Anthem • Big Call &amp; Response • Crowd Chant</div>
   <a class="listen" href="https://youtu.be/QONv_8gzd4E" target="_blank" rel="noopener">▶ Watch on YouTube</a>
 </div>
 
