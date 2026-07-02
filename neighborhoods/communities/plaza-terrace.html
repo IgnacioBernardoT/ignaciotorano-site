@@ -117,6 +117,35 @@ footer p{margin:2px 0}
 .copied-msg{display:inline-block;margin-left:10px;font-family:Arial,sans-serif;font-size:.78rem;color:#1a7f37;font-weight:bold;opacity:0;transition:opacity .2s}
 .copied-msg.show{opacity:1}
 
+
+/* ===== Email signup ===== */
+.signup{max-width:712px;margin:0 auto 48px;padding:32px 30px;background:linear-gradient(150deg,var(--navy) 0%,var(--navy-deep) 100%);border-radius:16px;color:var(--cream);text-align:center;position:relative;overflow:hidden}
+.signup::before{content:"\2605";position:absolute;font-size:200px;color:rgba(255,255,255,.04);top:-40px;right:-20px;line-height:1}
+.signup h3{font-size:1.5rem;margin-bottom:8px;position:relative}
+.signup p{font-size:1rem;color:rgba(247,243,232,.82);margin-bottom:20px;max-width:46ch;margin-left:auto;margin-right:auto;position:relative}
+.signup form{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;position:relative;max-width:560px;margin:0 auto}
+.signup input{flex:1;min-width:180px;font-family:Georgia,serif;font-size:1rem;padding:13px 16px;border:none;border-radius:8px;background:#fff;color:var(--ink);outline:none}
+.signup button{background:var(--red);color:#fff;font-family:Arial,sans-serif;font-weight:bold;font-size:.95rem;border:none;border-radius:8px;padding:13px 28px;cursor:pointer;transition:background .15s}
+.signup button:hover{background:#d12b3e}
+.signup .signup-note{font-family:Arial,sans-serif;font-size:.72rem;color:rgba(247,243,232,.55);margin-top:14px;position:relative}
+.signup .signup-msg{margin-top:14px;font-family:Arial,sans-serif;font-weight:bold;font-size:.95rem;position:relative;min-height:1.2em}
+.signup .signup-msg.ok{color:#8fe3a0}
+.signup .signup-msg.err{color:#ffb3ba}
+
+
+/* signup merged into share row */
+.share-row .su-divider{height:1px;background:var(--line);margin:20px auto 18px;max-width:420px}
+.share-row .su-head{font-family:Arial,sans-serif;font-size:.9rem;font-weight:bold;color:var(--navy);margin-bottom:14px}
+.share-row .su-form{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:520px;margin:0 auto}
+.share-row .su-form input{flex:1;min-width:150px;font-family:Georgia,serif;font-size:.95rem;padding:11px 14px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);outline:none}
+.share-row .su-form input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(178,34,52,.1)}
+.share-row .su-form button{background:var(--red);color:#fff;font-family:Arial,sans-serif;font-weight:bold;font-size:.9rem;border:none;border-radius:8px;padding:11px 24px;cursor:pointer}
+.share-row .su-form button:hover{background:#d12b3e}
+.share-row .su-msg{margin-top:12px;font-family:Arial,sans-serif;font-weight:bold;font-size:.9rem;min-height:1.1em}
+.share-row .su-msg.ok{color:#1a7f37}
+.share-row .su-msg.err{color:#c0392b}
+.share-row .su-note{font-family:Arial,sans-serif;font-size:.68rem;color:#8a8f98;margin-top:10px}
+
 </style>
 </head>
 <body>
@@ -162,6 +191,18 @@ footer p{margin:2px 0}
     <button class="sb-copy" id="shareCopy" type="button" aria-label="Copy link"><svg viewBox="0 0 24 24"><path d="M3.9 12a3.1 3.1 0 0 1 3.1-3.1h4V7h-4a5 5 0 0 0 0 10h4v-1.9h-4A3.1 3.1 0 0 1 3.9 12zM13 7h-4v1.9h4a3.1 3.1 0 0 1 0 6.2h-4V17h4a5 5 0 0 0 0-10zM8 11h8v2H8z"/></svg>Copy Link</button>
     <span class="copied-msg" id="copiedMsg">Link copied!</span>
   </div>
+
+    <div class="su-divider"></div>
+    <div class="su-head">&#9834; Get free giveaways &amp; monthly neighborhood updates</div>
+    <form id="signupForm" class="su-form" onsubmit="return false;">
+      <input type="email" id="suEmail" placeholder="Your email" required aria-label="Email">
+      <input type="text" id="suName" placeholder="First name (optional)" aria-label="First name">
+      <input type="hidden" id="suNeighborhood" value="Plaza Terrace">
+      <button type="submit" id="suBtn">Sign Up</button>
+    </form>
+    <div class="su-msg" id="suMsg"></div>
+    <div class="su-note">No spam &middot; unsubscribe anytime &middot; from Ignacio Tora&#241;o, Agile Group Realty.</div>
+
 </div>
 
 <article>
@@ -350,6 +391,34 @@ l.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(
     function fallbackCopy(){var t=document.createElement('textarea');t.value=link;document.body.appendChild(t);t.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(t);showCopied();}
     function showCopied(){if(msg){msg.classList.add('show');setTimeout(function(){msg.classList.remove('show');},2000);}}
   });
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  // ===== PASTE YOUR SUPABASE CREDENTIALS HERE =====
+  var SUPABASE_URL = "https://oudmfnoraliqvmyhnmdi.supabase.co";
+  var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im91ZG1mbm9yYWxpcXZteWhubWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2NDQ3NzQsImV4cCI6MjA5NzIyMDc3NH0.q3B3c0flihQK4Q479cleZ5wDd0DeK6rgLvduWoXjRxo";
+  // =================================================
+  var form=document.getElementById('signupForm');
+  if(!form) return;
+  var msg=document.getElementById('suMsg'),btn=document.getElementById('suBtn');
+  var client=null;
+  try{ if(window.supabase&&SUPABASE_URL.indexOf('http')===0){ client=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY); } }catch(e){}
+  form.addEventListener('submit',function(){
+    var email=document.getElementById('suEmail').value.trim();
+    var name=document.getElementById('suName').value.trim();
+    var neigh=document.getElementById('suNeighborhood').value;
+    if(!email||email.indexOf('@')<1){ show('Please enter a valid email.','err'); return; }
+    if(!client){ show('Signup is being set up \u2014 please check back soon!','err'); return; }
+    btn.disabled=true; btn.textContent='Signing up...';
+    client.from('neighborhood_subscribers').insert([{email:email,first_name:name||null,neighborhood:neigh||null}]).then(function(res){
+      btn.disabled=false; btn.textContent='Sign me up';
+      if(res.error){ show('Something went wrong. Please try again.','err'); }
+      else{ show('You\u2019re in! Thanks for joining. \ud83c\uddfa\ud83c\uddf8','ok'); form.reset(); }
+    });
+  });
+  function show(t,c){ msg.textContent=t; msg.className='signup-msg '+c; }
 })();
 </script>
 </body>
