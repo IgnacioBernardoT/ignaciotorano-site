@@ -189,21 +189,23 @@ section{padding:7rem 5vw}
 /* NEIGHBORHOODS */
 .neighborhoods{background:var(--warm-white)}
 .nbhd-header{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1.5rem;max-width:1200px;margin:0 auto 3rem}
-.nbhd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;max-width:1200px;margin:0 auto}
-.nbhd-card{position:relative;overflow:hidden;aspect-ratio:4/3;background:var(--navy-dark);cursor:pointer}
-.nbhd-img{width:100%;height:100%;object-fit:cover;transition:transform 0.55s ease;display:block}
-.nbhd-placeholder{width:100%;height:100%}
-.nbhd-card:hover .nbhd-img,.nbhd-card:hover .nbhd-placeholder{transform:scale(1.06)}
-.nbhd-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,20,40,0.88) 0%,rgba(10,20,40,0.2) 60%,transparent 100%)}
-.nbhd-info{position:absolute;bottom:0;left:0;right:0;padding:1.6rem}
-.nbhd-name{font-family:var(--serif);font-size:1.7rem;font-weight:400;color:#FDFCF9;margin-bottom:3px}
-.nbhd-sub{font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-light)}
-.nbhd-card:nth-child(1) .nbhd-placeholder{background:linear-gradient(160deg,#1a2838,#253d55)}
-.nbhd-card:nth-child(2) .nbhd-placeholder{background:linear-gradient(160deg,#1e2820,#2d3e30)}
-.nbhd-card:nth-child(3) .nbhd-placeholder{background:linear-gradient(160deg,#28201a,#3e2e20)}
-.nbhd-card:nth-child(4) .nbhd-placeholder{background:linear-gradient(160deg,#22201a,#382e20)}
-.nbhd-card:nth-child(5) .nbhd-placeholder{background:linear-gradient(160deg,#1a2222,#2d3535)}
-.nbhd-card:nth-child(6) .nbhd-placeholder{background:linear-gradient(160deg,#20181e,#382030)}
+.nbhd-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:4px 22px;max-width:1200px;margin:0 auto;list-style:none}
+.nbhd-list a{display:flex;align-items:baseline;gap:9px;padding:9px 8px;border-bottom:0.5px solid var(--border);text-decoration:none;transition:background 0.2s,border-color 0.2s}
+.nbhd-list a:hover{background:var(--gold-pale);border-color:var(--gold)}
+.nbhd-item-name{font-family:var(--serif);font-size:1.08rem;font-weight:500;color:var(--navy-dark);line-height:1.25;display:block}
+.nbhd-item-tag{display:block;font-size:0.58rem;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-top:1px;transition:color 0.2s}
+.nbhd-list a:hover .nbhd-item-tag{color:var(--gold)}
+
+/* PRESS FEATURE */
+.press-feature{max-width:1200px;margin:4.5rem auto 0;background:var(--navy-dark);padding:3.5rem 3rem;border-top:2.5px solid var(--gold)}
+.press-logo{height:46px;width:auto;display:block;margin-bottom:1.4rem}
+.press-kicker{font-size:0.66rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.9rem;display:flex;align-items:center;gap:10px}
+.press-kicker::before{content:'';display:block;width:22px;height:1px;background:var(--gold)}
+.press-headline{font-family:var(--serif);font-size:clamp(1.5rem,2.8vw,2.2rem);font-weight:400;line-height:1.2;color:#FDFCF9;margin-bottom:1.2rem;max-width:780px}
+.press-quote{font-family:var(--serif);font-size:1.1rem;font-style:italic;color:rgba(253,252,249,0.65);line-height:1.8;border-left:2px solid var(--gold);padding-left:1.2rem;margin-bottom:1.8rem;max-width:700px}
+.press-quote cite{display:block;font-family:var(--sans);font-style:normal;font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(253,252,249,0.4);margin-top:0.7rem}
+.press-actions{display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap}
+.press-credit{font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(253,252,249,0.35)}
 
 /* FEATURE */
 .feature-section{position:relative;overflow:hidden;background:var(--navy-dark);padding:0;display:flex;min-height:480px}
@@ -287,7 +289,8 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
   .about-inner{grid-template-columns:1fr;gap:3rem}
   .about-photo-accent{display:none}
   .services-grid{grid-template-columns:1fr}
-  .nbhd-grid{grid-template-columns:1fr}
+  .nbhd-list{grid-template-columns:repeat(2,1fr);gap:2px 14px}
+  .press-feature{padding:2.4rem 1.5rem;margin-top:3rem}
   .contact-inner{grid-template-columns:1fr;gap:3rem}
   .form-row{grid-template-columns:1fr}
   .footer-inner{flex-direction:column;text-align:center}
@@ -295,6 +298,9 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
   .feature-section{flex-direction:column}
   .feature-img{width:100%;height:280px}
   .trust-bar{gap:1.5rem}
+}
+@media(max-width:480px){
+  .nbhd-list{grid-template-columns:1fr}
 }
 </style>
 
@@ -443,20 +449,48 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
 <section class="neighborhoods" id="neighborhoods">
   <div class="nbhd-header">
     <div class="reveal">
-      <p class="section-eyebrow">South Tampa</p>
-      <h2 class="section-title">Neighborhoods<br><em>I Know Best</em></h2>
+      <p class="section-eyebrow">Tampa Bay</p>
+      <h2 class="section-title">Learn More About<br><em>Tampa Neighborhoods</em></h2>
     </div>
-    <a href="#contact" class="btn-navy reveal">Explore All Areas</a>
   </div>
-  <div class="nbhd-grid">
-    <div class="nbhd-card reveal"><img src="nbhd_hyde_park.svg" class="nbhd-img" alt="Hyde Park Tampa neighborhood"><div class="nbhd-overlay"></div><div class="nbhd-info"><h3 class="nbhd-name">Hyde Park</h3><p class="nbhd-sub">Historic charm &amp; walkability</p></div></div>
-    <div class="nbhd-card reveal rd1"><img src="nbhd_davis_islands.svg" class="nbhd-img" alt="Davis Islands Tampa waterfront"><div class="nbhd-overlay"></div><div class="nbhd-info"><h3 class="nbhd-name">Davis Islands</h3><p class="nbhd-sub">Waterfront living &amp; community</p></div></div>
-    <div class="nbhd-card reveal rd2"><img src="nbhd_palma_ceia.svg" class="nbhd-img" alt="Palma Ceia Tampa homes"><div class="nbhd-overlay"></div><div class="nbhd-info"><h3 class="nbhd-name">Palma Ceia</h3><p class="nbhd-sub">Elegant &amp; family-friendly</p></div></div>
-    <div class="nbhd-card reveal rd1"><img src="nbhd_bayshore.svg" class="nbhd-img" alt="Bayshore Boulevard Tampa"><div class="nbhd-overlay"></div><div class="nbhd-info"><h3 class="nbhd-name">Bayshore Beautiful</h3><p class="nbhd-sub">Iconic waterfront boulevard</p></div></div>
-    <div class="nbhd-card reveal rd2"><img src="nbhd_harbour_island.svg" class="nbhd-img" alt="Harbour Island Tampa luxury"><div class="nbhd-overlay"></div><div class="nbhd-info"><h3 class="nbhd-name">Harbour Island</h3><p class="nbhd-sub">Urban luxury &amp; convenience</p></div></div>
-    <div class="nbhd-card reveal rd3"><img src="nbhd_westshore.svg" class="nbhd-img" alt="Westshore Tampa business district"><div class="nbhd-overlay"></div><div class="nbhd-info"><h3 class="nbhd-name">Westshore</h3><p class="nbhd-sub">Business district &amp; lifestyle</p></div></div>
-    <div class="nbhd-card reveal rd2"><img src="nbhd_port_tampa.svg" class="nbhd-img" alt="Port Tampa City Tampa waterfront"><div class="nbhd-overlay"></div><div class="nbhd-info"><h3 class="nbhd-name">Port Tampa City</h3><p class="nbhd-sub">Southernmost tip &amp; unique character</p></div></div>
-    <div class="nbhd-card reveal rd3"><img src="nbhd_culbreath_isles.svg" class="nbhd-img" alt="Culbreath Isles Tampa luxury waterfront"><div class="nbhd-overlay"></div><div class="nbhd-info"><h3 class="nbhd-name">Culbreath Isles</h3><p class="nbhd-sub">Ultra-luxury waterfront living</p></div></div>
+  <ul class="nbhd-list reveal">
+    <li><a href="/neighborhoods/communities/armory-gardens"><span><span class="nbhd-item-name">Armory Gardens</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/ballast-point"><span><span class="nbhd-item-name">Ballast Point</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/bayshore-beautiful"><span><span class="nbhd-item-name">Bayshore Beautiful</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/bayshore-gardens"><span><span class="nbhd-item-name">Bayshore Gardens</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/bayside-west"><span><span class="nbhd-item-name">Bayside West</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/beach-park"><span><span class="nbhd-item-name">Beach Park</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/bel-mar-shores"><span><span class="nbhd-item-name">Bel Mar Shores</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/bon-air"><span><span class="nbhd-item-name">Bon Air</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/bowman-heights"><span><span class="nbhd-item-name">Bowman Heights</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/carver-city-lincoln-gardens"><span><span class="nbhd-item-name">Carver City / Lincoln Gardens</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/channel-district"><span><span class="nbhd-item-name">Channel District</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/college-hill"><span><span class="nbhd-item-name">College Hill &amp; Belmont Heights</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/culbreath-bayou"><span><span class="nbhd-item-name">Culbreath Bayou</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/culbreath-heights"><span><span class="nbhd-item-name">Culbreath Heights</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/davis-islands"><span><span class="nbhd-item-name">Davis Islands</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/river-arts-district"><span><span class="nbhd-item-name">Downtown River Arts</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/downtown-tampa"><span><span class="nbhd-item-name">Downtown Tampa</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/drew-park"><span><span class="nbhd-item-name">Drew Park</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/east-tampa"><span><span class="nbhd-item-name">East Tampa</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/fair-oaks-manhattan"><span><span class="nbhd-item-name">Fair Oaks Manhattan</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/gandy-sun-bay-south"><span><span class="nbhd-item-name">Gandy / Sun Bay South</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/golfview"><span><span class="nbhd-item-name">Golfview</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/gray-gables"><span><span class="nbhd-item-name">Gray Gables</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+    <li><a href="/neighborhoods/communities/harbour-island"><span><span class="nbhd-item-name">Harbour Island</span><span class="nbhd-item-tag">Discover More...</span></span></a></li>
+  </ul>
+
+  <div style="text-align:center;margin-top:3rem" class="reveal"><a href="/neighborhoods/" class="btn-navy">Explore All Areas</a></div>
+
+  <div class="press-feature reveal">
+    <img src="fox13_logo.png" alt="FOX 13 News Tampa Bay" class="press-logo" onerror="this.style.display='none'">
+    <p class="press-kicker">As Seen on FOX 13 Tampa Bay</p>
+    <h3 class="press-headline">Tampa Realtor Creates Digital Neighborhood Project for America&rsquo;s 250th Anniversary</h3>
+    <blockquote class="press-quote">&ldquo;I wanted to provide music to people, because I know that will touch a different audience.&rdquo;<cite>&mdash; Ignacio Toraño &middot; FOX 13 News</cite></blockquote>
+    <div class="press-actions">
+      <a href="https://www.fox13news.com/news/tampa-realtor-creates-digital-neighborhood-project-americas-250th-anniversary" target="_blank" rel="noopener" class="btn-primary">Watch the Story</a>
+      <span class="press-credit">Reported by Jennifer Kveglis &middot; FOX 13 News</span>
+    </div>
   </div>
 </section>
 
