@@ -81,12 +81,12 @@ main{max-width:1100px;margin:0 auto;padding:48px 24px 80px}
 @media(max-width:520px){.story{padding:28px 22px}}
 
 /* Featured citywide anthem */
-.feature{display:block;text-decoration:none;background:linear-gradient(150deg,var(--red) 0%,#8d1a28 100%);color:var(--cream);border-radius:16px;padding:34px 36px;margin:0 auto 40px;max-width:900px;position:relative;overflow:hidden;box-shadow:0 16px 40px rgba(178,34,52,.28);transition:transform .15s ease,box-shadow .15s ease}
+.feature{display:block;text-decoration:none;background:linear-gradient(150deg,var(--red) 0%,#8d1a28 100%);color:var(--cream);border-radius:16px;padding:34px 36px;margin:0 auto 40px;max-width:900px;position:relative;overflow:hidden;box-shadow:0 16px 40px rgba(178,34,52,.28);transition:transform .15s ease,box-shadow .15s ease;text-align:center}
 .feature:hover{transform:translateY(-3px);box-shadow:0 22px 52px rgba(178,34,52,.36)}
 .feature::before{content:"\2605";position:absolute;font-size:240px;color:rgba(255,255,255,.06);top:-50px;right:-30px;line-height:1}
 .feature .fkicker{font-family:Arial,sans-serif;font-size:.7rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(247,243,232,.85);margin-bottom:10px;position:relative}
 .feature .ftitle{font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.05;letter-spacing:-.01em;margin-bottom:10px;position:relative}
-.feature .fsub{font-size:1.02rem;color:rgba(247,243,232,.9);max-width:60ch;position:relative}
+.feature .fsub{font-size:1.02rem;color:rgba(247,243,232,.9);max-width:60ch;margin-left:auto;margin-right:auto;position:relative}
 .feature .fbtn{display:inline-flex;align-items:center;gap:9px;margin-top:20px;background:var(--cream);color:var(--red);font-family:Arial,sans-serif;font-weight:bold;font-size:.92rem;padding:12px 26px;border-radius:40px;position:relative}
 
 /* Missing-neighborhood CTA banner */
@@ -95,6 +95,13 @@ main{max-width:1100px;margin:0 auto;padding:48px 24px 80px}
 .cta-banner p{font-size:1.02rem;color:#33373f;margin-bottom:16px;max-width:60ch;margin-left:auto;margin-right:auto}
 .cta-banner a.btn{display:inline-block;background:var(--navy);color:var(--cream);text-decoration:none;padding:12px 26px;border-radius:40px;font-family:Arial,sans-serif;font-weight:bold;font-size:.9rem}
 .cta-banner a.btn:hover{background:var(--red)}
+.cta-mini{padding:10px 16px;margin-bottom:28px;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+.cta-mini h3{font-size:.92rem;margin:0}
+.cta-mini a.btn{padding:6px 14px;font-size:.7rem}
+.map-link{text-align:center;max-width:64ch;margin:-18px auto 36px;font-size:.98rem;color:#33373f}
+.map-link a{color:var(--red);font-weight:bold;text-decoration:underline;text-underline-offset:3px}
+.map-link a:hover{color:var(--navy)}
+.intro-sm{font-size:.88rem;margin:-4px auto 26px;max-width:66ch}
 
 /* Search */
 .searchwrap{max-width:560px;margin:0 auto 30px;position:relative}
@@ -110,10 +117,12 @@ main{max-width:1100px;margin:0 auto;padding:48px 24px 80px}
 .beyond-note{text-align:center;max-width:62ch;margin:0 auto 30px;color:#33373f;font-size:1.02rem}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
-.card{display:flex;flex-direction:column;justify-content:space-between;gap:14px;min-height:104px;padding:20px 22px;border-radius:12px;text-decoration:none;border:1px solid rgba(178,34,52,.35);background:#fff;transition:transform .15s ease,box-shadow .15s ease}
+.card{display:flex;flex-direction:row;align-items:center;gap:14px;min-height:104px;padding:16px 18px;border-radius:12px;text-decoration:none;border:1px solid rgba(178,34,52,.35);background:#fff;transition:transform .15s ease,box-shadow .15s ease}
 .card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(10,31,68,.14)}
 .card.hidden{display:none}
-.cname{font-size:1.18rem;color:var(--navy);letter-spacing:-.01em;line-height:1.25}
+.cthumb{width:64px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0;box-shadow:0 4px 12px rgba(6,21,46,.18)}
+.cinfo{display:flex;flex-direction:column;gap:9px;align-items:flex-start}
+.cname{font-size:1.12rem;color:var(--navy);letter-spacing:-.01em;line-height:1.25}
 .badge{align-self:flex-start;font-family:Arial,sans-serif;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;font-weight:bold;color:#fff;background:var(--red);padding:5px 11px;border-radius:30px}
 footer{background:var(--navy-deep);color:rgba(247,243,232,.72);text-align:center;padding:44px 24px;font-family:Arial,sans-serif;font-size:.84rem;line-height:1.7}
 footer .name{color:var(--cream);font-size:1rem;letter-spacing:.04em}
@@ -191,13 +200,114 @@ footer .sources a:hover{color:var(--gold)}
     <span class="fbtn">&#9654; Listen &amp; read the story</span>
   </a>
 
-  <div class="cta-banner">
+  <div class="share-row" style="margin:0 auto 24px">
+    <div class="share-label">&#9733; Share this collection &#9733;</div>
+    <div class="share-btns">
+      <a class="sb-fb" id="shareFb2" href="#" target="_blank" rel="noopener" aria-label="Share on Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>Facebook</a>
+      <a class="sb-li" id="shareLi2" href="#" target="_blank" rel="noopener" aria-label="Share on LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.4 20.4h-3.6v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6h.1c.5-.9 1.6-1.9 3.4-1.9 3.6 0 4.3 2.4 4.3 5.5v6.2zM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zm1.8 13H3.5V9h3.6v11.4zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7c0-.9-.8-1.7-1.8-1.7z"/></svg>LinkedIn</a>
+      <a class="sb-x" id="shareX2" href="#" target="_blank" rel="noopener" aria-label="Share on X"><svg viewBox="0 0 24 24"><path d="M18.9 1.9h3.7l-8 9.1L24 22.1h-7.4l-5.8-7.6-6.6 7.6H.5l8.5-9.8L0 1.9h7.6l5.2 6.9 6.1-6.9zm-1.3 18h2L6.5 3.8h-2.2L17.6 19.9z"/></svg>X</a>
+      <button class="sb-copy" id="shareCopy2" type="button" aria-label="Copy link"><svg viewBox="0 0 24 24"><path d="M3.9 12a3.1 3.1 0 0 1 3.1-3.1h4V7h-4a5 5 0 0 0 0 10h4v-1.9h-4A3.1 3.1 0 0 1 3.9 12zM13 7h-4v1.9h4a3.1 3.1 0 0 1 0 6.2h-4V17h4a5 5 0 0 0 0-10zM8 11h8v2H8z"/></svg>Copy Link</button>
+      <span class="copied-msg" id="copiedMsg2">Link copied!</span>
+    </div>
+    <div class="su-divider"></div>
+    <div class="su-head">&#9834; Sign Up &mdash; Free Local Business Giveaways &amp; Monthly Neighborhood Updates</div>
+    <form id="signupForm2" class="su-form" onsubmit="return false;">
+      <input type="email" id="suEmail2" placeholder="Your email" required aria-label="Email">
+      <input type="text" id="suName2" placeholder="First name (optional)" aria-label="First name">
+      <button type="submit" id="suBtn2">Sign Up</button>
+    </form>
+    <div class="su-msg" id="suMsg2"></div>
+    <div class="su-note">No spam &middot; unsubscribe anytime &middot; from Ignacio Tora&#241;o, Agile Group Realty.</div>
+  </div>
+
+  <div class="cta-banner cta-mini">
     <h3>Is your neighborhood missing?</h3>
-    <p>This project is growing one community at a time. If you don't see your Tampa Bay neighborhood here yet, send me a message and I'll add it.</p>
     <a class="btn" href="mailto:ignacio@ignaciotorano.com?subject=Add%20my%20Tampa%20neighborhood">ignacio@ignaciotorano.com</a>
   </div>
 
-  <p class="intro">Every neighborhood has a personality, every street has stories, and every park creates memories. Search or pick a community below to hear its song and read its story.</p>
+  <p class="map-link">&#128205; Not sure where your neighborhood begins and ends? Explore the official <a href="https://experience.arcgis.com/experience/a5e5015340484dd090afb48f36934035" target="_blank" rel="noopener">City of Tampa Neighborhood Association Map</a> &mdash; the same map that inspired this whole project.</p>
+
+
+
+  <div class="searchwrap">
+    <input type="text" id="search" placeholder="Search neighborhoods&hellip;" autocomplete="off" aria-label="Search neighborhoods">
+  </div>
+
+  <p class="intro intro-sm">Every neighborhood has a personality, every street has stories, and every park creates memories. Search or pick a community below to hear its song and read its story.</p>
+
+  <div class="grid" id="grid">
+  <a class="card" href="communities/armory-gardens.html" data-name="armory gardens"><img class="cthumb" src="communities/thumbs/armory-gardens.jpg" alt="Armory Gardens song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Armory Gardens</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/ballast-point.html" data-name="ballast point"><img class="cthumb" src="communities/thumbs/ballast-point.jpg" alt="Ballast Point song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Ballast Point</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/bayshore-beautiful.html" data-name="bayshore beautiful"><img class="cthumb" src="communities/thumbs/bayshore-beautiful.jpg" alt="Bayshore Beautiful song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Bayshore Beautiful</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/bayshore-gardens.html" data-name="bayshore gardens"><img class="cthumb" src="communities/thumbs/bayshore-gardens.jpg" alt="Bayshore Gardens song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Bayshore Gardens</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/bayside-west.html" data-name="bayside west"><img class="cthumb" src="communities/thumbs/bayside-west.jpg" alt="Bayside West song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Bayside West</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/beach-park.html" data-name="beach park"><img class="cthumb" src="communities/thumbs/beach-park.jpg" alt="Beach Park song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Beach Park</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/bel-mar-shores.html" data-name="bel mar shores"><img class="cthumb" src="communities/thumbs/bel-mar-shores.jpg" alt="Bel Mar Shores song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Bel Mar Shores</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/bon-air.html" data-name="bon air"><img class="cthumb" src="communities/thumbs/bon-air.jpg" alt="Bon Air song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Bon Air</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/bowman-heights.html" data-name="bowman heights"><img class="cthumb" src="communities/thumbs/bowman-heights.jpg" alt="Bowman Heights song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Bowman Heights</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/carver-city-lincoln-gardens.html" data-name="carver city / lincoln gardens"><img class="cthumb" src="communities/thumbs/carver-city-lincoln-gardens.jpg" alt="Carver City / Lincoln Gardens song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Carver City / Lincoln Gardens</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/channel-district.html" data-name="channel district"><img class="cthumb" src="communities/thumbs/channel-district.jpg" alt="Channel District song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Channel District</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/college-hill.html" data-name="college hill & belmont heights"><img class="cthumb" src="communities/thumbs/college-hill.jpg" alt="College Hill & Belmont Heights song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">College Hill & Belmont Heights</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/culbreath-bayou.html" data-name="culbreath bayou"><img class="cthumb" src="communities/thumbs/culbreath-bayou.jpg" alt="Culbreath Bayou song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Culbreath Bayou</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/culbreath-heights.html" data-name="culbreath heights"><img class="cthumb" src="communities/thumbs/culbreath-heights.jpg" alt="Culbreath Heights song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Culbreath Heights</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/davis-islands.html" data-name="davis islands"><img class="cthumb" src="communities/thumbs/davis-islands.jpg" alt="Davis Islands song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Davis Islands</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/river-arts-district.html" data-name="downtown river arts"><img class="cthumb" src="communities/thumbs/river-arts-district.jpg" alt="Downtown River Arts song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Downtown River Arts</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/downtown-tampa.html" data-name="downtown tampa"><img class="cthumb" src="communities/thumbs/downtown-tampa.jpg" alt="Downtown Tampa song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Downtown Tampa</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/drew-park.html" data-name="drew park"><img class="cthumb" src="communities/thumbs/drew-park.jpg" alt="Drew Park song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Drew Park</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/east-tampa.html" data-name="east tampa"><img class="cthumb" src="communities/thumbs/east-tampa.jpg" alt="East Tampa song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">East Tampa</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/fair-oaks-manhattan.html" data-name="fair oaks manhattan"><img class="cthumb" src="communities/thumbs/fair-oaks-manhattan.jpg" alt="Fair Oaks Manhattan song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Fair Oaks Manhattan</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/gandy-sun-bay-south.html" data-name="gandy / sun bay south"><img class="cthumb" src="communities/thumbs/gandy-sun-bay-south.jpg" alt="Gandy / Sun Bay South song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Gandy / Sun Bay South</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/golfview.html" data-name="golfview"><img class="cthumb" src="communities/thumbs/golfview.jpg" alt="Golfview song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Golfview</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/gray-gables.html" data-name="gray gables"><img class="cthumb" src="communities/thumbs/gray-gables.jpg" alt="Gray Gables song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Gray Gables</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/harbour-island.html" data-name="harbour island"><img class="cthumb" src="communities/thumbs/harbour-island.jpg" alt="Harbour Island song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Harbour Island</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/east-ybor.html" data-name="historic east ybor & gary"><img class="cthumb" src="communities/thumbs/east-ybor.jpg" alt="Historic East Ybor & Gary song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Historic East Ybor & Gary</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/historic-hyde-park.html" data-name="historic hyde park"><img class="cthumb" src="communities/thumbs/historic-hyde-park.jpg" alt="Historic Hyde Park song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Historic Hyde Park</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/hyde-park-preservation.html" data-name="hyde park preservation"><img class="cthumb" src="communities/thumbs/hyde-park-preservation.jpg" alt="Hyde Park Preservation song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Hyde Park Preservation</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/hyde-park-spanishtown-creek.html" data-name="hyde park spanishtown creek"><img class="cthumb" src="communities/thumbs/hyde-park-spanishtown-creek.jpg" alt="Hyde Park Spanishtown Creek song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Hyde Park Spanishtown Creek</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/interbay.html" data-name="interbay – south of gandy"><img class="cthumb" src="communities/thumbs/interbay.jpg" alt="Interbay – South of Gandy song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Interbay – South of Gandy</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/jackson-heights.html" data-name="jackson heights"><img class="cthumb" src="communities/thumbs/jackson-heights.jpg" alt="Jackson Heights song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Jackson Heights</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/live-oaks-square.html" data-name="live oaks square"><img class="cthumb" src="communities/thumbs/live-oaks-square.jpg" alt="Live Oaks Square song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Live Oaks Square</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/lowry-park-central.html" data-name="lowry park central"><img class="cthumb" src="communities/thumbs/lowry-park-central.jpg" alt="Lowry Park Central song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Lowry Park Central</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/macfarlane-park.html" data-name="macfarlane park"><img class="cthumb" src="communities/thumbs/macfarlane-park.jpg" alt="MacFarlane Park song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">MacFarlane Park</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/midtown-tampa.html" data-name="midtown tampa"><img class="cthumb" src="communities/thumbs/midtown-tampa.jpg" alt="Midtown Tampa song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Midtown Tampa</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/new-suburb-beautiful.html" data-name="new suburb beautiful"><img class="cthumb" src="communities/thumbs/new-suburb-beautiful.jpg" alt="New Suburb Beautiful song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">New Suburb Beautiful</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/north-bon-air.html" data-name="north bon air"><img class="cthumb" src="communities/thumbs/north-bon-air.jpg" alt="North Bon Air song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">North Bon Air</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/north-hyde-park.html" data-name="north hyde park"><img class="cthumb" src="communities/thumbs/north-hyde-park.jpg" alt="North Hyde Park song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">North Hyde Park</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/oakford-park.html" data-name="oakford park"><img class="cthumb" src="communities/thumbs/oakford-park.jpg" alt="Oakford Park song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Oakford Park</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/palma-ceia.html" data-name="palma ceia"><img class="cthumb" src="communities/thumbs/palma-ceia.jpg" alt="Palma Ceia song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Palma Ceia</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/palmetto-beach.html" data-name="palmetto beach"><img class="cthumb" src="communities/thumbs/palmetto-beach.jpg" alt="Palmetto Beach song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Palmetto Beach</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/parkland-estates.html" data-name="parkland estates"><img class="cthumb" src="communities/thumbs/parkland-estates.jpg" alt="Parkland Estates song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Parkland Estates</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/plaza-terrace.html" data-name="plaza terrace"><img class="cthumb" src="communities/thumbs/plaza-terrace.jpg" alt="Plaza Terrace song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Plaza Terrace</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/port-tampa-city.html" data-name="port tampa city"><img class="cthumb" src="communities/thumbs/port-tampa-city.jpg" alt="Port Tampa City song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Port Tampa City</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/riverbend.html" data-name="riverbend"><img class="cthumb" src="communities/thumbs/riverbend.jpg" alt="Riverbend song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Riverbend</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/south-seminole-heights.html" data-name="south seminole heights"><img class="cthumb" src="communities/thumbs/south-seminole-heights.jpg" alt="South Seminole Heights song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">South Seminole Heights</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/sulphur-springs.html" data-name="sulphur springs"><img class="cthumb" src="communities/thumbs/sulphur-springs.jpg" alt="Sulphur Springs song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Sulphur Springs</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/sunset-park.html" data-name="sunset park"><img class="cthumb" src="communities/thumbs/sunset-park.jpg" alt="Sunset Park song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Sunset Park</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/swann-estates.html" data-name="swann estates"><img class="cthumb" src="communities/thumbs/swann-estates.jpg" alt="Swann Estates song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Swann Estates</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/tampa-heights.html" data-name="tampa heights"><img class="cthumb" src="communities/thumbs/tampa-heights.jpg" alt="Tampa Heights song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Tampa Heights</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/tampa-palms.html" data-name="tampa palms"><img class="cthumb" src="communities/thumbs/tampa-palms.jpg" alt="Tampa Palms song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Tampa Palms</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/university-square.html" data-name="university square"><img class="cthumb" src="communities/thumbs/university-square.jpg" alt="University Square song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">University Square</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/vm-ybor.html" data-name="v.m. ybor"><img class="cthumb" src="communities/thumbs/vm-ybor.jpg" alt="V.M. Ybor song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">V.M. Ybor</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/virginia-park.html" data-name="virginia park"><img class="cthumb" src="communities/thumbs/virginia-park.jpg" alt="Virginia Park song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Virginia Park</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/wellswood.html" data-name="wellswood"><img class="cthumb" src="communities/thumbs/wellswood.jpg" alt="Wellswood song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Wellswood</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/west-river.html" data-name="west river"><img class="cthumb" src="communities/thumbs/west-river.jpg" alt="West River song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">West River</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/west-tampa.html" data-name="west tampa"><img class="cthumb" src="communities/thumbs/west-tampa.jpg" alt="West Tampa song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">West Tampa</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/west-tampa-heights.html" data-name="west tampa heights"><img class="cthumb" src="communities/thumbs/west-tampa-heights.jpg" alt="West Tampa Heights song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">West Tampa Heights</span><span class="badge">&#9834; Song + Story</span></span></a>
+  <a class="card" href="communities/westshore-palms.html" data-name="westshore palms"><img class="cthumb" src="communities/thumbs/westshore-palms.jpg" alt="Westshore Palms song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Westshore Palms</span><span class="badge">&#9834; Song + Story</span></span></a>
+  </div>
+
+  <div class="noresults" id="noresults">No neighborhood matches that search yet. <a href="mailto:ignacio@ignaciotorano.com?subject=Add%20my%20Tampa%20neighborhood">Send me a message</a> and I'll add it.</div>
+
+  <div class="beyond-break">
+    <div class="bb-inner">
+      <div class="bb-stars">&#9733; &#9733; &#9733;</div>
+      <h2>By Request: Greater Tampa Bay</h2>
+    </div>
+  </div>
+  <p class="beyond-note">These communities sit beyond Tampa's official neighborhood association map &mdash; but neighbors from across the bay asked for a song of their own. This section grows with every request.</p>
+  <div class="grid" id="grid2">
+  <a class="card" href="communities/apollo-beach.html" data-name="apollo beach"><img class="cthumb" src="communities/thumbs/apollo-beach.jpg" alt="Apollo Beach song cover" loading="lazy" width="64" height="64"><span class="cinfo"><span class="cname">Apollo Beach</span><span class="badge">&#9834; Song + Story</span></span></a>
+  </div>
 
   <section class="story">
     <div class="skicker">★ Why Tampa ★</div>
@@ -220,84 +330,6 @@ footer .sources a:hover{color:var(--gold)}
     <p>As we celebrate the Fourth of July, we should celebrate more than fireworks, flags, and parades. We should celebrate the people who made Tampa possible: the Indigenous communities who came first, the workers who built the cigar industry, the Black families who strengthened neighborhoods and created opportunity, the immigrants who arrived with courage, the small-business owners who take chances, the students who bring new ideas, and the neighbors who keep showing up for each other.</p>
     <p class="close">Tampa is a melting pot of history, culture, music, flavor, hard work, pride, and possibility. And every neighborhood has a song worth singing.<br><strong>Tampa is not just where we live. Tampa is what we build together.</strong> 🇺🇸</p>
   </section>
-
-  <div class="searchwrap">
-    <input type="text" id="search" placeholder="Search neighborhoods&hellip;" autocomplete="off" aria-label="Search neighborhoods">
-  </div>
-
-  <div class="grid" id="grid">
-  <a class="card" href="communities/armory-gardens.html" data-name="armory gardens"><span class="cname">Armory Gardens</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/ballast-point.html" data-name="ballast point"><span class="cname">Ballast Point</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/bayshore-beautiful.html" data-name="bayshore beautiful"><span class="cname">Bayshore Beautiful</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/bayshore-gardens.html" data-name="bayshore gardens"><span class="cname">Bayshore Gardens</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/bayside-west.html" data-name="bayside west"><span class="cname">Bayside West</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/beach-park.html" data-name="beach park"><span class="cname">Beach Park</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/bel-mar-shores.html" data-name="bel mar shores"><span class="cname">Bel Mar Shores</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/bon-air.html" data-name="bon air"><span class="cname">Bon Air</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/bowman-heights.html" data-name="bowman heights"><span class="cname">Bowman Heights</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/carver-city-lincoln-gardens.html" data-name="carver city / lincoln gardens"><span class="cname">Carver City / Lincoln Gardens</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/channel-district.html" data-name="channel district"><span class="cname">Channel District</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/college-hill.html" data-name="college hill & belmont heights"><span class="cname">College Hill & Belmont Heights</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/culbreath-bayou.html" data-name="culbreath bayou"><span class="cname">Culbreath Bayou</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/culbreath-heights.html" data-name="culbreath heights"><span class="cname">Culbreath Heights</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/davis-islands.html" data-name="davis islands"><span class="cname">Davis Islands</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/river-arts-district.html" data-name="downtown river arts"><span class="cname">Downtown River Arts</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/downtown-tampa.html" data-name="downtown tampa"><span class="cname">Downtown Tampa</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/drew-park.html" data-name="drew park"><span class="cname">Drew Park</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/east-tampa.html" data-name="east tampa"><span class="cname">East Tampa</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/fair-oaks-manhattan.html" data-name="fair oaks manhattan"><span class="cname">Fair Oaks Manhattan</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/gandy-sun-bay-south.html" data-name="gandy / sun bay south"><span class="cname">Gandy / Sun Bay South</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/golfview.html" data-name="golfview"><span class="cname">Golfview</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/gray-gables.html" data-name="gray gables"><span class="cname">Gray Gables</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/harbour-island.html" data-name="harbour island"><span class="cname">Harbour Island</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/east-ybor.html" data-name="historic east ybor & gary"><span class="cname">Historic East Ybor & Gary</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/historic-hyde-park.html" data-name="historic hyde park"><span class="cname">Historic Hyde Park</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/hyde-park-preservation.html" data-name="hyde park preservation"><span class="cname">Hyde Park Preservation</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/hyde-park-spanishtown-creek.html" data-name="hyde park spanishtown creek"><span class="cname">Hyde Park Spanishtown Creek</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/interbay.html" data-name="interbay – south of gandy"><span class="cname">Interbay – South of Gandy</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/jackson-heights.html" data-name="jackson heights"><span class="cname">Jackson Heights</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/live-oaks-square.html" data-name="live oaks square"><span class="cname">Live Oaks Square</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/lowry-park-central.html" data-name="lowry park central"><span class="cname">Lowry Park Central</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/macfarlane-park.html" data-name="macfarlane park"><span class="cname">MacFarlane Park</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/midtown-tampa.html" data-name="midtown tampa"><span class="cname">Midtown Tampa</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/new-suburb-beautiful.html" data-name="new suburb beautiful"><span class="cname">New Suburb Beautiful</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/north-bon-air.html" data-name="north bon air"><span class="cname">North Bon Air</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/north-hyde-park.html" data-name="north hyde park"><span class="cname">North Hyde Park</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/oakford-park.html" data-name="oakford park"><span class="cname">Oakford Park</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/palma-ceia.html" data-name="palma ceia"><span class="cname">Palma Ceia</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/palmetto-beach.html" data-name="palmetto beach"><span class="cname">Palmetto Beach</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/parkland-estates.html" data-name="parkland estates"><span class="cname">Parkland Estates</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/plaza-terrace.html" data-name="plaza terrace"><span class="cname">Plaza Terrace</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/port-tampa-city.html" data-name="port tampa city"><span class="cname">Port Tampa City</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/riverbend.html" data-name="riverbend"><span class="cname">Riverbend</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/south-seminole-heights.html" data-name="south seminole heights"><span class="cname">South Seminole Heights</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/sulphur-springs.html" data-name="sulphur springs"><span class="cname">Sulphur Springs</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/sunset-park.html" data-name="sunset park"><span class="cname">Sunset Park</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/swann-estates.html" data-name="swann estates"><span class="cname">Swann Estates</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/tampa-heights.html" data-name="tampa heights"><span class="cname">Tampa Heights</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/tampa-palms.html" data-name="tampa palms"><span class="cname">Tampa Palms</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/university-square.html" data-name="university square"><span class="cname">University Square</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/vm-ybor.html" data-name="v.m. ybor"><span class="cname">V.M. Ybor</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/virginia-park.html" data-name="virginia park"><span class="cname">Virginia Park</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/wellswood.html" data-name="wellswood"><span class="cname">Wellswood</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/west-river.html" data-name="west river"><span class="cname">West River</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/west-tampa.html" data-name="west tampa"><span class="cname">West Tampa</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/west-tampa-heights.html" data-name="west tampa heights"><span class="cname">West Tampa Heights</span><span class="badge">&#9834; Song + Story</span></a>
-  <a class="card" href="communities/westshore-palms.html" data-name="westshore palms"><span class="cname">Westshore Palms</span><span class="badge">&#9834; Song + Story</span></a>
-  </div>
-
-  <div class="noresults" id="noresults">No neighborhood matches that search yet. <a href="mailto:ignacio@ignaciotorano.com?subject=Add%20my%20Tampa%20neighborhood">Send me a message</a> and I'll add it.</div>
-
-  <div class="beyond-break">
-    <div class="bb-inner">
-      <div class="bb-stars">&#9733; &#9733; &#9733;</div>
-      <h2>By Request: Greater Tampa Bay</h2>
-    </div>
-  </div>
-  <p class="beyond-note">These communities sit beyond Tampa's official neighborhood association map &mdash; but neighbors from across the bay asked for a song of their own. This section grows with every request.</p>
-  <div class="grid" id="grid2">
-  <a class="card" href="communities/apollo-beach.html" data-name="apollo beach"><span class="cname">Apollo Beach</span><span class="badge">&#9834; Song + Story</span></a>
-  </div>
 
   <div class="cta-banner" style="margin-top:48px;margin-bottom:0">
     <h3>Is your neighborhood missing?</h3>
@@ -389,7 +421,7 @@ l.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(
   var SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im91ZG1mbm9yYWxpcXZteWhubWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2NDQ3NzQsImV4cCI6MjA5NzIyMDc3NH0.q3B3c0flihQK4Q479cleZ5wDd0DeK6rgLvduWoXjRxo";
   var form=document.getElementById('signupForm'); if(!form) return;
   var msg=document.getElementById('suMsg'),btn=document.getElementById('suBtn'),client=null;
-  try{ if(window.supabase){ client=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY); } }catch(e){}
+  try{ if(window.supabase){ client=window._sbClient=window._sbClient||window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY); } }catch(e){}
   form.addEventListener('submit',function(){
     var email=document.getElementById('suEmail').value.trim();
     var name=document.getElementById('suName').value.trim();
@@ -404,6 +436,35 @@ l.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(
     });
   });
   function show(t,c){ msg.textContent=t; msg.className='su-msg '+c; }
+})();
+(function(){
+  var url=encodeURIComponent(window.location.href), title=encodeURIComponent(document.title);
+  var fb=document.getElementById('shareFb2'),li=document.getElementById('shareLi2'),x=document.getElementById('shareX2'),cp=document.getElementById('shareCopy2'),msg=document.getElementById('copiedMsg2');
+  if(fb)fb.href='https://www.facebook.com/sharer/sharer.php?u='+url;
+  if(li)li.href='https://www.linkedin.com/sharing/share-offsite/?url='+url;
+  if(x)x.href='https://twitter.com/intent/tweet?url='+url+'&text='+title;
+  if(cp)cp.addEventListener('click',function(){var l=window.location.href;
+    function done(){if(msg){msg.classList.add('show');setTimeout(function(){msg.classList.remove('show');},2000);}}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(l).then(done);}else{var t=document.createElement('textarea');t.value=l;document.body.appendChild(t);t.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(t);done();}
+  });
+  var SUPABASE_URL="https://oudmfnoraliqvmyhnmdi.supabase.co";
+  var SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im91ZG1mbm9yYWxpcXZteWhubWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2NDQ3NzQsImV4cCI6MjA5NzIyMDc3NH0.q3B3c0flihQK4Q479cleZ5wDd0DeK6rgLvduWoXjRxo";
+  var form=document.getElementById('signupForm2'); if(!form) return;
+  var m2=document.getElementById('suMsg2'),btn=document.getElementById('suBtn2'),client=null;
+  try{ if(window.supabase){ client=window._sbClient=window._sbClient||window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY); } }catch(e){}
+  form.addEventListener('submit',function(){
+    var email=document.getElementById('suEmail2').value.trim();
+    var name=document.getElementById('suName2').value.trim();
+    if(!email||email.indexOf('@')<1){ show('Please enter a valid email.','err'); return; }
+    if(!client){ show('Signup is being set up — please check back soon!','err'); return; }
+    btn.disabled=true; btn.textContent='Signing up...';
+    client.from('neighborhood_subscribers').insert([{email:email,first_name:name||null,neighborhood:'All Neighborhoods (Directory Top)'}]).then(function(res){
+      btn.disabled=false; btn.textContent='Sign Up';
+      if(res.error){ show('Something went wrong. Please try again.','err'); }
+      else{ show('You’re in! Thanks for joining. 🇺🇸','ok'); form.reset(); }
+    });
+  });
+  function show(t,c){ m2.textContent=t; m2.className='su-msg '+c; }
 })();
 </script>
 </body>
