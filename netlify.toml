@@ -30,6 +30,21 @@ status = 301
 from = "/api/google-reviews"
 to = "/.netlify/functions/google-reviews"
 status = 200
+[[redirects]]
+from = "/parks"
+to = "https://effervescent-churros-d0d56b.netlify.app"
+status = 200
+force = true
+[[redirects]]
+from = "/parks/"
+to = "https://effervescent-churros-d0d56b.netlify.app"
+status = 200
+force = true
+[[redirects]]
+from = "/parks/*"
+to = "https://effervescent-churros-d0d56b.netlify.app/:splat"
+status = 200
+force = true
 [context]
   [context.production]
     [context.production.functions]
