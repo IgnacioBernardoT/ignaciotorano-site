@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="parks_data.js"></script>
+<script src="/parks_data.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -48,22 +48,20 @@ body{font-family:'DM Sans',sans-serif;background:var(--off);color:var(--text);mi
 .vbtn svg{width:13px;height:13px}
 
 /* HERO */
-.hero{background:linear-gradient(135deg,#0E1A2B 0%,#162236 60%,#1a2d47 100%);color:var(--white);padding:48px 40px 44px;border-bottom:3px solid var(--gold);position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(184,150,90,.12) 0%,transparent 70%);border-radius:50%;pointer-events:none}
-.hero::after{content:'';position:absolute;bottom:-40px;left:10%;width:200px;height:200px;background:radial-gradient(circle,rgba(184,150,90,.08) 0%,transparent 70%);border-radius:50%;pointer-events:none}
-.hero-in{max-width:1400px;margin:0 auto;position:relative;z-index:1}
-.hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.hero-badge{background:rgba(184,150,90,.15);border:1px solid rgba(184,150,90,.3);color:var(--gold-light);font-size:12px;font-weight:500;padding:5px 12px;border-radius:20px;letter-spacing:.3px}
-.hero h1{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:600;line-height:1.1;margin-bottom:14px}
+.hero{background:linear-gradient(rgba(10,18,32,.52),rgba(10,18,32,.38)),url('/parks_hero.webp') center 72%/cover no-repeat;color:var(--white);padding:64px 40px 64px;border-bottom:3px solid var(--gold);position:relative;overflow:hidden}
+.hero-in{max-width:1400px;margin:0 auto;position:relative;z-index:1;text-align:center}
+.hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;justify-content:center}
+.hero-badge{background:rgba(14,26,43,.55);border:1px solid rgba(232,200,126,.45);color:var(--gold-light);font-size:12px;font-weight:500;padding:5px 12px;border-radius:20px;letter-spacing:.3px}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:600;line-height:1.1;margin-bottom:14px;text-shadow:0 2px 12px rgba(0,0,0,.55)}
 .hero h1 em{font-style:italic;color:var(--gold-light)}
-.hero-sub{font-size:15px;color:rgba(255,255,255,.72);max-width:560px;line-height:1.75;margin-bottom:24px}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.92);max-width:560px;line-height:1.75;margin:0 auto 24px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
 .hero-sub strong{color:var(--gold-light);font-weight:600}
-.hero-stats{display:flex;align-items:center;gap:20px;margin-bottom:28px;flex-wrap:wrap}
+.hero-stats{display:flex;align-items:center;gap:20px;margin-bottom:28px;flex-wrap:wrap;justify-content:center}
 .hero-stat{display:flex;flex-direction:column}
-.hero-stat-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--gold-light);line-height:1}
-.hero-stat-label{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.5px;margin-top:2px}
+.hero-stat-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--gold-light);line-height:1;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.hero-stat-label{font-size:11px;color:rgba(255,255,255,.8);text-shadow:0 1px 6px rgba(0,0,0,.6);letter-spacing:.5px;margin-top:2px}
 .hero-stat-div{width:1px;height:36px;background:rgba(255,255,255,.15)}
-.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 .hero-btn-primary{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:var(--gold);color:var(--navy);border:none;border-radius:25px;font-size:13px;font-weight:700;font-family:'DM Sans',sans-serif;letter-spacing:.5px;cursor:pointer;transition:all .2s;box-shadow:0 4px 14px rgba(184,150,90,.35)}
 .hero-btn-primary:hover{background:var(--gold-light);transform:translateY(-1px);box-shadow:0 6px 18px rgba(184,150,90,.45)}
 .hero-btn-secondary{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:transparent;color:rgba(255,255,255,.8);border:1.5px solid rgba(255,255,255,.25);border-radius:25px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;letter-spacing:.5px;cursor:pointer;transition:all .2s}
@@ -312,7 +310,7 @@ body { overflow-x: hidden; max-width: 100vw; }
   .mob-btn{display:flex}
   .hdr-in{padding:0 16px}
   .parks-bar{padding:0 16px}
-  .hero{padding:24px 16px 20px}
+  .hero{padding:28px 16px 24px;background:linear-gradient(rgba(10,18,32,.82),rgba(10,18,32,.82)),url("/parks_hero.webp") center 65%/cover no-repeat}
   .hero h1{font-size:26px}
   .hero-badges{gap:6px}
   .hero-badge{font-size:11px;padding:4px 10px}
@@ -1147,20 +1145,20 @@ async function init() {
 }
 
 async function fetchEditsAndRender() {
-  // Load from localStorage first (instant)
+  // Load from localStorage first (instant render)
   try { const local = localStorage.getItem('parkEdits'); if(local) edits = JSON.parse(local); } catch(e){}
   renderGrid();
-  // Then try API to get latest (overwrites local if available)
+  // Then load from Supabase (source of truth - syncs across all devices)
   try {
-    const r = await fetch(API);
-    if(r.ok) {
-      const apiEdits = await r.json();
-      // Merge: API wins for server data, local wins for new entries
-      edits = {...edits, ...apiEdits};
+    const { data, error } = await sbClient.from('park_edits').select('*');
+    if (!error && data && data.length) {
+      data.forEach(row => {
+        edits[String(row.park_id)] = row.payload;
+      });
       try { localStorage.setItem('parkEdits', JSON.stringify(edits)); } catch(e){}
       renderGrid();
     }
-  } catch(e){}
+  } catch(e){ console.warn('Supabase fetch failed, using local cache', e); }
 }
 
 function showSkeletons() {
@@ -1173,6 +1171,31 @@ function showSkeletons() {
 // Coordinates are baked into parks_data.js from USNG grid data - no geocoding needed
 
 function getAms(p){ return Object.keys(AL).filter(k => p[k] === true); }
+
+// Illustrated placeholder scenes by park type (shown when no photo uploaded yet)
+function placeholderSVG(p){
+  const t = (p.SUBTYPEFIELD||'').toLowerCase();
+  const sun = '<circle cx="215" cy="24" r="13" fill="#F6C445"/>';
+  let scene;
+  if(t.includes('beach') || p.BEACH){
+    scene = `<rect width="240" height="120" fill="#FCF3DC"/><path d="M0 78 Q60 66 120 78 T240 78 L240 120 L0 120 Z" fill="#77C4E8"/><path d="M0 96 Q80 88 160 98 T240 94 L240 120 L0 120 Z" fill="#F2D998"/>${sun}<path d="M52 92 L70 58 L88 92 Z" fill="#E8734A"/><line x1="70" y1="58" x2="70" y2="96" stroke="#C4552F" stroke-width="2.5"/><circle cx="160" cy="52" r="12" fill="#5FAE7F"/><rect x="157" y="60" width="5" height="16" rx="2" fill="#8B6244"/>`;
+  } else if(t.includes('pool') || (p.POOL && !p.PLAYGROUND)){
+    scene = `<rect width="240" height="120" fill="#DCEBF5"/>${sun}<rect x="30" y="58" width="180" height="48" rx="10" fill="#69B8E8"/><path d="M40 74 Q52 68 64 74 T88 74 T112 74 T136 74 T160 74 T184 74 T200 74" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M40 90 Q52 84 64 90 T88 90 T112 90 T136 90 T160 90 T184 90 T200 90" stroke="#B9E0F5" stroke-width="3" fill="none" stroke-linecap="round"/><line x1="196" y1="50" x2="196" y2="76" stroke="#9AA6B2" stroke-width="3"/><line x1="206" y1="50" x2="206" y2="76" stroke="#9AA6B2" stroke-width="3"/><line x1="194" y1="56" x2="208" y2="56" stroke="#9AA6B2" stroke-width="3"/><line x1="194" y1="66" x2="208" y2="66" stroke="#9AA6B2" stroke-width="3"/>`;
+  } else if(t.includes('trail')){
+    scene = `<rect width="240" height="120" fill="#E7F2E4"/>${sun}<ellipse cx="120" cy="140" rx="160" ry="50" fill="#A8D5B5"/><path d="M20 118 Q80 92 120 102 T230 84" stroke="#D8B78E" stroke-width="12" fill="none" stroke-linecap="round"/><path d="M20 118 Q80 92 120 102 T230 84" stroke="#C9A272" stroke-width="2" stroke-dasharray="6 8" fill="none"/><circle cx="52" cy="56" r="16" fill="#5FAE7F"/><rect x="49" y="67" width="6" height="20" rx="2" fill="#8B6244"/><circle cx="188" cy="48" r="13" fill="#74C093"/><rect x="185" y="57" width="5" height="16" rx="2" fill="#8B6244"/>`;
+  } else if(t.includes('golf') || p.GOLF){
+    scene = `<rect width="240" height="120" fill="#E4F1DC"/>${sun}<ellipse cx="120" cy="132" rx="160" ry="48" fill="#8FCB7E"/><ellipse cx="150" cy="98" rx="52" ry="14" fill="#B4E0A4"/><line x1="150" y1="52" x2="150" y2="96" stroke="#8B6244" stroke-width="3"/><path d="M150 52 L178 60 L150 68 Z" fill="#E24B4A"/><circle cx="150" cy="98" r="3.5" fill="#3B3B3B"/><circle cx="60" cy="60" r="14" fill="#5FAE7F"/><rect x="57" y="70" width="6" height="16" rx="2" fill="#8B6244"/>`;
+  } else if(t.includes('dog') || p.DOGPARK){
+    scene = `<rect width="240" height="120" fill="#E7F2E4"/>${sun}<ellipse cx="120" cy="136" rx="160" ry="48" fill="#A8D5B5"/><ellipse cx="96" cy="86" rx="17" ry="11" fill="#C08A52"/><circle cx="115" cy="77" r="8" fill="#C08A52"/><path d="M110 70 L108 62 L114 68 Z" fill="#A9713D"/><path d="M120 70 L124 63 L124 70 Z" fill="#A9713D"/><rect x="84" y="93" width="4" height="10" rx="2" fill="#A9713D"/><rect x="102" y="93" width="4" height="10" rx="2" fill="#A9713D"/><path d="M79 84 Q71 78 74 71" stroke="#C08A52" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="150" y="60" width="4" height="42" fill="#9AA6B2"/><rect x="168" y="60" width="4" height="42" fill="#9AA6B2"/><rect x="186" y="60" width="4" height="42" fill="#9AA6B2"/><line x1="146" y1="66" x2="194" y2="66" stroke="#9AA6B2" stroke-width="3"/><line x1="146" y1="82" x2="194" y2="82" stroke="#9AA6B2" stroke-width="3"/>`;
+  } else if(t.includes('community') || t.includes('recreation') || p.COMMUNITYCENTER && !p.PLAYGROUND){
+    scene = `<rect width="240" height="120" fill="#EDEAF5"/>${sun}<ellipse cx="120" cy="140" rx="160" ry="46" fill="#B9AEDD"/><rect x="70" y="56" width="100" height="48" rx="4" fill="#8E7CC3"/><path d="M62 58 L120 34 L178 58 Z" fill="#6E5AA8"/><rect x="108" y="76" width="24" height="28" rx="2" fill="#F3EFFC"/><rect x="80" y="66" width="16" height="14" rx="2" fill="#F3EFFC"/><rect x="144" y="66" width="16" height="14" rx="2" fill="#F3EFFC"/>`;
+  } else if(t.includes('sports') || p.BALLFIELDS || p.BASKETCOURTS){
+    scene = `<rect width="240" height="120" fill="#E7F2E4"/>${sun}<ellipse cx="120" cy="138" rx="160" ry="48" fill="#8FCB7E"/><rect x="64" y="64" width="112" height="44" rx="6" fill="#6FAE5C"/><line x1="120" y1="64" x2="120" y2="108" stroke="#fff" stroke-width="2.5"/><circle cx="120" cy="86" r="11" stroke="#fff" stroke-width="2.5" fill="none"/><rect x="60" y="76" width="8" height="20" fill="#fff"/><rect x="172" y="76" width="8" height="20" fill="#fff"/>`;
+  } else {
+    scene = `<rect width="240" height="120" fill="#DDEFE2"/>${sun}<ellipse cx="120" cy="138" rx="160" ry="46" fill="#A8D5B5"/><circle cx="54" cy="56" r="17" fill="#5FAE7F"/><rect x="51" y="68" width="6" height="20" rx="2" fill="#8B6244"/><circle cx="90" cy="64" r="12" fill="#74C093"/><rect x="87" y="72" width="5" height="16" rx="2" fill="#8B6244"/><rect x="140" y="62" width="36" height="4.5" rx="2" fill="#C77E4F" transform="rotate(-20 140 62)"/><rect x="170" y="46" width="4" height="40" rx="2" fill="#B06A3E"/><rect x="136" y="66" width="4" height="22" rx="2" fill="#B06A3E"/><circle cx="200" cy="58" r="12" fill="#74C093"/><rect x="197" y="66" width="5" height="16" rx="2" fill="#8B6244"/>`;
+  }
+  return `<svg viewBox="0 0 240 120" style="width:100%;height:100%;display:block" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${scene}</svg>`;
+}
 function getPhoto(id){ const e = edits[String(id)]; return e && e.photos && e.photos.length ? e.photos[0] : null; }
 function getRating(id){ const e = edits[String(id)]; return e ? e.rating || 0 : 0; }
 
@@ -1204,7 +1227,7 @@ function renderGrid(){
     const hasContent = photo || rating > 0 || (e.blogLinks && e.blogLinks.length) || (e.socialLinks && e.socialLinks.length);
     return `<div class="pcard" onclick="openPark(${p.OBJECTID})">
       <div class="pphoto">
-        ${photo ? `<img src="${photo}" alt="${p.NAME}" loading="lazy">` : `<div class="nophoto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>No photo yet</span></div>`}
+        ${photo ? `<img src="${photo}" alt="${p.NAME}" loading="lazy">` : placeholderSVG(p)}
         <span class="tbadge">${typeLabel}</span>
         ${rating > 0 ? `<div class="rbadge"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>${rating}/5</div>` : ''}
         <button class="fav-btn ${userFavorites.has(String(p.OBJECTID))?'faved':''}" onclick="toggleFavorite(${p.OBJECTID},'${p.NAME.replace(/'/g,"\\'")}',event)" title="${userFavorites.has(String(p.OBJECTID))?'Remove from favorites':'Save to favorites'}">
@@ -1598,9 +1621,19 @@ async function saveEdit(){
     edits[String(cur.OBJECTID)] = payload;
     try { localStorage.setItem('parkEdits', JSON.stringify(edits)); } catch(e){}
 
-    // Try API (works when function is deployed)
+    // Save to Supabase (syncs across all devices)
     try {
-      const r = await fetch(`${API}/${cur.OBJECTID}`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${pw}`},body:JSON.stringify(payload)});
+      const { error } = await sbClient.from('park_edits').upsert({
+        park_id: String(cur.OBJECTID),
+        payload: payload,
+        updated_at: new Date().toISOString()
+      }, { onConflict: 'park_id' });
+      if (error) console.error('Supabase save error:', error.message);
+    } catch(e){ console.warn('Supabase save failed, saved locally only:', e); }
+
+    // Legacy API call (non-blocking)
+    try {
+      await fetch(`${API}/${cur.OBJECTID}`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${pw}`},body:JSON.stringify(payload)});
     } catch(e){}
 
     savedPhotos = photos; pendPhotos = [];
