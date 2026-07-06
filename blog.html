@@ -52,6 +52,13 @@ nav.scrolled{box-shadow:0 2px 24px rgba(0,0,0,0.07)}
 .nav-links a:hover,.nav-links a.active{color:var(--gold)}
 .nav-cta{background:var(--navy)!important;color:var(--warm-white)!important;padding:10px 22px;font-size:0.7rem!important;letter-spacing:0.13em!important;text-transform:uppercase!important;text-decoration:none;transition:background 0.2s!important;font-weight:600!important}
 .nav-cta:hover{background:var(--gold)!important;color:var(--navy-dark)!important}
+/* RESOURCES DROPDOWN */
+.nav-dropdown{position:relative}
+.nav-dropdown>a{display:inline-flex;align-items:center;gap:5px}
+.nav-dropdown>a::after{content:'';width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px)}
+.nav-dropdown .dropdown-menu{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%);background:rgba(253,252,249,0.98);border:0.5px solid var(--border);border-top:2px solid var(--gold);box-shadow:0 12px 28px rgba(0,0,0,0.10);min-width:190px;padding:8px 0;list-style:none;opacity:0;visibility:hidden;transition:opacity 0.2s,visibility 0.2s;z-index:210}
+.nav-dropdown:hover .dropdown-menu,.nav-dropdown:focus-within .dropdown-menu{opacity:1;visibility:visible}
+.nav-dropdown .dropdown-menu a{display:block;padding:10px 20px;white-space:nowrap}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
 .hamburger span{display:block;width:24px;height:1.5px;background:var(--navy)}
 
@@ -142,6 +149,8 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
 @media(max-width:960px){
   .nav-links{display:none}
   .nav-links.open{display:flex;flex-direction:column;position:fixed;top:74px;left:0;right:0;background:rgba(253,252,249,0.97);backdrop-filter:blur(14px);padding:1.5rem 5vw;border-bottom:0.5px solid var(--border);gap:1.2rem;z-index:199}
+  .nav-dropdown .dropdown-menu{position:static;transform:none;opacity:1;visibility:visible;border:none;box-shadow:none;background:transparent;padding:6px 0 0 16px}
+  .nav-dropdown>a::after{display:none}
   .hamburger{display:flex}
   .blog-grid{grid-template-columns:1fr}
   .blog-featured{grid-template-columns:1fr}
@@ -162,7 +171,13 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
     <li><a href="/neighborhoods">Neighborhoods</a></li>
     <li><a href="videos.html">Videos</a></li>
     <li><a href="blog.html" class="active">Blog</a></li>
-    <li><a href="https://effervescent-churros-d0d56b.netlify.app">Parks</a></li>
+    <li><a href="/parks">Parks</a></li>
+    <li class="nav-dropdown">
+      <a href="/resources/trusted-partners" aria-haspopup="true">Resources</a>
+      <ul class="dropdown-menu">
+        <li><a href="/resources/trusted-partners">Trusted Partners</a></li>
+      </ul>
+    </li>
     <li><a href="/#testimonials">Reviews</a></li>
     <li><a href="/#contact" class="nav-cta">Let's Connect</a></li>
   </ul>
@@ -1079,6 +1094,7 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
       <li><a href="/#about">About</a></li>
       <li><a href="videos.html">Videos</a></li>
       <li><a href="blog.html">Blog</a></li>
+      <li><a href="/resources/trusted-partners">Trusted Partners</a></li>
       <li><a href="/#contact">Contact</a></li>
     </ul>
   </div>
