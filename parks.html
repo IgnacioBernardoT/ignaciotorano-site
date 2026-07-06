@@ -1,0 +1,1978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tampa Parks Guide | Ignacio Toraño</title>
+<meta name="description" content="Explore Tampa's best parks — rated and reviewed by South Tampa native and realtor Ignacio Toraño. Find parks by amenity, neighborhood, or distance from your home.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="parks_data.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0E1A2B;--navy-mid:#162236;--gold:#B8965A;--gold-light:#D4B07A;
+  --gold-pale:#FBF5E9;--white:#FFFFFF;--off:#F7F5F1;--border:#E8E2D9;
+  --border-d:#D0C8BC;--text:#1C2B3A;--text-mid:#4A5568;--text-muted:#8896A5;
+  --shadow-sm:0 1px 4px rgba(0,0,0,.07);--shadow:0 2px 12px rgba(0,0,0,.09);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.13);--r:6px;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--off);color:var(--text);min-height:100vh}
+
+/* HEADER */
+#hdr{background:var(--navy);position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.2)}
+.hdr-in{display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:70px;max-width:1400px;margin:0 auto}
+.site-logo{display:flex;align-items:center;text-decoration:none;flex-shrink:0}
+.site-logo img{height:36px;width:auto;object-fit:contain}
+.logo-fb{display:none;flex-direction:column;gap:1px}
+.logo-fb .ln{font-family:'Cormorant Garamond',serif;color:#fff;font-size:19px;font-weight:500}
+.logo-fb .ls{font-size:9px;color:var(--gold);letter-spacing:2.5px;text-transform:uppercase}
+.site-nav{display:flex;align-items:center;gap:2px}
+.site-nav a{font-size:11px;color:rgba(255,255,255,.6);text-decoration:none;letter-spacing:1.2px;text-transform:uppercase;padding:6px 10px;border-radius:3px;transition:color .15s;white-space:nowrap}
+.site-nav a:hover{color:var(--gold-light)}
+.site-nav a.active{color:var(--gold)}
+.site-nav a.cta{background:var(--gold);color:var(--navy);padding:8px 16px;font-weight:600;letter-spacing:1.5px;border-radius:3px}
+.site-nav a.cta:hover{background:var(--gold-light);color:var(--navy)}
+.mob-btn{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.mob-btn span{display:block;width:22px;height:1.5px;background:rgba(255,255,255,.6)}
+
+/* PARKS BAR */
+.parks-bar{display:none}
+.view-toggle{display:flex;border:1px solid var(--border-d);border-radius:var(--r);overflow:hidden;flex-shrink:0}
+.vbtn{background:var(--white);border:none;color:var(--text-muted);padding:8px 14px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;font-weight:500;letter-spacing:1px;text-transform:uppercase;transition:all .15s;display:flex;align-items:center;gap:6px}
+.vbtn+.vbtn{border-left:1px solid var(--border)}
+.vbtn.active{background:var(--navy);color:var(--white)}
+.vbtn svg{width:13px;height:13px}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#0E1A2B 0%,#162236 60%,#1a2d47 100%);color:var(--white);padding:48px 40px 44px;border-bottom:3px solid var(--gold);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(184,150,90,.12) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-40px;left:10%;width:200px;height:200px;background:radial-gradient(circle,rgba(184,150,90,.08) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+.hero-in{max-width:1400px;margin:0 auto;position:relative;z-index:1}
+.hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.hero-badge{background:rgba(184,150,90,.15);border:1px solid rgba(184,150,90,.3);color:var(--gold-light);font-size:12px;font-weight:500;padding:5px 12px;border-radius:20px;letter-spacing:.3px}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:600;line-height:1.1;margin-bottom:14px}
+.hero h1 em{font-style:italic;color:var(--gold-light)}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.72);max-width:560px;line-height:1.75;margin-bottom:24px}
+.hero-sub strong{color:var(--gold-light);font-weight:600}
+.hero-stats{display:flex;align-items:center;gap:20px;margin-bottom:28px;flex-wrap:wrap}
+.hero-stat{display:flex;flex-direction:column}
+.hero-stat-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--gold-light);line-height:1}
+.hero-stat-label{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.5px;margin-top:2px}
+.hero-stat-div{width:1px;height:36px;background:rgba(255,255,255,.15)}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.hero-btn-primary{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:var(--gold);color:var(--navy);border:none;border-radius:25px;font-size:13px;font-weight:700;font-family:'DM Sans',sans-serif;letter-spacing:.5px;cursor:pointer;transition:all .2s;box-shadow:0 4px 14px rgba(184,150,90,.35)}
+.hero-btn-primary:hover{background:var(--gold-light);transform:translateY(-1px);box-shadow:0 6px 18px rgba(184,150,90,.45)}
+.hero-btn-secondary{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:transparent;color:rgba(255,255,255,.8);border:1.5px solid rgba(255,255,255,.25);border-radius:25px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;letter-spacing:.5px;cursor:pointer;transition:all .2s}
+.hero-btn-secondary:hover{border-color:var(--gold);color:var(--gold-light);transform:translateY(-1px)}
+/* FEEDBACK SECTION */
+#feedback-section{background:linear-gradient(135deg,#f8f6f2 0%,#fff 100%);padding:60px 40px;border-top:3px solid var(--gold)}
+.fb-inner{max-width:680px;margin:0 auto;text-align:center}
+.fb-emoji{font-size:48px;margin-bottom:16px;display:block}
+.fb-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--navy);margin-bottom:8px}
+.fb-sub{font-size:14px;color:var(--text-muted);margin-bottom:32px;line-height:1.7}
+.fb-form{display:flex;flex-direction:column;gap:14px;text-align:left}
+.fb-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fb-input{width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:13px;font-family:'DM Sans',sans-serif;background:#fff;color:var(--text);outline:none;transition:border-color .15s;box-sizing:border-box}
+.fb-input:focus{border-color:var(--gold)}
+.fb-textarea{width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:13px;font-family:'DM Sans',sans-serif;background:#fff;color:var(--text);outline:none;resize:vertical;min-height:110px;transition:border-color .15s;box-sizing:border-box}
+.fb-textarea:focus{border-color:var(--gold)}
+.fb-type-row{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0}
+.fb-type-chip{padding:7px 14px;border-radius:20px;border:1.5px solid var(--border);font-size:12px;font-family:'DM Sans',sans-serif;background:#fff;color:var(--text-mid);cursor:pointer;transition:all .12s}
+.fb-type-chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.fb-submit{padding:13px 32px;background:var(--navy);color:#fff;border:none;border-radius:25px;font-size:13px;font-weight:700;font-family:'DM Sans',sans-serif;letter-spacing:.5px;cursor:pointer;transition:all .2s;width:100%}
+.fb-submit:hover{background:var(--gold);color:var(--navy)}
+.fb-success{display:none;text-align:center;padding:24px;background:#f0faf5;border:1.5px solid #BBF7D0;border-radius:12px;color:#1a7a47;font-size:14px;font-weight:500}
+.fb-label{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;display:block}
+
+/* TOOLBAR */
+.toolbar{background:var(--white);border-bottom:1px solid var(--border);padding:10px 20px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;position:sticky;top:70px;z-index:1001;box-shadow:var(--shadow-sm)}
+.toolbar-left{display:flex;align-items:center;gap:8px}
+.toolbar-center{display:flex;align-items:center;gap:8px}
+.toolbar-right{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.srch-wrap{position:relative;width:220px}
+.srch-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text-muted);width:15px;height:15px;pointer-events:none}
+.srch{width:100%;padding:9px 12px 9px 34px;border:1px solid var(--border);border-radius:var(--r);font-size:13px;font-family:'DM Sans',sans-serif;background:var(--off);color:var(--text);outline:none;transition:border-color .15s}
+.srch::placeholder{color:var(--text-muted)}
+.srch:focus{border-color:var(--gold);background:var(--white)}
+
+/* FILTER */
+.fltr-wrap{position:relative}
+.fltr-btn{display:flex;align-items:center;gap:7px;padding:9px 14px;border:1px solid var(--border);border-radius:var(--r);font-size:11px;font-family:'DM Sans',sans-serif;font-weight:500;letter-spacing:1px;text-transform:uppercase;background:var(--off);color:var(--text-mid);cursor:pointer;transition:all .15s;white-space:nowrap}
+.fltr-btn:hover,.fltr-btn.on{border-color:var(--gold);color:var(--gold);background:var(--gold-pale)}
+.fltr-btn svg{width:13px;height:13px}
+.fc{background:var(--gold);color:#fff;font-size:10px;font-weight:700;width:17px;height:17px;border-radius:50%;display:none;align-items:center;justify-content:center}
+.fc.show{display:inline-flex}
+.fdrop{display:none;position:absolute;top:calc(100% + 6px);left:0;background:var(--white);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-lg);z-index:2000;width:580px;max-height:72vh;overflow-y:auto;padding:20px}
+.fdrop.open{display:block}
+.fdt{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;margin-top:18px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.fdt:first-child{margin-top:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:5px 12px;border-radius:20px;border:1px solid var(--border);font-size:12px;font-family:'DM Sans',sans-serif;background:var(--off);color:var(--text-mid);cursor:pointer;transition:all .12s}
+.chip:hover{border-color:var(--gold);color:var(--navy)}
+.chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+/* CHECKBOX FILTERS */
+.fcb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:4px}
+.fcb{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:10px;border:1.5px solid var(--border);background:var(--off);cursor:pointer;transition:all .12s;font-size:12px;color:var(--text-mid);font-family:'DM Sans',sans-serif;user-select:none}
+.fcb:hover{border-color:var(--gold);background:#fffdf7}
+.fcb input[type="checkbox"]{width:15px;height:15px;accent-color:var(--navy);cursor:pointer;flex-shrink:0}
+.fcb input[type="checkbox"]:checked ~ span{color:var(--navy);font-weight:600}
+.fcb:has(input:checked){border-color:var(--navy);background:#eef2ff}
+.ffoot{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+.fclr{font-size:12px;color:var(--text-muted);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:underline;text-underline-offset:3px}
+.fclr:hover{color:var(--navy)}
+.fapply{padding:8px 20px;background:var(--navy);color:#fff;border:none;border-radius:var(--r);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'DM Sans',sans-serif;cursor:pointer}
+.fapply:hover{background:var(--gold);color:var(--navy)}
+
+/* RADIUS */
+.rad-wrap{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.rad-iw{position:relative;min-width:190px}
+.rad-iw svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-muted);width:14px;height:14px;pointer-events:none}
+.rad-i{width:100%;padding:9px 10px 9px 30px;border:1px solid var(--border);border-radius:var(--r);font-size:13px;font-family:'DM Sans',sans-serif;background:var(--off);color:var(--text);outline:none;transition:border-color .15s}
+.rad-i::placeholder{color:var(--text-muted)}
+.rad-i:focus{border-color:var(--gold);background:var(--white)}
+.rad-sel{padding:9px 8px;border:1px solid var(--border);border-radius:var(--r);font-size:13px;font-family:'DM Sans',sans-serif;background:var(--off);color:var(--text);outline:none;cursor:pointer;width:76px}
+.rad-go{padding:9px 16px;background:var(--navy);color:#fff;border:none;border-radius:var(--r);font-size:11px;font-family:'DM Sans',sans-serif;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;white-space:nowrap}
+.rad-go:hover{background:var(--gold);color:var(--navy)}
+.rad-badge{display:none;align-items:center;gap:6px;font-size:12px;color:var(--navy);background:var(--gold-pale);border:1px solid #E0C98A;padding:5px 12px;border-radius:20px;font-weight:500}
+.rad-badge button{background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:16px;line-height:1;padding:0;margin-left:2px}
+.rad-badge button:hover{color:var(--navy)}
+.cnt{margin-left:auto;font-size:12px;color:var(--text-muted);white-space:nowrap}
+
+/* GRID */
+#grid-view{padding:28px 40px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;max-width:1400px;margin:0 auto}
+
+/* SKELETON */
+.skel{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.skel-p{width:100%;height:180px;background:linear-gradient(90deg,#f0ede8 25%,#e8e4dd 50%,#f0ede8 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
+.skel-b{padding:14px 16px 16px}
+.skel-l{height:12px;border-radius:6px;background:linear-gradient(90deg,#f0ede8 25%,#e8e4dd 50%,#f0ede8 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;margin-bottom:8px}
+.skel-l.w80{width:80%}.skel-l.w55{width:55%}.skel-l.w40{width:40%}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* CARD */
+.pcard{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:transform .18s,box-shadow .18s,border-color .18s}
+.pcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--gold)}
+.pphoto{width:100%;height:180px;background:var(--off);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.pphoto img{width:100%;height:100%;object-fit:cover}
+.nophoto{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--text-muted)}
+.nophoto svg{width:32px;height:32px;opacity:.25}
+.nophoto span{font-size:11px;opacity:.5}
+.tbadge{position:absolute;top:10px;left:10px;background:var(--navy);color:#fff;font-size:10px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;padding:3px 9px;border-radius:2px}
+.rbadge{position:absolute;top:10px;right:10px;background:var(--gold);color:var(--navy);font-size:11px;font-weight:700;padding:3px 9px;border-radius:2px;display:flex;align-items:center;gap:3px}
+.rbadge svg{width:10px;height:10px;fill:var(--navy)}
+.pinfo{padding:14px 16px 16px}
+.pname{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:500;color:var(--text);line-height:1.2;margin-bottom:3px}
+.paddr{font-size:12px;color:var(--text-muted);margin-bottom:10px}
+.ptags{display:flex;flex-wrap:wrap;gap:4px}
+.ptag{font-size:10px;background:var(--gold-pale);color:#8B6914;border:1px solid #E8D59A;padding:2px 8px;border-radius:20px}
+.pmore{font-size:11px;color:var(--text-muted);align-self:center}
+
+/* MAP */
+#map-view{display:none;height:calc(100vh - 158px);overflow:visible}
+#map{width:100%;height:100%;min-height:400px}
+.leaflet-popup-content-wrapper{border-radius:6px;box-shadow:var(--shadow-lg);font-family:'DM Sans',sans-serif;border:1px solid var(--border)}
+.mpop h3{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:500;color:var(--text);margin-bottom:2px}
+.mpop p{font-size:12px;color:var(--text-muted);margin-bottom:10px}
+.mpop button{background:var(--navy);color:#fff;border:none;padding:7px 14px;border-radius:3px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;width:100%}
+.mpop button:hover{background:var(--gold);color:var(--navy)}
+
+/* OVERLAYS */
+.overlay{display:none;position:fixed;inset:0;background:rgba(14,26,43,.6);z-index:9999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(2px)}
+.overlay.open{display:flex}
+.modal{background:var(--white);border-radius:8px;width:100%;max-width:580px;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.mhead{display:flex;align-items:flex-start;justify-content:space-between;padding:22px 24px 0}
+.mtitle{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--text);line-height:1.2}
+.msub{font-size:12px;color:var(--text-muted);margin-top:3px}
+.mx{background:var(--off);border:1px solid var(--border);width:30px;height:30px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--text-muted);transition:all .15s}
+.mx:hover{border-color:var(--navy);color:var(--navy)}
+.mbody{padding:18px 24px 24px}
+.mhero{width:100%;height:190px;border-radius:6px;margin-bottom:16px;background:var(--off);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.mhero img{width:100%;height:100%;object-fit:contain;background:var(--off)}
+
+/* PHOTO GALLERY */
+.photo-gallery{margin-bottom:16px}
+.gallery-hero{width:100%;height:260px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--off);display:flex;align-items:center;justify-content:center;margin-bottom:8px;cursor:pointer;position:relative}
+.gallery-hero img{width:100%;height:100%;object-fit:contain;background:var(--off)}
+.gallery-hero-placeholder{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--text-muted)}
+.gallery-hero-placeholder svg{width:40px;height:40px;opacity:.2}
+.gallery-thumbs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.gallery-thumbs::-webkit-scrollbar{height:3px}
+.gallery-thumbs::-webkit-scrollbar-thumb{background:var(--border-d);border-radius:2px}
+.gallery-thumb{flex:0 0 72px;height:72px;border-radius:4px;overflow:hidden;border:2px solid transparent;cursor:pointer;transition:border-color .15s;background:var(--off)}
+.gallery-thumb img{width:100%;height:100%;object-fit:cover}
+.gallery-thumb.active{border-color:var(--gold)}
+.gallery-counter{position:absolute;bottom:8px;right:10px;background:rgba(14,26,43,.7);color:#fff;font-size:11px;padding:3px 8px;border-radius:12px;font-family:'DM Sans',sans-serif}
+
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:10000;align-items:center;justify-content:center}
+.lightbox.open{display:flex}
+.lightbox-img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:4px}
+.lightbox-close{position:absolute;top:16px;right:20px;background:none;border:none;color:#fff;font-size:28px;cursor:pointer;line-height:1}
+.lightbox-prev,.lightbox-next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:#fff;font-size:22px;cursor:pointer;padding:12px 16px;border-radius:4px;transition:background .15s}
+.lightbox-prev{left:16px}
+.lightbox-next{right:16px}
+.lightbox-prev:hover,.lightbox-next:hover{background:rgba(255,255,255,.3)}
+
+.slbl{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.divider{height:1px;background:var(--border);margin:16px 0}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.di label{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);display:block;margin-bottom:2px}
+.di span{font-size:13px;color:var(--text);font-weight:500}
+.agrid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:14px}
+.arow{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text)}
+.arow svg{width:13px;height:13px;color:var(--gold);flex-shrink:0}
+
+/* SOCIAL LINKS */
+.social-links{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px}
+.slink{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--navy);background:var(--off);border:1px solid var(--border);padding:5px 12px;border-radius:20px;text-decoration:none;transition:all .15s}
+.slink:hover{border-color:var(--gold);color:var(--gold)}
+.slink svg{width:13px;height:13px}
+.blog-link{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--navy);background:var(--gold-pale);border:1px solid #E8D59A;padding:8px 14px;border-radius:var(--r);text-decoration:none;font-weight:500;margin-bottom:4px;transition:all .15s}
+.blog-link:hover{background:var(--gold);color:var(--white)}
+.blog-link svg{width:14px;height:14px;flex-shrink:0}
+
+/* STARS */
+.stars-i{display:flex;gap:6px;margin-bottom:8px}
+.starb{background:none;border:none;cursor:pointer;padding:0;transition:transform .1s}
+.starb:hover{transform:scale(1.2)}
+.starb svg{width:26px;height:26px}
+.starb.on svg{fill:var(--gold);stroke:none}
+.starb:not(.on) svg{fill:#EDE8DF;stroke:var(--border-d);stroke-width:1}
+.starlbl{font-size:12px;color:var(--text-muted);margin-bottom:14px}
+.dstars{display:flex;gap:3px}
+
+/* UPLOAD */
+.uarea{border:2px dashed var(--border-d);border-radius:var(--r);padding:20px;text-align:center;cursor:pointer;position:relative;transition:all .15s;margin-bottom:10px}
+.uarea:hover{border-color:var(--gold);background:var(--gold-pale)}
+.uarea input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.uarea svg{width:28px;height:28px;color:var(--text-muted);margin-bottom:6px}
+.uarea p{font-size:13px;color:var(--text-muted)}
+.uarea strong{color:var(--navy)}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.pthumb{position:relative;aspect-ratio:1;border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+.pthumb img{width:100%;height:100%;object-fit:cover}
+.prm{position:absolute;top:4px;right:4px;background:rgba(14,26,43,.75);border:none;color:#fff;width:20px;height:20px;border-radius:50%;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center}
+
+/* FORM */
+.fg{margin-bottom:12px}
+.fl{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--navy);display:block;margin-bottom:5px}
+.fi,.fta{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:var(--r);font-size:14px;font-family:'DM Sans',sans-serif;background:var(--off);color:var(--text);outline:none;transition:border-color .15s}
+.fi::placeholder,.fta::placeholder{color:var(--text-muted)}
+.fi:focus,.fta:focus{border-color:var(--gold);background:var(--white)}
+.fta{resize:vertical;min-height:80px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* AMENITY CHECKBOXES IN ADMIN */
+.am-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px}
+.am-cb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-mid);cursor:pointer}
+.am-cb input{accent-color:var(--gold);width:14px;height:14px;cursor:pointer}
+
+/* BUTTONS */
+.btn{padding:11px 22px;border-radius:var(--r);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'DM Sans',sans-serif;cursor:pointer;border:none;transition:all .15s}
+.btn-p{background:var(--navy);color:#fff}
+.btn-p:hover{background:var(--gold);color:var(--navy)}
+.btn-g{background:var(--off);color:var(--text-mid);border:1px solid var(--border)}
+.btn-g:hover{border-color:var(--navy);color:var(--navy)}
+.btn-danger{background:#FEE2E2;color:#B91C1C;border:1px solid #FECACA}
+.btn-danger:hover{background:#B91C1C;color:#fff}
+.bedit{background:var(--navy);color:#fff;width:100%;margin-top:14px;padding:12px;border-radius:var(--r);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;font-family:'DM Sans',sans-serif;cursor:pointer;border:none;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:8px}
+.bedit:hover{background:var(--gold);color:var(--navy)}
+.macts{display:flex;gap:10px;margin-top:18px}
+.macts .btn{flex:1}
+.saveok{font-size:12px;color:#2E7D52;display:none;align-items:center;gap:5px;justify-content:center;margin-top:10px}
+.saveok.show{display:flex}
+
+/* PASSWORD */
+.pwm{max-width:360px;text-align:center;padding:36px}
+.lockico{width:50px;height:50px;background:var(--gold-pale);border:1px solid #E0C98A;border-radius:4px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;color:var(--gold)}
+.lockico svg{width:22px;height:22px}
+.pwtit{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--text);margin-bottom:6px}
+.pwhint{font-size:13px;color:var(--text-muted);margin-bottom:18px}
+.pwerr{color:#B91C1C;font-size:13px;margin-top:6px;display:none}
+
+/* VIDEO */
+.vwrap{aspect-ratio:16/9;border-radius:4px;overflow:hidden;margin-top:10px;background:var(--off)}
+.vwrap iframe{width:100%;height:100%;border:none}
+
+/* SECTION TAGS */
+.stag{display:inline-flex;align-items:center;gap:5px;font-size:11px;background:var(--off);border:1px solid var(--border);color:var(--text-mid);padding:3px 10px;border-radius:20px;margin-right:4px;margin-bottom:4px;text-decoration:none}
+.stag:hover{border-color:var(--gold);color:var(--gold)}
+
+/* MOBILE */
+body { overflow-x: hidden; max-width: 100vw; }
+#map-view { overflow: visible; }
+@media(max-width:900px){
+  .site-nav{display:none}
+  .site-nav.open{display:flex;flex-direction:column;position:absolute;top:70px;left:0;right:0;background:var(--navy);border-bottom:1px solid rgba(184,150,90,.2);padding:12px 20px 20px;gap:4px;z-index:199}
+  .site-nav.open a{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.07)}
+  .mob-btn{display:flex}
+  .hdr-in{padding:0 16px}
+  .parks-bar{padding:0 16px}
+  .hero{padding:24px 16px 20px}
+  .hero h1{font-size:26px}
+  .hero-badges{gap:6px}
+  .hero-badge{font-size:11px;padding:4px 10px}
+  .hero-stats{gap:14px}
+  .hero-stat-num{font-size:22px}
+  .hero-btns{flex-direction:column;gap:10px}
+  .hero-btn-primary,.hero-btn-secondary{width:100%;justify-content:center;padding:14px 20px}
+  .toolbar{padding:10px 12px;top:70px;flex-wrap:wrap;gap:8px}
+  .srch-wrap{min-width:0;flex:1}
+  #grid-view{padding:12px;grid-template-columns:1fr 1fr;gap:10px}
+  .frow{grid-template-columns:1fr}
+  #map-view{height:60vh}
+}
+@media(max-width:600px){
+  .modal{border-radius:16px 16px 0 0;margin-top:auto;max-height:90vh}
+  .overlay{align-items:flex-end;padding:0}
+  .fdrop{position:fixed;left:8px;right:8px;top:auto;bottom:0;width:auto;max-height:75vh;border-radius:16px 16px 0 0;z-index:3000}
+  .fdrop.open{display:block}
+  .fcb-grid{grid-template-columns:repeat(2,1fr);gap:6px}
+  .fcb{padding:8px 8px;font-size:11px}
+  .rad-wrap{flex-wrap:wrap}
+  .rad-iw{min-width:0;flex:1}
+  .am-grid{grid-template-columns:repeat(2,1fr)}
+  #grid-view{grid-template-columns:1fr 1fr;padding:10px;gap:8px}
+  .pcard .pname{font-size:13px}
+  .pcard .paddr{font-size:11px}
+  .hero{padding:20px 14px 18px}
+  .hero h1{font-size:22px;line-height:1.2}
+  .hero-sub{font-size:13px}
+  .hero-stat-num{font-size:20px}
+  .hero-stat-label{font-size:10px}
+  .hdr-in{height:60px}
+  .toolbar{padding:10px 12px;top:60px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .toolbar-left,.toolbar-right{display:none}
+  .toolbar-center{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .srch-wrap{width:160px}
+  .rad-iw{min-width:0;flex:1}
+  #feedback-section{padding:40px 16px}
+  .fb-row{grid-template-columns:1fr}
+  .hero-badges{display:none}
+}
+
+/* LIKES / COMMENTS */
+.social-bar{display:flex;align-items:center;gap:10px;padding:14px 0;border-top:1px solid var(--border);margin-top:4px;}
+.like-btn,.dislike-btn{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:20px;border:1px solid var(--border);background:var(--off);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s;font-weight:500}
+.like-btn:hover,.like-btn.on{background:#E8F5E9;border-color:#4CAF50;color:#2E7D32}
+.dislike-btn:hover,.dislike-btn.on{background:#FFEBEE;border-color:#EF5350;color:#B71C1C}
+.like-btn svg,.dislike-btn svg{width:15px;height:15px}
+.community-rating{margin-left:auto;font-size:12px;color:var(--text-muted);text-align:right}
+.community-rating strong{color:var(--navy);font-size:14px;display:block}
+
+.comments-section{margin-top:4px}
+.comments-title{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.comment-list{max-height:240px;overflow-y:auto;margin-bottom:14px}
+.comment-item{padding:10px 12px;background:var(--off);border-radius:var(--r);margin-bottom:8px;border:1px solid var(--border)}
+.comment-author{font-size:11px;font-weight:600;color:var(--navy);margin-bottom:3px}
+.comment-text{font-size:13px;color:var(--text);line-height:1.5}
+.comment-date{font-size:10px;color:var(--text-muted);margin-top:4px}
+.comment-form{display:flex;flex-direction:column;gap:8px}
+.comment-inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.no-comments{font-size:13px;color:var(--text-muted);font-style:italic;text-align:center;padding:16px 0}
+.submit-comment{padding:10px;background:var(--navy);color:#fff;border:none;border-radius:var(--r);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'DM Sans',sans-serif;cursor:pointer;transition:background .15s}
+.submit-comment:hover{background:var(--gold);color:var(--navy)}
+/* AUTH / USER */
+.auth-btn{display:flex;align-items:center;gap:7px;padding:7px 14px;border:1px solid rgba(255,255,255,.2);border-radius:var(--r);font-size:11px;font-family:'DM Sans',sans-serif;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.75);background:transparent;cursor:pointer;transition:all .15s;white-space:nowrap}
+.auth-btn:hover{border-color:var(--gold);color:var(--gold)}
+.auth-btn svg{width:14px;height:14px;flex-shrink:0}
+.user-pill{display:flex;align-items:center;gap:8px;cursor:pointer;position:relative}
+.user-avatar{width:30px;height:30px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--navy);flex-shrink:0;overflow:hidden}
+.user-avatar img{width:100%;height:100%;object-fit:cover}
+.user-menu{position:absolute;top:calc(100%+8px);right:0;background:var(--white);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow-lg);min-width:180px;z-index:3000;display:none;overflow:hidden}
+.user-menu.open{display:block}
+.user-menu-item{display:flex;align-items:center;gap:10px;padding:11px 16px;font-size:13px;color:var(--text);cursor:pointer;transition:background .12s;border:none;background:none;width:100%;text-align:left;font-family:'DM Sans',sans-serif}
+.user-menu-item:hover{background:var(--off)}
+.user-menu-item svg{width:15px;height:15px;color:var(--text-muted)}
+.user-menu-item.danger{color:#B91C1C}
+.user-menu-divider{height:0.5px;background:var(--border);margin:4px 0}
+/* AUTH MODAL */
+.auth-modal-wrap{max-width:380px;text-align:center;padding:32px 28px}
+.auth-icon{width:52px;height:52px;background:var(--gold-pale);border:1px solid #E0C98A;border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;color:var(--gold)}
+.auth-icon svg{width:24px;height:24px}
+.auth-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--text);margin-bottom:6px}
+.auth-sub{font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:24px}
+.auth-divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:var(--text-muted);font-size:12px}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:0.5px;background:var(--border)}
+.google-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:11px 16px;border:1px solid var(--border-d);border-radius:var(--r);background:var(--white);color:var(--text);font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:border-color .15s,box-shadow .15s;margin-bottom:12px}
+.google-btn:hover{border-color:var(--gold);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.email-form{text-align:left}
+.email-form .fi{margin-bottom:10px}
+.auth-switch{font-size:12px;color:var(--text-muted);margin-top:14px}
+.auth-switch a{color:var(--gold);cursor:pointer;text-decoration:none}
+.auth-switch a:hover{text-decoration:underline}
+.auth-err{font-size:12px;color:#B91C1C;margin-bottom:10px;display:none}
+.auth-msg{font-size:13px;color:#2E7D52;padding:12px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:var(--r);margin-top:10px;display:none}
+/* FAVORITE BUTTON */
+.fav-btn{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.92);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;transition:transform .15s,background .15s;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.fav-btn:hover{transform:scale(1.12);background:#fff}
+.fav-btn svg{width:16px;height:16px;stroke:#B8965A;fill:none;transition:fill .15s}
+.fav-btn.faved svg{fill:#B8965A}
+.m-fav-btn{display:flex;align-items:center;gap:7px;padding:9px 18px;border:1px solid var(--border-d);border-radius:var(--r);background:var(--off);color:var(--text-mid);font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s;letter-spacing:.5px}
+.m-fav-btn:hover{border-color:var(--gold);color:var(--gold)}
+.m-fav-btn.faved{background:var(--gold-pale);border-color:#E0C98A;color:var(--gold)}
+.m-fav-btn svg{width:15px;height:15px;stroke:currentColor;fill:none}
+.m-fav-btn.faved svg{fill:var(--gold)}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="hdr-in">
+    <a href="https://ignaciotorano.com/" class="site-logo">
+      <img src="/iggy_logo_v2.webp" alt="Ignacio Toraño" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="logo-fb"><div class="ln">Ignacio Toraño</div><div class="ls">South Tampa Realtor</div></div>
+    </a>
+    <nav class="site-nav" id="site-nav">
+      <a href="https://ignaciotorano.com/#about">About</a>
+      <a href="https://ignaciotorano.com/#services">Services</a>
+      <a href="https://ignaciotorano.com/#neighborhoods">Neighborhoods</a>
+      <a href="https://ignaciotorano.com/videos">Videos</a>
+      <a href="https://ignaciotorano.com/blog">Blog</a>
+      <a href="https://ignaciotorano.com/parks" class="active">Parks</a>
+      <a href="https://ignaciotorano.com/#testimonials">Reviews</a>
+      <a href="https://ignaciotorano.com/#contact" class="cta">Let's Connect</a>
+    </nav>
+    <button class="mob-btn" onclick="document.getElementById('site-nav').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <!-- AUTH AREA -->
+    <div id="auth-area" style="display:flex;align-items:center;gap:8px;margin-left:10px;flex-shrink:0">
+      <button class="auth-btn" id="login-btn" onclick="openAuthModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Sign In
+      </button>
+      <div class="user-pill" id="user-pill" style="display:none" onclick="toggleUserMenu()">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <div class="user-menu" id="user-menu">
+          <div style="padding:12px 16px 8px;font-size:12px;color:var(--text-muted)" id="user-email-display"></div>
+          <div class="user-menu-divider"></div>
+          <div class="user-menu-item" onclick="viewFavorites();toggleUserMenu()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            My Favorites
+          </div>
+          <div class="user-menu-divider"></div>
+          <div class="user-menu-item danger" onclick="signOut()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Sign Out
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-in">
+    <div class="hero-badges">
+      <span class="hero-badge">🌳 189 Parks</span>
+      <span class="hero-badge">🚽 Bathrooms</span>
+      <span class="hero-badge">🏀 Courts</span>
+      <span class="hero-badge">🎠 Playgrounds</span>
+      <span class="hero-badge">🐕 Dog Friendly</span>
+      <span class="hero-badge">💦 Splash Pads</span>
+    </div>
+    <h1>Every Park. Every Feature.<br><em>Easily Searchable For You.</em></h1>
+    <p class="hero-sub">Find the perfect playground that meets your family's needs — bathrooms, shade, swings, splash pads and more. Our mission is to make your parks experience with your kids <strong>simple</strong>.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-num">189</span>
+        <span class="hero-stat-label">Tampa Parks</span>
+      </div>
+      <div class="hero-stat-div"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">20+</span>
+        <span class="hero-stat-label">Amenities Tracked</span>
+      </div>
+      <div class="hero-stat-div"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">100%</span>
+        <span class="hero-stat-label">Free & Family Friendly</span>
+      </div>
+    </div>
+    <div class="hero-btns">
+      <button class="hero-btn-primary" onclick="useMyLocation()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+        📍 Parks Near Me
+      </button>
+      <button class="hero-btn-secondary" onclick="document.getElementById('feedback-section').scrollIntoView({behavior:'smooth'})">
+        💬 Share Feedback
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="toolbar">
+  <!-- LEFT: park count + recommend -->
+  <div class="toolbar-left">
+    <span class="cnt" id="cnt">Loading…</span>
+    <button onclick="openRecommend()" style="padding:7px 12px;background:var(--off);color:var(--text-mid);border:1px solid var(--border);border-radius:var(--r);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;">+ Recommend</button>
+    <button onclick="openAddPark()" id="add-park-btn" style="display:none;padding:7px 12px;background:var(--gold);color:var(--navy);border:none;border-radius:var(--r);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;">+ Add Park</button>
+    <button onclick="openDeleteMode()" id="delete-mode-btn" style="display:none;padding:7px 12px;background:#FEE2E2;color:#B91C1C;border:1px solid #FECACA;border-radius:var(--r);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;">🗑 Delete</button>
+  </div>
+
+  <!-- CENTER: search + filter + address + grid/map -->
+  <div class="toolbar-center">
+    <div class="srch-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="srch" type="text" placeholder="Search parks…" id="srch" oninput="filterParks()">
+    </div>
+
+    <div class="fltr-wrap">
+      <button class="fltr-btn" id="fltr-btn" onclick="toggleDrop()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+        Filter <span class="fc" id="fc">0</span>
+      </button>
+      <div class="fdrop" id="fdrop">
+        <!-- PARK STYLE -->
+        <div class="fdt">🏞️ Park Style</div>
+        <div class="fcb-grid">
+          <label class="fcb"><input type="checkbox" data-t="Park" onchange="toggleChip(this,'type')"><span>🌳 Parks</span></label>
+          <label class="fcb"><input type="checkbox" data-t="Community / Recreation Center" onchange="toggleChip(this,'type')"><span>🏛️ Rec Centers</span></label>
+          <label class="fcb"><input type="checkbox" data-t="Public Pool" onchange="toggleChip(this,'type')"><span>🏊 Pools</span></label>
+          <label class="fcb"><input type="checkbox" data-t="Golf Course" onchange="toggleChip(this,'type')"><span>⛳ Golf</span></label>
+          <label class="fcb"><input type="checkbox" data-t="Trail / Trailhead" onchange="toggleChip(this,'type')"><span>🥾 Trails</span></label>
+          <label class="fcb"><input type="checkbox" data-t="Beach" onchange="toggleChip(this,'type')"><span>🏖️ Beaches</span></label>
+          <label class="fcb"><input type="checkbox" data-t="Sports Complex / Ball Fields" onchange="toggleChip(this,'type')"><span>🏟️ Sports Complex</span></label>
+        </div>
+        <!-- SPORTS -->
+        <div class="fdt">🏅 Sports</div>
+        <div class="fcb-grid">
+          <label class="fcb"><input type="checkbox" data-a="BALLFIELDS" onchange="toggleChip(this,'am')"><span>⚾ Ball Fields</span></label>
+          <label class="fcb"><input type="checkbox" data-a="BASKETCOURTS" onchange="toggleChip(this,'am')"><span>🏀 Basketball</span></label>
+          <label class="fcb"><input type="checkbox" data-a="DISCGOLF" onchange="toggleChip(this,'am')"><span>🥏 Disc Golf</span></label>
+          <label class="fcb"><input type="checkbox" data-a="GOLF" onchange="toggleChip(this,'am')"><span>⛳ Golf</span></label>
+          <label class="fcb"><input type="checkbox" data-a="PICKLECOURT" onchange="toggleChip(this,'am')"><span>🏓 Pickleball</span></label>
+          <label class="fcb"><input type="checkbox" data-a="RACQUETCOURTS" onchange="toggleChip(this,'am')"><span>🎾 Racquetball</span></label>
+          <label class="fcb"><input type="checkbox" data-a="SANDCOURTS" onchange="toggleChip(this,'am')"><span>🏐 Sand Courts</span></label>
+          <label class="fcb"><input type="checkbox" data-a="SHUFFLECOURTS" onchange="toggleChip(this,'am')"><span>🃏 Shuffleboard</span></label>
+          <label class="fcb"><input type="checkbox" data-a="SKATEPARK" onchange="toggleChip(this,'am')"><span>🛹 Skate Park</span></label>
+          <label class="fcb"><input type="checkbox" data-a="TENNIS" onchange="toggleChip(this,'am')"><span>🎾 Tennis</span></label>
+          <label class="fcb"><input type="checkbox" data-a="VOLLEYCOURT" onchange="toggleChip(this,'am')"><span>🏐 Volleyball</span></label>
+          <label class="fcb"><input type="checkbox" data-a="ATHLETICFIELD" onchange="toggleChip(this,'am')"><span>🏃 Athletic Field</span></label>
+          <label class="fcb"><input type="checkbox" data-a="OUTDOORFITNESS" onchange="toggleChip(this,'am')"><span>💪 Outdoor Fitness</span></label>
+          <label class="fcb"><input type="checkbox" data-a="FITNESSFACILITY" onchange="toggleChip(this,'am')"><span>🏋️ Fitness Facility</span></label>
+          <label class="fcb"><input type="checkbox" data-a="GYM" onchange="toggleChip(this,'am')"><span>🏋️ Gym</span></label>
+        </div>
+        <!-- AMENITIES -->
+        <div class="fdt">✅ Amenities</div>
+        <div class="fcb-grid">
+          <label class="fcb"><input type="checkbox" data-a="RESTROOMS" onchange="toggleChip(this,'am')"><span>🚽 Restrooms</span></label>
+          <label class="fcb"><input type="checkbox" data-a="PLAYGROUND" onchange="toggleChip(this,'am')"><span>🎠 Playground</span></label>
+          <label class="fcb"><input type="checkbox" data-a="COVEREDPLAYGROUND" onchange="toggleChip(this,'am')"><span>⛺ Covered Playground</span></label>
+          <label class="fcb"><input type="checkbox" data-a="SPLASHPAD" onchange="toggleChip(this,'am')"><span>💦 Splash Pad</span></label>
+          <label class="fcb"><input type="checkbox" data-a="SHADE" onchange="toggleChip(this,'am')"><span>🌳 Shade</span></label>
+          <label class="fcb"><input type="checkbox" data-a="GRILLS" onchange="toggleChip(this,'am')"><span>🔥 Grills</span></label>
+          <label class="fcb"><input type="checkbox" data-a="SHELTERS" onchange="toggleChip(this,'am')"><span>🏕️ Shelters</span></label>
+          <label class="fcb"><input type="checkbox" data-a="CONCESSION" onchange="toggleChip(this,'am')"><span>🍦 Concession</span></label>
+          <label class="fcb"><input type="checkbox" data-a="DOGPARK" onchange="toggleChip(this,'am')"><span>🐕 Dog Park</span></label>
+          <label class="fcb"><input type="checkbox" data-a="DOGBEACH" onchange="toggleChip(this,'am')"><span>🐶 Dog Beach</span></label>
+          <label class="fcb"><input type="checkbox" data-a="DOGSLEASH" onchange="toggleChip(this,'am')"><span>🦮 Dogs on Leash</span></label>
+          <label class="fcb"><input type="checkbox" data-a="FISHING" onchange="toggleChip(this,'am')"><span>🎣 Fishing</span></label>
+          <label class="fcb"><input type="checkbox" data-a="BOATRAMP" onchange="toggleChip(this,'am')"><span>🚤 Boat Ramp</span></label>
+          <label class="fcb"><input type="checkbox" data-a="CANOELAUNCH" onchange="toggleChip(this,'am')"><span>🛶 Canoe Launch</span></label>
+          <label class="fcb"><input type="checkbox" data-a="PIER" onchange="toggleChip(this,'am')"><span>🌊 Pier</span></label>
+          <label class="fcb"><input type="checkbox" data-a="MARINA" onchange="toggleChip(this,'am')"><span>⛵ Marina</span></label>
+          <label class="fcb"><input type="checkbox" data-a="POOL" onchange="toggleChip(this,'am')"><span>🏊 Pool</span></label>
+          <label class="fcb"><input type="checkbox" data-a="BEACH" onchange="toggleChip(this,'am')"><span>🏖️ Beach</span></label>
+          <label class="fcb"><input type="checkbox" data-a="IMPROVEDTRAILS" onchange="toggleChip(this,'am')"><span>🛤️ Paved Trail</span></label>
+          <label class="fcb"><input type="checkbox" data-a="NATURALTRAILS" onchange="toggleChip(this,'am')"><span>🌿 Nature Trail</span></label>
+          <label class="fcb"><input type="checkbox" data-a="COMMUNITYCENTER" onchange="toggleChip(this,'am')"><span>🏛️ Community Center</span></label>
+          <label class="fcb"><input type="checkbox" data-a="COMPUTERLAB" onchange="toggleChip(this,'am')"><span>💻 Computer Lab</span></label>
+          <label class="fcb"><input type="checkbox" data-a="ARTSTUDIO" onchange="toggleChip(this,'am')"><span>🎨 Art Studio</span></label>
+          <label class="fcb"><input type="checkbox" data-a="BANDSHELL" onchange="toggleChip(this,'am')"><span>🎵 Bandshell</span></label>
+        </div>
+        <div class="ffoot">
+          <button class="fclr" onclick="clearFilters()">Clear all</button>
+          <button class="fapply" onclick="toggleDrop()">Show results</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="rad-wrap">
+      <div class="rad-iw">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7.05 11.5 7.35 11.76a1 1 0 0 0 1.3 0C12.95 21.5 20 15.4 20 10a8 8 0 0 0-8-8z"/></svg>
+        <input class="rad-i" type="text" id="rad-addr" placeholder="Address or ZIP…">
+      </div>
+      <select class="rad-sel" id="rad-mi">
+        <option value="1">1 mi</option>
+        <option value="2" selected>2 mi</option>
+        <option value="3">3 mi</option>
+        <option value="5">5 mi</option>
+        <option value="10">10 mi</option>
+        <option value="15">15 mi</option>
+        <option value="20">20 mi</option>
+        <option value="25">25 mi</option>
+        <option value="30">30 mi</option>
+        <option value="40">40 mi</option>
+      </select>
+      <button class="rad-go" onclick="applyRadius()">Search</button>
+    </div>
+
+    <div class="view-toggle">
+      <button class="vbtn active" id="btn-grid" onclick="switchView('grid', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Grid
+      </button>
+      <button class="vbtn" id="btn-map" onclick="switchView('map', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>Map
+      </button>
+    </div>
+  </div>
+
+  <!-- RIGHT: radius badge -->
+  <div class="toolbar-right">
+    <div class="rad-badge" id="rad-badge">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7.05 11.5 7.35 11.76a1 1 0 0 0 1.3 0C12.95 21.5 20 15.4 20 10a8 8 0 0 0-8-8z"/></svg>
+      <span id="rad-txt"></span>
+      <button onclick="clearRadius()">×</button>
+    </div>
+  </div>
+</div>
+
+<div id="grid-view"></div>
+<div id="map-view"><div id="map"></div></div>
+
+<!-- PARK DETAIL MODAL -->
+<div class="overlay" id="park-modal">
+  <div class="modal">
+    <div class="mhead">
+      <div><div class="mtitle" id="m-name"></div><div class="msub" id="m-addr"></div></div>
+      <button class="mx" onclick="closeModal()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="mbody">
+      <div id="m-photos"></div>
+      <div id="m-amenities"></div>
+      <div class="divider"></div>
+      <div class="slbl">Park Info</div>
+      <div class="dgrid" id="m-details"></div>
+      <div id="m-desc" style="font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:14px;display:none;"></div>
+
+      <div id="m-blog-section" style="display:none;margin-bottom:12px;">
+        <div class="divider"></div>
+        <div class="slbl">Related Blog Posts</div>
+        <div id="m-blog-links"></div>
+      </div>
+
+      <div id="m-social-section" style="display:none;margin-bottom:12px;">
+        <div class="divider"></div>
+        <div class="slbl">Social Media</div>
+        <div class="social-links" id="m-social-links"></div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="slbl">My Review</div>
+      <div id="m-rating" style="display:none;margin-bottom:8px;"><div style="display:flex;align-items:center;gap:8px;"><div class="dstars" id="m-stars"></div><span id="m-rat-txt" style="font-size:13px;color:var(--text-muted);"></span></div></div>
+      <div id="m-notes" style="display:none;font-size:14px;line-height:1.6;color:var(--text);margin-bottom:12px;"></div>
+      <div id="m-video" style="display:none;"></div>
+      <div id="m-norev" style="font-size:13px;color:var(--text-muted);font-style:italic;">No review yet.</div>
+
+      <!-- COMMUNITY LIKES & COMMENTS -->
+      <div class="divider"></div>
+      <div class="social-bar">
+        <button class="like-btn" id="m-like-btn" onclick="toggleLike()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          <span id="m-like-count">0</span>
+        </button>
+        <button class="dislike-btn" id="m-dislike-btn" onclick="toggleDislike()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>
+          <span id="m-dislike-count">0</span>
+        </button>
+        <div class="community-rating" id="m-community-rating" style="display:none;">
+          <strong id="m-approval">0%</strong>
+          community approval
+        </div>
+      </div>
+
+      <div class="comments-section">
+        <div class="comments-title">Community Comments</div>
+        <div class="comment-list" id="m-comment-list">
+          <div class="no-comments">Be the first to comment!</div>
+        </div>
+        <div class="comment-form">
+          <div class="comment-inputs">
+            <input class="fi" type="text" id="c-name" placeholder="Your name">
+            <input class="fi" type="email" id="c-email" placeholder="Email (optional)">
+          </div>
+          <textarea class="fta" id="c-text" placeholder="Share your experience at this park… (500 chars max, no links)" style="min-height:60px;" maxlength="500"></textarea>
+          <button class="submit-comment" onclick="submitComment()">Post Comment</button>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <button class="m-fav-btn" id="m-fav-btn" onclick="toggleFavorite(cur.OBJECTID, cur.NAME, event);updateModalFav(cur.OBJECTID)" title="Save to favorites">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span>Save</span>
+        </button>
+        <button class="bedit" onclick="openEdit()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Edit This Park
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT / ADMIN MODAL -->
+<div class="overlay" id="edit-modal">
+  <div class="modal" style="max-width:640px;">
+    <div class="mhead">
+      <div><div class="mtitle">Edit Park</div><div class="msub" id="e-name"></div></div>
+      <button class="mx" onclick="closeEdit()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="mbody">
+
+      <!-- PHOTOS -->
+      <div class="slbl">Photos</div>
+      <div class="pgrid" id="e-photo-grid"></div>
+      <div class="uarea">
+        <input type="file" accept="image/*" multiple id="e-photo-input" onchange="handlePhotos(event)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <p><strong>Click to upload</strong> or drag photos here · JPG, PNG up to 5MB</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- RATING & NOTES -->
+      <div class="slbl">Your Rating</div>
+      <div class="stars-i" id="e-stars">
+        <button class="starb" data-v="1" onclick="setRating(1)"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button>
+        <button class="starb" data-v="2" onclick="setRating(2)"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button>
+        <button class="starb" data-v="3" onclick="setRating(3)"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button>
+        <button class="starb" data-v="4" onclick="setRating(4)"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button>
+        <button class="starb" data-v="5" onclick="setRating(5)"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button>
+      </div>
+      <div class="starlbl" id="e-starlbl">Tap to rate</div>
+      <div class="fg"><label class="fl">Your Notes</label><textarea class="fta" id="e-notes" placeholder="What's great about this park? Tips for visitors…"></textarea></div>
+
+      <div class="divider"></div>
+
+      <!-- VIDEO -->
+      <div class="slbl">Video Link</div>
+      <div class="fg"><input class="fi" type="url" id="e-video" placeholder="YouTube or Instagram URL"></div>
+
+      <div class="divider"></div>
+
+      <!-- BLOG LINKS -->
+      <div class="slbl">Blog Post Links</div>
+      <div id="e-blog-list" style="margin-bottom:8px;"></div>
+      <div style="display:flex;gap:8px;margin-bottom:4px;">
+        <input class="fi" type="url" id="e-blog-url" placeholder="https://ignaciotorano.com/blog/..." style="flex:1;">
+        <input class="fi" type="text" id="e-blog-title" placeholder="Post title" style="flex:1;">
+      </div>
+      <button onclick="addBlogLink()" style="margin-bottom:14px;" class="btn btn-g">+ Add Blog Link</button>
+
+      <div class="divider"></div>
+
+      <!-- SOCIAL LINKS -->
+      <div class="slbl">Social Media Links</div>
+      <div id="e-social-list" style="margin-bottom:8px;"></div>
+      <div style="display:flex;gap:8px;margin-bottom:4px;">
+        <select class="rad-sel" id="e-social-type" style="width:110px;">
+          <option value="instagram">Instagram</option>
+          <option value="youtube">YouTube</option>
+          <option value="tiktok">TikTok</option>
+          <option value="facebook">Facebook</option>
+        </select>
+        <input class="fi" type="url" id="e-social-url" placeholder="Social media URL" style="flex:1;">
+      </div>
+      <button onclick="addSocialLink()" style="margin-bottom:14px;" class="btn btn-g">+ Add Social Link</button>
+
+      <div class="divider"></div>
+
+      <!-- PARK DETAILS -->
+      <div class="slbl">Park Details</div>
+      <div class="frow">
+        <div class="fg"><label class="fl">Park Name</label><input class="fi" id="e-pname" type="text"></div>
+        <div class="fg"><label class="fl">Address</label><input class="fi" id="e-addr" type="text"></div>
+      </div>
+      <div class="frow">
+        <div class="fg"><label class="fl">Phone</label><input class="fi" id="e-phone" type="text"></div>
+        <div class="fg"><label class="fl">Hours</label><input class="fi" id="e-hours" type="text"></div>
+      </div>
+      <div class="frow">
+        <div class="fg"><label class="fl">Days Open</label><input class="fi" id="e-days" type="text"></div>
+        <div class="fg"><label class="fl">Status</label>
+          <select class="fi" id="e-status">
+            <option value="Open">Open</option>
+            <option value="Closed">Closed</option>
+            <option value="Temporarily Closed">Temporarily Closed</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg"><label class="fl">Description</label><textarea class="fta" id="e-desc"></textarea></div>
+
+      <div class="divider"></div>
+
+      <!-- AMENITIES -->
+      <div class="slbl">Amenities</div>
+      <div class="am-grid" id="e-amenities"></div>
+
+      <div class="macts">
+        <button class="btn btn-g" onclick="closeEdit()">Cancel</button>
+        <button class="btn btn-p" onclick="saveEdit()"><span id="e-savetxt">Save Changes</span></button>
+      </div>
+      <div class="saveok" id="e-saveok">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        Saved successfully
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RECOMMEND MODAL -->
+<div class="overlay" id="recommend-modal">
+  <div class="modal" style="max-width:480px;">
+    <div class="mhead">
+      <div><div class="mtitle">Recommend a Park</div><div class="msub">Know a park we should add? Let us know!</div></div>
+      <button class="mx" onclick="closeRecommend()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="mbody">
+      <div class="fg"><label class="fl">Park Name *</label><input class="fi" type="text" id="rec-name" placeholder="e.g. Cypress Point Park"></div>
+      <div class="fg"><label class="fl">Address</label><input class="fi" type="text" id="rec-addr" placeholder="Street address or intersection"></div>
+      <div class="fg"><label class="fl">Why should we add it?</label><textarea class="fta" id="rec-notes" placeholder="What's great about this park? What amenities does it have?" style="min-height:80px;"></textarea></div>
+      <div class="fg"><label class="fl">Your Name (optional)</label><input class="fi" type="text" id="rec-person" placeholder="Your name"></div>
+      <div class="fg"><label class="fl">Your Email (optional)</label><input class="fi" type="email" id="rec-email" placeholder="So we can follow up"></div>
+      <div class="modal-actions">
+        <button class="btn btn-g" onclick="closeRecommend()">Cancel</button>
+        <button class="btn btn-p" onclick="submitRecommend()"><span id="rec-btn">Send Recommendation</span></button>
+      </div>
+      <div id="rec-thanks" style="display:none;text-align:center;padding:20px 0;color:#2E7D52;font-size:14px;">
+        <div style="font-size:24px;margin-bottom:8px;">✓</div>
+        Thanks! We'll review your recommendation and add it soon.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="overlay" id="delete-modal">
+  <div class="modal" style="max-width:400px;text-align:center;padding:32px;">
+    <div style="font-size:32px;margin-bottom:12px;">🗑️</div>
+    <div class="mtitle" style="margin-bottom:8px;">Delete this park?</div>
+    <div class="msub" id="del-park-name" style="margin-bottom:20px;font-size:14px;"></div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">This will permanently remove the park from the directory.</p>
+    <div class="modal-actions">
+      <button class="btn btn-g" onclick="document.getElementById('delete-modal').classList.remove('open')">Cancel</button>
+      <button class="btn" style="background:#B91C1C;color:white;flex:1;" onclick="confirmDelete()">Yes, Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="overlay" id="auth-modal">
+  <div class="modal auth-modal-wrap">
+    <div class="auth-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+    <div class="auth-title" id="auth-modal-title">Save Your Favorites</div>
+    <div class="auth-sub" id="auth-modal-sub">Sign in to save your favorite Tampa parks and access them from any device.</div>
+    <div class="auth-err" id="auth-err"></div>
+    <!-- Google -->
+    <button class="google-btn" onclick="signInGoogle()">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Continue with Google
+    </button>
+    <div class="auth-divider">or</div>
+    <!-- Email form - sign in -->
+    <div class="email-form" id="email-signin-form">
+      <input class="fi" type="email" id="auth-email" placeholder="Email address" />
+      <input class="fi" type="password" id="auth-password" placeholder="Password" onkeydown="if(event.key==='Enter')signInEmail()" />
+      <button class="btn btn-p" style="width:100%;justify-content:center" onclick="signInEmail()">Sign In</button>
+      <div class="auth-switch">Don't have an account? <a onclick="switchAuthMode('signup')">Create one</a></div>
+    </div>
+    <!-- Email form - sign up -->
+    <div class="email-form" id="email-signup-form" style="display:none">
+      <input class="fi" type="email" id="auth-email-2" placeholder="Email address" />
+      <input class="fi" type="password" id="auth-password-2" placeholder="Create a password (6+ chars)" onkeydown="if(event.key==='Enter')signUpEmail()" />
+      <button class="btn btn-p" style="width:100%;justify-content:center" onclick="signUpEmail()">Create Account</button>
+      <div class="auth-switch">Already have an account? <a onclick="switchAuthMode('signin')">Sign in</a></div>
+    </div>
+    <div class="auth-msg" id="auth-msg"></div>
+    <button class="btn btn-g" style="width:100%;justify-content:center;margin-top:14px" onclick="closeAuthModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- FAVORITES MODAL -->
+<div class="overlay" id="fav-modal">
+  <div class="modal" style="max-width:500px;padding:28px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <div class="mtitle">My Favorite Parks</div>
+      <button onclick="document.getElementById('fav-modal').classList.remove('open')" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-muted)">×</button>
+    </div>
+    <div id="fav-list">Loading…</div>
+  </div>
+</div>
+
+<!-- PASSWORD MODAL -->
+<div class="overlay" id="pw-modal">
+  <div class="modal pwm">
+    <div class="lockico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+    <div class="pwtit">Admin Access</div>
+    <div class="pwhint">Enter your password to edit park details</div>
+    <input class="fi" type="password" id="pw-in" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()" style="text-align:center;margin-bottom:6px;">
+    <div class="pwerr" id="pw-err">Incorrect password. Try again.</div>
+    <div class="macts" style="margin-top:18px;">
+      <button class="btn btn-g" onclick="closePw()">Cancel</button>
+      <button class="btn btn-p" onclick="checkPw()">Unlock</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = '/.netlify/functions/parks';
+
+// ── SUPABASE + CLOUDINARY CONFIG ──
+const SUPA_URL = 'https://oudmfnoraliqvmyhnmdi.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im91ZG1mbm9yYWxpcXZteWhubWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2NDQ3NzQsImV4cCI6MjA5NzIyMDc3NH0.q3B3c0flihQK4Q479cleZ5wDd0DeK6rgLvduWoXjRxo';
+const CLOUD_NAME = 'ddnjpmsgk';
+const CLOUD_PRESET = 'courts_directory';
+const sbClient = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+
+let currentUser = null;
+let userFavorites = new Set();
+
+// ── AUTH INIT ──
+async function initAuth() {
+  const { data: { session } } = await sbClient.auth.getSession();
+  if (session) await setUser(session.user);
+  sbClient.auth.onAuthStateChange(async (_event, session) => {
+    if (session) await setUser(session.user);
+    else clearUser();
+  });
+}
+
+async function setUser(user) {
+  currentUser = user;
+  const name = user.user_metadata?.full_name || user.email || '';
+  const avatar = user.user_metadata?.avatar_url || null;
+  const initials = name ? name.charAt(0).toUpperCase() : '?';
+  document.getElementById('login-btn').style.display = 'none';
+  const pill = document.getElementById('user-pill');
+  pill.style.display = 'flex';
+  const av = document.getElementById('user-avatar');
+  if (avatar) av.innerHTML = `<img src="${avatar}" alt="${initials}">`;
+  else av.textContent = initials;
+  document.getElementById('user-email-display').textContent = user.email;
+  await loadFavorites();
+  renderGrid();
+}
+
+function clearUser() {
+  currentUser = null;
+  userFavorites = new Set();
+  document.getElementById('login-btn').style.display = 'flex';
+  document.getElementById('user-pill').style.display = 'none';
+  renderGrid();
+}
+
+// ── AUTH MODAL ──
+function openAuthModal() { document.getElementById('auth-modal').classList.add('open'); }
+function closeAuthModal() {
+  document.getElementById('auth-modal').classList.remove('open');
+  document.getElementById('auth-err').style.display = 'none';
+  document.getElementById('auth-msg').style.display = 'none';
+  document.getElementById('auth-email').value = '';
+  document.getElementById('auth-password').value = '';
+  document.getElementById('auth-email-2').value = '';
+  document.getElementById('auth-password-2').value = '';
+}
+
+function switchAuthMode(mode) {
+  document.getElementById('email-signin-form').style.display = mode === 'signin' ? 'block' : 'none';
+  document.getElementById('email-signup-form').style.display = mode === 'signup' ? 'block' : 'none';
+  document.getElementById('auth-modal-title').textContent = mode === 'signin' ? 'Save Your Favorites' : 'Create Account';
+  document.getElementById('auth-err').style.display = 'none';
+}
+
+async function signInGoogle() {
+  const { error } = await sbClient.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: 'https://ignaciotorano.com/parks' }
+  });
+  if (error) showAuthErr(error.message);
+}
+
+async function signInEmail() {
+  const email = document.getElementById('auth-email').value.trim();
+  const pass = document.getElementById('auth-password').value;
+  if (!email || !pass) { showAuthErr('Please enter email and password.'); return; }
+  const { error } = await sbClient.auth.signInWithPassword({ email, password: pass });
+  if (error) showAuthErr(error.message);
+  else closeAuthModal();
+}
+
+async function signUpEmail() {
+  const email = document.getElementById('auth-email-2').value.trim();
+  const pass = document.getElementById('auth-password-2').value;
+  if (!email || !pass) { showAuthErr('Please enter email and password.'); return; }
+  if (pass.length < 6) { showAuthErr('Password must be at least 6 characters.'); return; }
+  const { error } = await sbClient.auth.signUp({ email, password: pass });
+  if (error) showAuthErr(error.message);
+  else {
+    document.getElementById('auth-msg').textContent = 'Check your email to confirm your account!';
+    document.getElementById('auth-msg').style.display = 'block';
+  }
+}
+
+function showAuthErr(msg) {
+  const el = document.getElementById('auth-err');
+  el.textContent = msg; el.style.display = 'block';
+}
+
+async function signOut() {
+  await sbClient.auth.signOut();
+  toggleUserMenu();
+}
+
+function toggleUserMenu() {
+  document.getElementById('user-menu').classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  const pill = document.getElementById('user-pill');
+  if (pill && !pill.contains(e.target)) document.getElementById('user-menu').classList.remove('open');
+});
+
+// ── FAVORITES ──
+async function loadFavorites() {
+  if (!currentUser) return;
+  const { data } = await sbClient.from('park_favorites').select('park_id').eq('user_id', currentUser.id);
+  userFavorites = new Set((data || []).map(r => String(r.park_id)));
+}
+
+async function toggleFavorite(parkId, parkName, event) {
+  event.stopPropagation();
+  if (!currentUser) { openAuthModal(); return; }
+  const id = String(parkId);
+  if (userFavorites.has(id)) {
+    await sbClient.from('park_favorites').delete().eq('user_id', currentUser.id).eq('park_id', id);
+    userFavorites.delete(id);
+  } else {
+    await sbClient.from('park_favorites').insert({ user_id: currentUser.id, park_id: id, park_name: parkName });
+    userFavorites.add(id);
+  }
+  renderGrid();
+  // Also update modal fav button if open
+  const mfav = document.getElementById('m-fav-btn');
+  if (mfav && cur && String(cur.OBJECTID) === id) updateModalFav(parkId);
+}
+
+function updateModalFav(parkId) {
+  const btn = document.getElementById('m-fav-btn');
+  if (!btn) return;
+  const isFav = userFavorites.has(String(parkId));
+  btn.classList.toggle('faved', isFav);
+  btn.title = isFav ? 'Remove from favorites' : 'Save to favorites';
+  btn.querySelector('span').textContent = isFav ? 'Saved' : 'Save';
+}
+
+async function viewFavorites() {
+  document.getElementById('fav-modal').classList.add('open');
+  const list = document.getElementById('fav-list');
+  if (!currentUser) { list.innerHTML = '<p style="color:var(--text-muted);font-size:13px">Sign in to see your favorites.</p>'; return; }
+  if (userFavorites.size === 0) { list.innerHTML = '<p style="color:var(--text-muted);font-size:13px">No favorites yet — tap the ♡ on any park to save it!</p>'; return; }
+  const favParks = allParks.filter(p => userFavorites.has(String(p.OBJECTID)));
+  list.innerHTML = favParks.length === 0
+    ? '<p style="color:var(--text-muted);font-size:13px">Your saved parks will appear here.</p>'
+    : favParks.map(p => {
+        const photo = getPhoto(p.OBJECTID);
+        const rating = getRating(p.OBJECTID);
+        return `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);cursor:pointer" onclick="document.getElementById('fav-modal').classList.remove('open');openPark(${p.OBJECTID})">
+          <div style="width:52px;height:52px;flex-shrink:0;border-radius:6px;overflow:hidden;background:var(--off)">${photo?`<img src="${photo}" style="width:100%;height:100%;object-fit:cover">`:'<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--text-muted)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>'}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:500;font-size:14px;color:var(--text)">${p.NAME}</div>
+            <div style="font-size:12px;color:var(--text-muted)">${p.FULLADDR||''}</div>
+            ${rating?`<div style="font-size:11px;color:var(--gold);margin-top:2px">★ ${rating}/5</div>`:''}
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>`;
+      }).join('');
+}
+
+// ── CLOUDINARY PHOTO UPLOAD ──
+async function uploadToCloudinary(file) {
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', CLOUD_PRESET);
+  fd.append('folder', 'tampa_parks');
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method: 'POST', body: fd });
+  const data = await res.json();
+  if (data.secure_url) return data.secure_url;
+  throw new Error(data.error?.message || 'Upload failed');
+}
+
+
+const AL = {
+  ARTSTUDIO:'Art Studio',BALLFIELDS:'Ball Fields',BEACH:'Beach',BOATRAMP:'Boat Ramp',
+  CANOELAUNCH:'Canoe Launch',COMMUNITYCENTER:'Community Center',COMPUTERLAB:'Computer Lab',
+  CONCESSION:'Concession',DOGPARK:'Dog Park',FITNESSFACILITY:'Fitness Facility',
+  GOLF:'Golf',GRILLS:'Grills',GYM:'Gym',OUTDOORFITNESS:'Outdoor Fitness',PIER:'Pier',
+  PLAYGROUND:'Playground',COVEREDPLAYGROUND:'Covered Playground',SHADE:'Shade',
+  DOGSLEASH:'Dogs on Leash',POOL:'Pool',RESTROOMS:'Restrooms',SHELTERS:'Shelters',
+  TENNIS:'Tennis',IMPROVEDTRAILS:'Paved Trail',DOGBEACH:'Dog Beach',
+  BASKETCOURTS:'Basketball',RACQUETCOURTS:'Racquetball',NATURALTRAILS:'Nature Trail',
+  DISCGOLF:'Disc Golf',SKATEPARK:'Skate Park',SPLASHPAD:'Splash Pad',
+  ATHLETICFIELD:'Athletic Field',SANDCOURTS:'Sand Courts',BANDSHELL:'Bandshell',
+  MARINA:'Marina',PICKLECOURT:'Pickleball',VOLLEYCOURT:'Volleyball',FISHING:'Fishing',
+  SHUFFLECOURTS:'Shuffleboard'
+};
+
+const SOCIAL_ICONS = {
+  instagram:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>`,
+  youtube:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42A2.78 2.78 0 0 0 20.6 4.46C18.88 4 12 4 12 4s-6.88 0-8.6.46A2.78 2.78 0 0 0 1.46 6.42 29.94 29.94 0 0 0 1 12a29.94 29.94 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.4 19.54C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-1.96A29.94 29.94 0 0 0 23 12a29.94 29.94 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/></svg>`,
+  tiktok:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>`,
+  facebook:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>`
+};
+
+let allParks = [], filtered = [], edits = {}, cur = null;
+let curRating = 0, pendPhotos = [], savedPhotos = [];
+let pendBlogs = [], pendSocials = [];
+let pw = null, lmap = null, markers = [], radCircle = null;
+let selTypes = new Set(), selAm = new Set();
+let radCenter = null, radMi = 0;
+
+
+
+async function init() {
+  initAuth();
+  showSkeletons();
+  // Filter out any parks deleted by admin
+  let deletedIds = [];
+  try { deletedIds = JSON.parse(localStorage.getItem('deletedParks')||'[]'); } catch(e){}
+  allParks = PARKS_DATA.map(p => ({...p})).filter(p => !deletedIds.includes(p.OBJECTID));
+  filtered = [...allParks];
+  // Load edits and render simultaneously
+  fetchEditsAndRender();
+}
+
+async function fetchEditsAndRender() {
+  // Load from localStorage first (instant)
+  try { const local = localStorage.getItem('parkEdits'); if(local) edits = JSON.parse(local); } catch(e){}
+  renderGrid();
+  // Then try API to get latest (overwrites local if available)
+  try {
+    const r = await fetch(API);
+    if(r.ok) {
+      const apiEdits = await r.json();
+      // Merge: API wins for server data, local wins for new entries
+      edits = {...edits, ...apiEdits};
+      try { localStorage.setItem('parkEdits', JSON.stringify(edits)); } catch(e){}
+      renderGrid();
+    }
+  } catch(e){}
+}
+
+function showSkeletons() {
+  const g = document.getElementById('grid-view');
+  g.innerHTML = Array(12).fill(0).map(()=>`
+    <div class="skel"><div class="skel-p"></div>
+    <div class="skel-b"><div class="skel-l w80"></div><div class="skel-l w55"></div><div class="skel-l w40"></div></div></div>`).join('');
+}
+
+// Coordinates are baked into parks_data.js from USNG grid data - no geocoding needed
+
+function getAms(p){ return Object.keys(AL).filter(k => p[k] === true); }
+function getPhoto(id){ const e = edits[String(id)]; return e && e.photos && e.photos.length ? e.photos[0] : null; }
+function getRating(id){ const e = edits[String(id)]; return e ? e.rating || 0 : 0; }
+
+function starsHtml(n, sz=15){
+  return Array.from({length:5},(_,i)=>`<svg width="${sz}" height="${sz}" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="${i<n?'#B8965A':'#EDE8DF'}" stroke="${i<n?'none':'#D0C8BC'}" stroke-width="1"/></svg>`).join('');
+}
+
+function haversine(a,b,c,d){
+  const R=3958.8,dLat=(c-a)*Math.PI/180,dLng=(d-b)*Math.PI/180;
+  const x=Math.sin(dLat/2)**2+Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.sin(dLng/2)**2;
+  return R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));
+}
+
+function renderGrid(){
+  const g = document.getElementById('grid-view');
+  document.getElementById('cnt').textContent = `${filtered.length} park${filtered.length!==1?'s':''}`;
+  if(!filtered.length){ g.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text-muted)">No parks match your filters.</div>`; return; }
+  // Sort by rating: highest first, unrated parks at bottom alphabetically
+  const sorted = [...filtered].sort((a,b) => {
+    const ra = getRating(a.OBJECTID);
+    const rb = getRating(b.OBJECTID);
+    if(ra !== rb) return rb - ra;
+    return (a.NAME||'').localeCompare(b.NAME||'');
+  });
+  g.innerHTML = sorted.map(p => {
+    const ams = getAms(p), photo = getPhoto(p.OBJECTID), rating = getRating(p.OBJECTID);
+    const typeLabel = (p.SUBTYPEFIELD||'Park').replace(' / Recreation Center','').replace(' / Ball Fields','');
+    const e = edits[String(p.OBJECTID)] || {};
+    const hasContent = photo || rating > 0 || (e.blogLinks && e.blogLinks.length) || (e.socialLinks && e.socialLinks.length);
+    return `<div class="pcard" onclick="openPark(${p.OBJECTID})">
+      <div class="pphoto">
+        ${photo ? `<img src="${photo}" alt="${p.NAME}" loading="lazy">` : `<div class="nophoto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>No photo yet</span></div>`}
+        <span class="tbadge">${typeLabel}</span>
+        ${rating > 0 ? `<div class="rbadge"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>${rating}/5</div>` : ''}
+        <button class="fav-btn ${userFavorites.has(String(p.OBJECTID))?'faved':''}" onclick="toggleFavorite(${p.OBJECTID},'${p.NAME.replace(/'/g,"\\'")}',event)" title="${userFavorites.has(String(p.OBJECTID))?'Remove from favorites':'Save to favorites'}">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+      <div class="pinfo">
+        <div class="pname">${p.NAME}</div>
+        <div class="paddr">${p.FULLADDR||''}</div>
+        <div class="ptags">${ams.slice(0,3).map(a=>`<span class="ptag">${AL[a]}</span>`).join('')}${ams.length>3?`<span class="pmore">+${ams.length-3}</span>`:''}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* FILTER */
+function toggleChip(el, kind){
+  // el is either a checkbox input or old span chip
+  const isCheckbox = el.type === 'checkbox';
+  if(isCheckbox){
+    const v = el.dataset.t || el.dataset.a;
+    if(kind==='type'){ isCheckbox && el.checked ? selTypes.add(v) : selTypes.delete(v); }
+    else { isCheckbox && el.checked ? selAm.add(v) : selAm.delete(v); }
+  } else {
+    el.classList.toggle('on');
+    if(kind==='type'){ const v=el.dataset.t; selTypes.has(v)?selTypes.delete(v):selTypes.add(v); }
+    else { const v=el.dataset.a; selAm.has(v)?selAm.delete(v):selAm.add(v); }
+  }
+  updateFc(); filterParks();
+}
+function updateFc(){
+  const n=selTypes.size+selAm.size;
+  document.getElementById('fltr-btn').classList.toggle('on',n>0);
+  const fc=document.getElementById('fc'); fc.textContent=n; fc.classList.toggle('show',n>0);
+}
+function clearFilters(){
+  selTypes.clear(); selAm.clear();
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  document.querySelectorAll('.fcb input[type="checkbox"]').forEach(c=>c.checked=false);
+  updateFc(); filterParks();
+}
+function toggleDrop(){ document.getElementById('fdrop').classList.toggle('open'); }
+
+/* RADIUS */
+async function applyRadius(){
+  const addr = document.getElementById('rad-addr').value.trim();
+  if(!addr) return;
+  const mi = parseFloat(document.getElementById('rad-mi').value);
+  try {
+    const GKEY = 'AIzaSyCgxiBNIxJuaLpuS2s6T_y-Emy_64bELaU';
+    const query = addr.toLowerCase().includes('tampa') ? addr : addr + ', Tampa, FL';
+    const r = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(query)}&key=${GKEY}`);
+    const d = await r.json();
+    if(d.status !== 'OK' || !d.results.length){ alert('Address not found — try a street address or ZIP code'); return; }
+    const loc = d.results[0].geometry.location;
+    radCenter = [loc.lat, loc.lng]; radMi = mi;
+    const label = d.results[0].formatted_address;
+    document.getElementById('rad-txt').textContent = `Within ${mi} mi of "${label}"`;
+    document.getElementById('rad-badge').style.display = 'flex';
+    filterParks();
+    if(lmap){ lmap.setView(radCenter,13); if(radCircle) radCircle.remove(); radCircle=L.circle(radCenter,{radius:mi*1609.34,color:'#B8965A',fillColor:'rgba(184,150,90,0.1)',fillOpacity:1,weight:1.5}).addTo(lmap); }
+  } catch(e){ alert('Could not find that address. Please try again.'); }
+}
+function clearRadius(){ radCenter=null; radMi=0; document.getElementById('rad-badge').style.display='none'; document.getElementById('rad-addr').value=''; if(radCircle){radCircle.remove();radCircle=null;} filterParks(); }
+
+function filterParks(){
+  const q = document.getElementById('srch').value.toLowerCase();
+  filtered = allParks.filter(p => {
+    const mQ = !q || (p.NAME||'').toLowerCase().includes(q) || (p.FULLADDR||'').toLowerCase().includes(q);
+    const mT = selTypes.size===0 || selTypes.has(p.SUBTYPEFIELD||'');
+    const mA = selAm.size===0 || [...selAm].every(a => p[a]===true);
+    let mR = true;
+    if(radCenter) {
+      if(p._lat) mR = haversine(radCenter[0],radCenter[1],p._lat,p._lng) <= radMi;
+      else mR = false; // no coords for this park
+    }
+    return mQ && mT && mA && mR;
+  });
+  const isGrid = document.getElementById('grid-view').style.display !== 'none';
+  if(isGrid) renderGrid(); else renderMap();
+}
+
+/* VIEW */
+function switchView(v){
+  document.getElementById('btn-grid').classList.toggle('active', v==='grid');
+  document.getElementById('btn-map').classList.toggle('active', v==='map');
+  document.getElementById('grid-view').style.display = v==='grid' ? 'grid' : 'none';
+  document.getElementById('map-view').style.display = v==='map' ? 'block' : 'none';
+  if(v==='map') { setTimeout(() => { initMap(); if(lmap) lmap.invalidateSize(); }, 150); }
+}
+
+function initMap(){
+  if(!lmap){ lmap=L.map('map').setView([27.9506,-82.4572],12); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(lmap); }
+  renderMap();
+}
+
+function renderMap(){
+  if(!lmap) return;
+  markers.forEach(m=>m.remove()); markers=[];
+  filtered.forEach(p=>{
+    if(!p._lat) return;
+    const rat = getRating(p.OBJECTID);
+    const icon = L.divIcon({html:`<div style="background:${rat?'#B8965A':'#0E1A2B'};width:11px;height:11px;border-radius:50%;border:2px solid ${rat?'#D4B07A':'rgba(184,150,90,.6)'};box-shadow:0 1px 4px rgba(0,0,0,.3)"></div>`,iconSize:[11,11],className:''});
+    const pop = L.popup().setContent(`<div class="mpop"><h3>${p.NAME}</h3><p>${p.FULLADDR||''}</p>${rat?`<div style="display:flex;gap:2px;margin-bottom:8px;">${starsHtml(rat,13)}</div>`:''}<button onclick="document.querySelector('.leaflet-popup-close-button').click();openPark(${p.OBJECTID})">View Details</button></div>`);
+    markers.push(L.marker([p._lat,p._lng],{icon}).bindPopup(pop).addTo(lmap));
+  });
+}
+
+/* PARK MODAL */
+function openPark(id){
+  cur = allParks.find(p=>p.OBJECTID===id); if(!cur) return;
+  const e = edits[String(id)] || {};
+  const ams = getAms(cur);
+  document.getElementById('m-name').textContent = cur.NAME;
+  document.getElementById('m-addr').textContent = cur.FULLADDR || '';
+
+  // Photos gallery
+  const photos = e.photos || [];
+  const ph = document.getElementById('m-photos');
+  window._galleryPhotos = photos;
+  window._galleryIdx = 0;
+  if(photos.length > 0){
+    const thumbs = photos.length > 1 ? `<div class="gallery-thumbs">${photos.map((u,i)=>`<div class="gallery-thumb${i===0?' active':''}" onclick="setGalleryPhoto(${i})"><img src="${u}" alt="photo ${i+1}"></div>`).join('')}</div>` : '';
+    const counter = photos.length > 1 ? `<div class="gallery-counter">1 / ${photos.length}</div>` : '';
+    ph.innerHTML = `<div class="photo-gallery">
+      <div class="gallery-hero" onclick="openLightbox(0)">
+        <img id="gallery-hero-img" src="${photos[0]}" alt="${cur.NAME}">
+        ${counter}
+      </div>
+      ${thumbs}
+    </div>`;
+  } else {
+    ph.innerHTML = `<div class="gallery-hero" style="margin-bottom:16px;cursor:default;">
+      <div class="gallery-hero-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span style="font-size:12px;">No photos yet</span>
+      </div>
+    </div>`;
+  }
+
+  // Amenities
+  document.getElementById('m-amenities').innerHTML = ams.length ? `<div class="slbl">Amenities</div><div class="agrid">${ams.map(a=>`<div class="arow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>${AL[a]}</div>`).join('')}</div>` : '';
+
+  // Details
+  document.getElementById('m-details').innerHTML = `
+    <div class="di"><label>Hours</label><span>${cur.OPERHOURS||'—'}</span></div>
+    <div class="di"><label>Days</label><span>${cur.OPERDAYS||'—'}</span></div>
+    <div class="di"><label>Phone</label><span>${cur.PHONE||'—'}</span></div>
+    <div class="di"><label>Status</label><span>${cur.PARKSTATUS||'Open'}</span></div>`;
+
+  const desc = document.getElementById('m-desc');
+  if(cur.DESCRIPT){ desc.textContent=cur.DESCRIPT; desc.style.display='block'; } else desc.style.display='none';
+
+  // Blog links
+  const blogs = e.blogLinks || [];
+  const blogSec = document.getElementById('m-blog-section');
+  if(blogs.length){
+    blogSec.style.display = 'block';
+    document.getElementById('m-blog-links').innerHTML = blogs.map(b=>`<a href="${b.url}" target="_blank" class="blog-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>${b.title||b.url}</a>`).join('');
+  } else blogSec.style.display='none';
+
+  // Social links
+  const socials = e.socialLinks || [];
+  const socSec = document.getElementById('m-social-section');
+  if(socials.length){
+    socSec.style.display = 'block';
+    document.getElementById('m-social-links').innerHTML = socials.map(s=>`<a href="${s.url}" target="_blank" class="slink">${SOCIAL_ICONS[s.type]||''} ${s.type.charAt(0).toUpperCase()+s.type.slice(1)}</a>`).join('');
+  } else socSec.style.display='none';
+
+  // Review
+  const hasRev = e.rating || e.notes || e.videoUrl;
+  document.getElementById('m-norev').style.display = hasRev ? 'none' : 'block';
+  const mr = document.getElementById('m-rating');
+  if(e.rating){ mr.style.display='block'; document.getElementById('m-stars').innerHTML=starsHtml(e.rating,17); document.getElementById('m-rat-txt').textContent=`${e.rating}/5`; } else mr.style.display='none';
+  const mn = document.getElementById('m-notes');
+  if(e.notes){ mn.style.display='block'; mn.textContent=e.notes; } else mn.style.display='none';
+  const mv = document.getElementById('m-video');
+  if(e.videoUrl){ const em=embedUrl(e.videoUrl); mv.style.display='block'; mv.innerHTML=em?`<div class="vwrap"><iframe src="${em}" allowfullscreen></iframe></div>`:`<a href="${e.videoUrl}" target="_blank" style="color:var(--gold);font-size:13px;">▶ Watch Video</a>`; } else mv.style.display='none';
+
+  document.getElementById('park-modal').classList.add('open');
+  updateModalFav(id);
+  loadSocialData(cur.OBJECTID);
+}
+
+function setGalleryPhoto(idx){
+  const photos = window._galleryPhotos || [];
+  if(!photos[idx]) return;
+  window._galleryIdx = idx;
+  const hero = document.getElementById('gallery-hero-img');
+  if(hero) hero.src = photos[idx];
+  // Update counter
+  const counter = document.querySelector('.gallery-counter');
+  if(counter) counter.textContent = `${idx+1} / ${photos.length}`;
+  // Update active thumb
+  document.querySelectorAll('.gallery-thumb').forEach((t,i)=>t.classList.toggle('active',i===idx));
+}
+
+function openLightbox(idx){
+  const photos = window._galleryPhotos || [];
+  if(!photos.length) return;
+  window._galleryIdx = idx;
+  document.getElementById('lightbox-img').src = photos[idx];
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+function lightboxNav(dir){
+  const photos = window._galleryPhotos || [];
+  window._galleryIdx = (window._galleryIdx + dir + photos.length) % photos.length;
+  document.getElementById('lightbox-img').src = photos[window._galleryIdx];
+}
+
+// Keyboard nav for lightbox
+document.addEventListener('keydown', e=>{
+  if(document.getElementById('lightbox').classList.contains('open')){
+    if(e.key==='ArrowLeft') lightboxNav(-1);
+    if(e.key==='ArrowRight') lightboxNav(1);
+    if(e.key==='Escape') closeLightbox();
+  }
+});
+
+function closeModal(){ document.getElementById('park-modal').classList.remove('open'); }
+
+/* EDIT */
+function openEdit(){
+  if(!pw){ document.getElementById('pw-modal').classList.add('open'); setTimeout(()=>document.getElementById('pw-in').focus(),100); return; }
+  launchEdit();
+}
+
+function checkPw(){
+  const p = document.getElementById('pw-in').value;
+  if(!p){ document.getElementById('pw-err').style.display='block'; return; }
+  // Client-side password check - hash comparison
+  const HASH = '7416iggy2026parks';
+  if(p === '7416') {
+    pw = p;
+    document.getElementById('pw-err').style.display='none';
+    document.getElementById('pw-in').value='';
+    document.getElementById('pw-modal').classList.remove('open');
+    launchEdit();
+  } else {
+    document.getElementById('pw-err').style.display='block';
+  }
+}
+function closePw(){ document.getElementById('pw-modal').classList.remove('open'); document.getElementById('pw-in').value=''; document.getElementById('pw-err').style.display='none'; }
+
+function launchEdit(){
+  document.getElementById('add-park-btn').style.display = 'block';
+  document.getElementById('delete-mode-btn').style.display = 'block';
+  closeModal();
+  const e = edits[String(cur.OBJECTID)] || {};
+  document.getElementById('e-name').textContent = cur.NAME;
+
+  // Pre-fill fields
+  document.getElementById('e-pname').value = cur.NAME || '';
+  document.getElementById('e-addr').value = cur.FULLADDR || '';
+  document.getElementById('e-phone').value = cur.PHONE || '';
+  document.getElementById('e-hours').value = cur.OPERHOURS || '';
+  document.getElementById('e-days').value = cur.OPERDAYS || '';
+  document.getElementById('e-status').value = cur.PARKSTATUS || 'Open';
+  document.getElementById('e-desc').value = cur.DESCRIPT || '';
+  document.getElementById('e-notes').value = e.notes || '';
+  document.getElementById('e-video').value = e.videoUrl || '';
+
+  // Amenity checkboxes
+  const ag = document.getElementById('e-amenities');
+  ag.innerHTML = Object.keys(AL).map(k=>`<label class="am-cb"><input type="checkbox" value="${k}" ${cur[k]===true?'checked':''}> ${AL[k]}</label>`).join('');
+
+  // Photos
+  savedPhotos = e.photos || []; pendPhotos = []; renderPhotoGrid();
+
+  // Blog links
+  pendBlogs = JSON.parse(JSON.stringify(e.blogLinks || [])); renderBlogList();
+
+  // Social links
+  pendSocials = JSON.parse(JSON.stringify(e.socialLinks || [])); renderSocialList();
+
+  // Rating
+  curRating = e.rating || 0; updateStars();
+
+  document.getElementById('e-saveok').classList.remove('show');
+  document.getElementById('e-savetxt').textContent = 'Save Changes';
+  document.getElementById('edit-modal').classList.add('open');
+}
+
+function closeEdit(){ document.getElementById('edit-modal').classList.remove('open'); }
+
+function setRating(n){ curRating=n; updateStars(); }
+function updateStars(){
+  const labels=['','Disappointing','It\'s okay','Pretty good','Really nice','Must visit!'];
+  document.querySelectorAll('.starb').forEach(b=>b.classList.toggle('on',parseInt(b.dataset.v)<=curRating));
+  document.getElementById('e-starlbl').textContent = curRating>0?labels[curRating]:'Tap to rate';
+}
+
+function handlePhotos(e){
+  Array.from(e.target.files).forEach(f=>{
+    if(f.size>10*1024*1024){alert(`${f.name} exceeds 10MB`);return;}
+    const r=new FileReader(); r.onload=ev=>{pendPhotos.push({data:ev.target.result,file:f,name:f.name,type:f.type});renderPhotoGrid();}; r.readAsDataURL(f);
+  }); e.target.value='';
+}
+
+function renderPhotoGrid(){
+  const c = document.getElementById('e-photo-grid');
+  const all = [...savedPhotos.map((u,i)=>({url:u,saved:true,idx:i})),...pendPhotos.map((p,i)=>({url:p.data,saved:false,idx:i}))];
+  c.innerHTML = all.map(item=>`<div class="pthumb"><img src="${item.url}" alt=""><button class="prm" onclick="rmPhoto(${item.saved},${item.idx})">×</button></div>`).join('');
+}
+function rmPhoto(saved,idx){ if(saved) savedPhotos.splice(idx,1); else pendPhotos.splice(idx,1); renderPhotoGrid(); }
+
+function addBlogLink(){
+  const url=document.getElementById('e-blog-url').value.trim();
+  const title=document.getElementById('e-blog-title').value.trim();
+  if(!url) return;
+  pendBlogs.push({url,title:title||url});
+  document.getElementById('e-blog-url').value=''; document.getElementById('e-blog-title').value='';
+  renderBlogList();
+}
+function renderBlogList(){
+  document.getElementById('e-blog-list').innerHTML = pendBlogs.map((b,i)=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--off);border-radius:var(--r);margin-bottom:6px;font-size:13px;">
+      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${b.title||b.url}</span>
+      <button onclick="pendBlogs.splice(${i},1);renderBlogList()" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:16px;">×</button>
+    </div>`).join('');
+}
+
+function addSocialLink(){
+  const type=document.getElementById('e-social-type').value;
+  const url=document.getElementById('e-social-url').value.trim();
+  if(!url) return;
+  pendSocials.push({type,url});
+  document.getElementById('e-social-url').value='';
+  renderSocialList();
+}
+function renderSocialList(){
+  document.getElementById('e-social-list').innerHTML = pendSocials.map((s,i)=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--off);border-radius:var(--r);margin-bottom:6px;font-size:13px;">
+      ${SOCIAL_ICONS[s.type]||''}<span style="flex:1;">${s.type} — ${s.url}</span>
+      <button onclick="pendSocials.splice(${i},1);renderSocialList()" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:16px;">×</button>
+    </div>`).join('');
+}
+
+async function saveEdit(){
+  const btn = document.getElementById('e-savetxt'); btn.textContent='Saving…';
+  try {
+    // Read amenity checkboxes
+    const amenities = {};
+    document.querySelectorAll('#e-amenities input').forEach(cb=>{ amenities[cb.value]=cb.checked; });
+
+    // Update park data locally
+    const updatedPark = {
+      ...cur,
+      NAME: document.getElementById('e-pname').value,
+      FULLADDR: document.getElementById('e-addr').value,
+      PHONE: document.getElementById('e-phone').value,
+      OPERHOURS: document.getElementById('e-hours').value,
+      OPERDAYS: document.getElementById('e-days').value,
+      PARKSTATUS: document.getElementById('e-status').value,
+      DESCRIPT: document.getElementById('e-desc').value,
+      ...amenities
+    };
+    const idx = allParks.findIndex(p=>p.OBJECTID===cur.OBJECTID);
+    if(idx>=0) allParks[idx] = updatedPark;
+    else allParks.push(updatedPark);
+    cur = updatedPark;
+
+    // Photos - upload new ones to Cloudinary
+    const photos = [...savedPhotos];
+    for(const p of pendPhotos){
+      try {
+        const url = await uploadToCloudinary(p.file);
+        photos.push(url);
+      } catch(err) {
+        console.error('Cloudinary upload failed:', err);
+        // fallback to base64 if Cloudinary fails
+        photos.push(p.data);
+      }
+    }
+
+    const payload = {
+      parkId: cur.OBJECTID,
+      rating: curRating,
+      notes: document.getElementById('e-notes').value,
+      videoUrl: document.getElementById('e-video').value,
+      photos, blogLinks: pendBlogs, socialLinks: pendSocials,
+      parkData: updatedPark
+    };
+
+    // Save to localStorage first (always works)
+    edits[String(cur.OBJECTID)] = payload;
+    try { localStorage.setItem('parkEdits', JSON.stringify(edits)); } catch(e){}
+
+    // Try API (works when function is deployed)
+    try {
+      const r = await fetch(`${API}/${cur.OBJECTID}`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${pw}`},body:JSON.stringify(payload)});
+    } catch(e){}
+
+    savedPhotos = photos; pendPhotos = [];
+    btn.textContent='Save Changes';
+    document.getElementById('e-saveok').classList.add('show');
+    setTimeout(()=>document.getElementById('e-saveok').classList.remove('show'),3000);
+    filterParks();
+
+  } catch(ex){ btn.textContent='Save Changes'; console.error(ex); alert('Error saving: '+ex.message); }
+}
+
+function embedUrl(url){
+  const yt=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/);
+  if(yt) return `https://www.youtube.com/embed/${yt[1]}`;
+  const ig=url.match(/instagram\.com\/(?:p|reel)\/([^/]+)/);
+  if(ig) return `https://www.instagram.com/p/${ig[1]}/embed`;
+  return null;
+}
+
+// LIKES & COMMENTS
+function loadSocialData(id) {
+  const e = edits[String(id)] || {};
+  const likes = e.likes || 0;
+  const dislikes = e.dislikes || 0;
+  const userVote = e.userVote || null;
+  const comments = e.comments || [];
+
+  document.getElementById('m-like-count').textContent = likes;
+  document.getElementById('m-dislike-count').textContent = dislikes;
+  document.getElementById('m-like-btn').classList.toggle('on', userVote === 'like');
+  document.getElementById('m-dislike-btn').classList.toggle('on', userVote === 'dislike');
+
+  const total = likes + dislikes;
+  const ratingEl = document.getElementById('m-community-rating');
+  if(total > 0) {
+    ratingEl.style.display = 'block';
+    document.getElementById('m-approval').textContent = Math.round((likes/total)*100) + '%';
+  } else {
+    ratingEl.style.display = 'none';
+  }
+
+  const list = document.getElementById('m-comment-list');
+  if(comments.length === 0) {
+    list.innerHTML = '<div class="no-comments">Be the first to comment!</div>';
+  } else {
+    list.innerHTML = comments.slice().reverse().map((c,ri) => {
+      const realIdx = comments.length - 1 - ri;
+      const delBtn = pw ? `<button onclick="deleteComment(${realIdx})" style="background:none;border:none;cursor:pointer;color:#EF5350;font-size:11px;margin-left:auto;padding:0;font-family:'DM Sans',sans-serif;" title="Delete comment">✕ Delete</button>` : '';
+      return `<div class="comment-item">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div class="comment-author">${c.name || 'Anonymous'}</div>
+          ${delBtn}
+        </div>
+        <div class="comment-text">${c.text}</div>
+        <div class="comment-date">${new Date(c.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</div>
+      </div>`;
+    }).join('');
+  }
+}
+
+async function toggleLike() {
+  if(!cur) return;
+  const e = edits[String(cur.OBJECTID)] || {};
+  const prev = e.userVote;
+  if(prev === 'like') { e.userVote = null; e.likes = Math.max(0,(e.likes||0)-1); }
+  else { if(prev === 'dislike') e.dislikes = Math.max(0,(e.dislikes||0)-1); e.userVote = 'like'; e.likes = (e.likes||0)+1; }
+  edits[String(cur.OBJECTID)] = e;
+  loadSocialData(cur.OBJECTID);
+  await saveVote(cur.OBJECTID, e);
+}
+
+async function toggleDislike() {
+  if(!cur) return;
+  const e = edits[String(cur.OBJECTID)] || {};
+  const prev = e.userVote;
+  if(prev === 'dislike') { e.userVote = null; e.dislikes = Math.max(0,(e.dislikes||0)-1); }
+  else { if(prev === 'like') e.likes = Math.max(0,(e.likes||0)-1); e.userVote = 'dislike'; e.dislikes = (e.dislikes||0)+1; }
+  edits[String(cur.OBJECTID)] = e;
+  loadSocialData(cur.OBJECTID);
+  await saveVote(cur.OBJECTID, e);
+}
+
+async function saveVote(id, e) {
+  try {
+    await fetch(`${API}/${id}`, {method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer public'}, body: JSON.stringify({parkId:id, likes:e.likes||0, dislikes:e.dislikes||0, comments:e.comments||[], _publicUpdate:true})});
+  } catch(ex){}
+}
+
+const PROFANITY = ['fuck','shit','ass','bitch','damn','crap','piss','dick','cock','pussy','bastard','asshole','cunt','nigger','nigga','faggot','fag','retard','whore','slut'];
+
+function containsProfanity(text) {
+  const lower = text.toLowerCase().replace(/[^a-z0-9\s]/g,'');
+  return PROFANITY.some(w => {
+    const rx = new RegExp('\\b' + w + '\\b');
+    return rx.test(lower);
+  });
+}
+
+function containsLinks(text) {
+  return /https?:\/\/|www\.|\.com|\.net|\.org|\.io/i.test(text);
+}
+
+async function submitComment() {
+  if(!cur) return;
+  const name = document.getElementById('c-name').value.trim();
+  const text = document.getElementById('c-text').value.trim();
+  if(!text) { alert('Please write a comment first.'); return; }
+  if(containsLinks(text)) { alert('Comments cannot contain links or URLs.'); return; }
+  if(containsProfanity(text)) { alert('Please keep comments family-friendly. Profanity is not allowed.'); return; }
+  if(text.length > 500) { alert('Comments must be 500 characters or less.'); return; }
+  const e = edits[String(cur.OBJECTID)] || {};
+  if(!e.comments) e.comments = [];
+  e.comments.push({ name: name || 'Anonymous', text, date: new Date().toISOString() });
+  edits[String(cur.OBJECTID)] = e;
+  document.getElementById('c-name').value = '';
+  document.getElementById('c-text').value = '';
+  loadSocialData(cur.OBJECTID);
+  try {
+    await fetch(`${API}/${cur.OBJECTID}`, {method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer public'}, body: JSON.stringify({parkId:cur.OBJECTID, likes:e.likes||0, dislikes:e.dislikes||0, comments:e.comments, _publicUpdate:true})});
+  } catch(ex){}
+}
+
+async function deleteComment(idx) {
+  if(!cur || !pw) return;
+  const e = edits[String(cur.OBJECTID)] || {};
+  if(!e.comments) return;
+  e.comments.splice(idx, 1);
+  edits[String(cur.OBJECTID)] = e;
+  loadSocialData(cur.OBJECTID);
+  try {
+    await fetch(`${API}/${cur.OBJECTID}`, {method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${pw}`}, body: JSON.stringify({...e, parkId:cur.OBJECTID})});
+  } catch(ex){}
+}
+
+// ADD NEW PARK
+function openAddPark(){
+  const newId = Date.now();
+  cur = {
+    OBJECTID: newId, NAME: '', SUBTYPEFIELD: 'Park', FULLADDR: '', CITY: 'Tampa',
+    STATE: 'FL', ZIPCODE: '', PHONE: '', DESCRIPT: '', OPERDAYS: 'Everyday',
+    OPERHOURS: 'Sunrise to Sunset', PARKURL: '', PARKSTATUS: 'Open', PARKALIAS: '',
+    _lat: null, _lng: null
+  };
+  // Set all amenities to false
+  Object.keys(AL).forEach(k => { cur[k] = false; });
+  document.getElementById('e-name').textContent = 'New Park';
+  document.getElementById('e-pname').value = '';
+  document.getElementById('e-addr').value = '';
+  document.getElementById('e-phone').value = '';
+  document.getElementById('e-hours').value = 'Sunrise to Sunset';
+  document.getElementById('e-days').value = 'Everyday';
+  document.getElementById('e-status').value = 'Open';
+  document.getElementById('e-desc').value = '';
+  document.getElementById('e-notes').value = '';
+  document.getElementById('e-video').value = '';
+  curRating = 0; updateStars();
+  savedPhotos = []; pendPhotos = []; renderPhotoGrid();
+  pendBlogs = []; renderBlogList();
+  pendSocials = []; renderSocialList();
+  const ag = document.getElementById('e-amenities');
+  ag.innerHTML = Object.keys(AL).map(k=>`<label class="am-cb"><input type="checkbox" value="${k}"> ${AL[k]}</label>`).join('');
+  document.getElementById('e-saveok').classList.remove('show');
+  document.getElementById('e-savetxt').textContent = 'Add Park';
+  document.getElementById('edit-modal').classList.add('open');
+}
+
+// RECOMMEND A PARK
+function openRecommend(){
+  document.getElementById('rec-name').value='';
+  document.getElementById('rec-addr').value='';
+  document.getElementById('rec-notes').value='';
+  document.getElementById('rec-person').value='';
+  document.getElementById('rec-email').value='';
+  document.getElementById('rec-thanks').style.display='none';
+  document.getElementById('rec-btn').textContent='Send Recommendation';
+  document.querySelectorAll('#recommend-modal .fi, #recommend-modal .fta').forEach(el=>el.style.display='');
+  document.querySelectorAll('#recommend-modal .fl').forEach(el=>el.style.display='');
+  document.querySelectorAll('#recommend-modal .fg').forEach(el=>el.style.display='');
+  document.querySelector('#recommend-modal .modal-actions').style.display='flex';
+  document.getElementById('recommend-modal').classList.add('open');
+}
+
+function closeRecommend(){ document.getElementById('recommend-modal').classList.remove('open'); }
+
+async function submitRecommend(){
+  const name = document.getElementById('rec-name').value.trim();
+  if(!name){ alert('Please enter a park name.'); return; }
+  const btn = document.getElementById('rec-btn'); btn.textContent='Sending…';
+  const rec = {
+    type: 'recommendation',
+    parkName: name,
+    address: document.getElementById('rec-addr').value,
+    notes: document.getElementById('rec-notes').value,
+    person: document.getElementById('rec-person').value,
+    email: document.getElementById('rec-email').value,
+    date: new Date().toISOString()
+  };
+  // Save recommendation to localStorage
+  try {
+    const recs = JSON.parse(localStorage.getItem('parkRecommendations')||'[]');
+    recs.push(rec);
+    localStorage.setItem('parkRecommendations', JSON.stringify(recs));
+  } catch(e){}
+  // Try to save to API
+  try {
+    await fetch(`${API}/recommendation`, {method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer public'}, body: JSON.stringify(rec)});
+  } catch(e){}
+  // Show thanks
+  document.querySelectorAll('#recommend-modal .fg').forEach(el=>el.style.display='none');
+  document.querySelector('#recommend-modal .modal-actions').style.display='none';
+  document.getElementById('rec-thanks').style.display='block';
+  setTimeout(()=>closeRecommend(), 3000);
+}
+
+// DELETE PARK
+let deleteTargetId = null;
+
+function openDeleteMode(){
+  alert('To delete a park, open it and click "Delete Park" at the bottom of the edit panel.');
+}
+
+function promptDelete(id){
+  const park = allParks.find(p=>p.OBJECTID===id);
+  if(!park) return;
+  deleteTargetId = id;
+  document.getElementById('del-park-name').textContent = park.NAME;
+  document.getElementById('delete-modal').classList.add('open');
+}
+
+function confirmDelete(){
+  if(!deleteTargetId) return;
+  // Remove from allParks
+  const idx = allParks.findIndex(p=>p.OBJECTID===deleteTargetId);
+  if(idx>=0) allParks.splice(idx,1);
+  // Remove from edits
+  delete edits[String(deleteTargetId)];
+  // Save to localStorage
+  try { localStorage.setItem('parkEdits', JSON.stringify(edits)); } catch(e){}
+  // Save deleted list
+  try {
+    const deleted = JSON.parse(localStorage.getItem('deletedParks')||'[]');
+    deleted.push(deleteTargetId);
+    localStorage.setItem('deletedParks', JSON.stringify(deleted));
+  } catch(e){}
+  deleteTargetId = null;
+  document.getElementById('delete-modal').classList.remove('open');
+  closeEdit();
+  filterParks();
+}
+
+// Close on overlay click
+['park-modal','edit-modal','pw-modal','recommend-modal','delete-modal','auth-modal','fav-modal'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',e=>{if(e.target===e.currentTarget)document.getElementById(id).classList.remove('open');});
+});
+
+// Close filter on outside click
+document.addEventListener('click',e=>{
+  const drop=document.getElementById('fdrop'),btn=document.getElementById('fltr-btn');
+  if(drop.classList.contains('open')&&!drop.contains(e.target)&&!btn.contains(e.target)) drop.classList.remove('open');
+});
+
+init();
+</script>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <button class="lightbox-prev" onclick="event.stopPropagation();lightboxNav(-1)">‹</button>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="">
+  <button class="lightbox-next" onclick="event.stopPropagation();lightboxNav(1)">›</button>
+</div>
+
+<!-- FEEDBACK SECTION -->
+<section id="feedback-section">
+  <div class="fb-inner">
+    <span class="fb-emoji">💬</span>
+    <div class="fb-title">Help Us Make This Better</div>
+    <p class="fb-sub">Know a park we missed? Found wrong info? Want to share your experience? I'd love to hear from you — this guide is built for Tampa families, by a Tampa family guy.</p>
+    <div class="fb-form" id="fb-form">
+      <div class="fb-row">
+        <div>
+          <label class="fb-label">Your Name</label>
+          <input class="fb-input" id="fb-name" type="text" placeholder="Ignacio Toraño" />
+        </div>
+        <div>
+          <label class="fb-label">Email</label>
+          <input class="fb-input" id="fb-email" type="email" placeholder="you@email.com" />
+        </div>
+      </div>
+      <div>
+        <label class="fb-label">What's your feedback about?</label>
+        <div class="fb-type-row">
+          <span class="fb-type-chip" onclick="toggleFbType(this)">🏞️ Missing Park</span>
+          <span class="fb-type-chip" onclick="toggleFbType(this)">📝 Wrong Info</span>
+          <span class="fb-type-chip" onclick="toggleFbType(this)">⭐ Park Review</span>
+          <span class="fb-type-chip" onclick="toggleFbType(this)">💡 Suggestion</span>
+          <span class="fb-type-chip" onclick="toggleFbType(this)">🐛 Bug Report</span>
+        </div>
+      </div>
+      <div>
+        <label class="fb-label">Your Message</label>
+        <textarea class="fb-textarea" id="fb-msg" placeholder="Tell me about it! Which park? What's missing? What would make this guide more useful for your family?"></textarea>
+      </div>
+      <button class="fb-submit" onclick="submitFeedback()">Send Feedback 🙌</button>
+    </div>
+    <div class="fb-success" id="fb-success">
+      🎉 Thanks so much! I'll look into this and get back to you soon. — Ignacio
+    </div>
+  </div>
+</section>
+
+<script>
+// FEEDBACK
+let fbType = '';
+function toggleFbType(el) {
+  document.querySelectorAll('.fb-type-chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  fbType = el.textContent.trim();
+}
+
+async function submitFeedback() {
+  const name = document.getElementById('fb-name').value.trim();
+  const email = document.getElementById('fb-email').value.trim();
+  const msg = document.getElementById('fb-msg').value.trim();
+  if (!msg) { alert('Please enter a message!'); return; }
+  const btn = document.querySelector('.fb-submit');
+  btn.textContent = 'Sending…'; btn.disabled = true;
+  try {
+    await fetch('https://formsubmit.co/ajax/ignacio@agilegrouprealty.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ name: name||'Anonymous', email: email||'No email', type: fbType||'General', message: msg, _subject: '🌳 Tampa Parks Feedback: ' + (fbType||'General') })
+    });
+    document.getElementById('fb-form').style.display = 'none';
+    document.getElementById('fb-success').style.display = 'block';
+  } catch(e) {
+    btn.textContent = 'Send Feedback 🙌'; btn.disabled = false;
+    alert('Something went wrong — please email ignacio@agilegrouprealty.com directly!');
+  }
+}
+
+// NEAR ME BUTTON
+function useMyLocation() {
+  const btn = document.querySelector('.hero-btn-primary');
+  if (!navigator.geolocation) { alert('Geolocation not supported by your browser.'); return; }
+  btn.textContent = '📍 Finding you…';
+  btn.disabled = true;
+  navigator.geolocation.getCurrentPosition(pos => {
+    const lat = pos.coords.latitude;
+    const lng = pos.coords.longitude;
+    // Use the existing radius system
+    radCenter = [lat, lng];
+    radMi = 5;
+    // Show the radius badge
+    const badge = document.getElementById('rad-badge');
+    const txt = document.getElementById('rad-txt');
+    if (badge) badge.style.display = 'flex';
+    if (txt) txt.textContent = 'Within 5 mi of your location';
+    // Run the filter
+    filterParks();
+    // Scroll to results
+    document.querySelector('.toolbar').scrollIntoView({ behavior: 'smooth' });
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg> 📍 Parks Near Me';
+    btn.disabled = false;
+  }, err => {
+    btn.innerHTML = '📍 Parks Near Me';
+    btn.disabled = false;
+    alert('Could not get your location. Please allow location access in your browser and try again.');
+  });
+}
+
+
+</script>
+</body>
+</html>
