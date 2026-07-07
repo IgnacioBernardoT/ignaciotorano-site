@@ -6,6 +6,10 @@ directory = "netlify/functions"
     "./emails/**",
     "./emails/**"
   ]
+
+[build.environment]
+  SECRETS_SCAN_OMIT_PATHS = "park_photos.js"
+
 [[headers]]
 for = "/*"
   [headers.values]
@@ -38,18 +42,6 @@ status = 200
 from = "/parks/"
 to = "/parks.html"
 status = 200
-[[redirects]]
-from = "/resources/trusted-partners"
-to = "/resources/trusted-partners.html"
-status = 200
-[[redirects]]
-from = "/resources/trusted-partners/"
-to = "/resources/trusted-partners.html"
-status = 200
-[[redirects]]
-from = "/trusted-partners"
-to = "/resources/trusted-partners"
-status = 301
 [context]
   [context.production]
     [context.production.functions]
