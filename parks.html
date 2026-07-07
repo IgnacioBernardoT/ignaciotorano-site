@@ -11,6 +11,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/parks_data.js"></script>
+<script src="/park_photos.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -415,6 +416,20 @@ body { overflow-x: hidden; max-width: 100vw; }
 .m-fav-btn.faved{background:var(--gold-pale);border-color:#E0C98A;color:var(--gold)}
 .m-fav-btn svg{width:15px;height:15px;stroke:currentColor;fill:none}
 .m-fav-btn.faved svg{fill:var(--gold)}
+/* RESOURCES DROPDOWN */
+.nav-dropdown{position:relative;display:inline-flex;align-items:center}
+.nav-dropdown > a{display:inline-flex;align-items:center;gap:5px}
+.nav-dropdown > a::after{content:'';width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:.7}
+.nav-dropdown .dropdown-menu{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%);background:#0E1A2B;border:1px solid rgba(184,150,90,.35);border-top:2px solid var(--gold);box-shadow:0 12px 28px rgba(0,0,0,0.35);min-width:190px;padding:8px 0;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility .18s ease;z-index:300}
+.nav-dropdown:hover .dropdown-menu,.nav-dropdown:focus-within .dropdown-menu{opacity:1;visibility:visible}
+.nav-dropdown .dropdown-menu a{display:block;padding:9px 20px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.85);white-space:nowrap;text-decoration:none;transition:color .12s,background .12s}
+.nav-dropdown .dropdown-menu a:hover{color:var(--gold);background:rgba(184,150,90,.08)}
+@media(max-width:900px){
+  .nav-dropdown{display:block;width:100%}
+  .nav-dropdown > a::after{display:none}
+  .nav-dropdown .dropdown-menu{position:static;transform:none;opacity:1;visibility:visible;border:none;box-shadow:none;background:transparent;padding:0 0 0 12px;margin-top:4px}
+  .nav-dropdown .dropdown-menu a{padding:8px 12px;color:rgba(255,255,255,.7)}
+}
 </style>
 </head>
 <body>
@@ -428,10 +443,16 @@ body { overflow-x: hidden; max-width: 100vw; }
     <nav class="site-nav" id="site-nav">
       <a href="https://ignaciotorano.com/#about">About</a>
       <a href="https://ignaciotorano.com/#services">Services</a>
-      <a href="https://ignaciotorano.com/neighborhoods">Neighborhoods</a>
+      <a href="https://ignaciotorano.com/#neighborhoods">Neighborhoods</a>
       <a href="https://ignaciotorano.com/videos">Videos</a>
       <a href="https://ignaciotorano.com/blog">Blog</a>
       <a href="https://ignaciotorano.com/parks" class="active">Parks</a>
+      <div class="nav-dropdown">
+        <a href="https://ignaciotorano.com/resources/trusted-partners" aria-haspopup="true">Resources</a>
+        <div class="dropdown-menu">
+          <a href="https://ignaciotorano.com/resources/trusted-partners">Trusted Partners</a>
+        </div>
+      </div>
       <a href="https://ignaciotorano.com/#testimonials">Reviews</a>
       <a href="https://ignaciotorano.com/#contact" class="cta">Let's Connect</a>
     </nav>
@@ -1196,7 +1217,19 @@ function placeholderSVG(p){
   }
   return `<svg viewBox="0 0 240 120" style="width:100%;height:100%;display:block" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${scene}</svg>`;
 }
-function getPhoto(id){ const e = edits[String(id)]; return e && e.photos && e.photos.length ? e.photos[0] : null; }
+function getPhoto(id){
+  const e = edits[String(id)];
+  if(e && e.photos && e.photos.length) return e.photos[0];
+  if(typeof PARK_PHOTOS !== "undefined" && PARK_PHOTOS[String(id)] && PARK_PHOTOS[String(id)].length) return PARK_PHOTOS[String(id)][0];
+  if(typeof PARK_PHOTOS_BY_NAME !== "undefined"){
+    const p = allParks.find(x => String(x.OBJECTID) === String(id));
+    if(p){
+      const key = p.NAME.toLowerCase().trim();
+      if(PARK_PHOTOS_BY_NAME[key] && PARK_PHOTOS_BY_NAME[key].length) return PARK_PHOTOS_BY_NAME[key][0];
+    }
+  }
+  return null;
+}
 function getRating(id){ const e = edits[String(id)]; return e ? e.rating || 0 : 0; }
 
 function starsHtml(n, sz=15){
