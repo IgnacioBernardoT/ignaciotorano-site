@@ -1,3 +1,6 @@
+[build.environment]
+SECRETS_SCAN_OMIT_PATHS = "park_photos.js,parks.html"
+
 [functions]
 directory = "netlify/functions"
   [functions.emails]
