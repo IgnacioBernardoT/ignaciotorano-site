@@ -304,11 +304,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--off);color:var(--text);mi
 /* MOBILE */
 body { overflow-x: hidden; max-width: 100vw; }
 #map-view { overflow: visible; }
-@media(max-width:900px){
+@media(max-width:1200px){
   .site-nav{display:none}
   .site-nav.open{display:flex;flex-direction:column;position:absolute;top:70px;left:0;right:0;background:var(--navy);border-bottom:1px solid rgba(184,150,90,.2);padding:12px 20px 20px;gap:4px;z-index:199}
   .site-nav.open a{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.07)}
   .mob-btn{display:flex}
+}
+@media(max-width:900px){
   .hdr-in{padding:0 16px}
   .parks-bar{padding:0 16px}
   .hero{padding:28px 16px 24px;background:linear-gradient(rgba(10,18,32,.82),rgba(10,18,32,.82)),url("/parks_hero.webp") center 65%/cover no-repeat}
@@ -424,7 +426,7 @@ body { overflow-x: hidden; max-width: 100vw; }
 .nav-dropdown:hover .dropdown-menu,.nav-dropdown:focus-within .dropdown-menu{opacity:1;visibility:visible}
 .nav-dropdown .dropdown-menu a{display:block;padding:9px 20px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.85);white-space:nowrap;text-decoration:none;transition:color .12s,background .12s}
 .nav-dropdown .dropdown-menu a:hover{color:var(--gold);background:rgba(184,150,90,.08)}
-@media(max-width:900px){
+@media(max-width:1200px){
   .nav-dropdown{display:block;width:100%}
   .nav-dropdown > a::after{display:none}
   .nav-dropdown .dropdown-menu{position:static;transform:none;opacity:1;visibility:visible;border:none;box-shadow:none;background:transparent;padding:0 0 0 12px;margin-top:4px}
@@ -451,9 +453,11 @@ body { overflow-x: hidden; max-width: 100vw; }
         <a href="https://ignaciotorano.com/resources/trusted-partners" aria-haspopup="true">Resources</a>
         <div class="dropdown-menu">
           <a href="https://ignaciotorano.com/resources/trusted-partners">Trusted Partners</a>
+          <a href="https://ignaciotorano.com/resources/purchasing-power-quiz">Purchasing Power Quiz</a>
         </div>
       </div>
       <a href="https://ignaciotorano.com/#testimonials">Reviews</a>
+      <a href="https://ignaciotorano.com/news.html">In The News</a>
       <a href="https://ignaciotorano.com/#contact" class="cta">Let's Connect</a>
     </nav>
     <button class="mob-btn" onclick="document.getElementById('site-nav').classList.toggle('open')" aria-label="Menu">
