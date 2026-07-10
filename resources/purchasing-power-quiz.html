@@ -4,113 +4,292 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Purchasing Power Quiz | Ignacio Toraño · South Tampa Real Estate</title>
-<link rel="canonical" href="https://ignaciotorano.com/resources/purchasing-power-quiz">
-<meta property="og:title" content="Purchasing Power Quiz | Ignacio Toraño">
-<meta property="og:description" content="In 5 minutes, find out what type of house you can afford — knowledge is power.">
-<meta property="og:url" content="https://ignaciotorano.com/resources/purchasing-power-quiz">
-<meta name="description" content="Congratulations — you're taking the first step toward buying a home. Take Ignacio Toraño's free 5-minute quiz to see the home price range that fits your real numbers.">
+<link rel="canonical" href="https://ignaciotorano.com/resources/quiz">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600;1,800&family=Montserrat:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy:#0f2340;
-    --navy-2:#1c2534;
+    --navy:#faf6ee;        /* page background (light) */
+    --navy-2:#ffffff;      /* panel background */
     --gold:#b8965a;
-    --gold-light:#9a7a40;
-    --cream:#faf6ee;
-    --paper:#ffffff;
-    --muted:#6b7385;
+    --gold-light:#8a6d3b;  /* darkened for contrast on light bg */
+    --cream:#17233a;       /* primary text (dark navy) */
+    --muted:#5f6879;
+    --green:#3e8a5f;
+    --amber:#a97c1f;
+    --red:#b8503f;
   }
-  *{margin:0;padding:0;box-sizing:border-box}
+  *{box-sizing:border-box;margin:0;padding:0}
   body{
-    background:var(--cream);
-    color:var(--navy);
-    font-family:'Montserrat',sans-serif;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:40px 22px;
-    position:relative;
-    overflow-x:hidden;
+    font-family:'Montserrat',sans-serif;background:var(--navy);color:var(--cream);
+    min-height:100vh;display:flex;flex-direction:column;
   }
-  body::before{
-    content:'';
-    position:fixed;inset:0;
-    background:radial-gradient(ellipse at 50% 0%, rgba(184,150,90,0.12), transparent 55%);
-    pointer-events:none;
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+
+  .bar{position:fixed;left:0;right:0;height:clamp(18px,4vh,44px);background:#000;z-index:50}
+  .bar.top{top:0}.bar.bottom{bottom:0}
+  .bar.top .film-info{
+    position:absolute;right:18px;top:50%;transform:translateY(-50%);
+    font-family:'Courier Prime',monospace;font-size:.68rem;letter-spacing:.18em;color:#555;text-transform:uppercase;
   }
-  .film-header{
-    position:fixed;top:0;left:0;right:0;
-    padding:16px 22px;
-    display:flex;justify-content:space-between;align-items:center;
-    font-family:'Courier Prime',monospace;font-size:.68rem;letter-spacing:.18em;
-    color:var(--muted);text-transform:uppercase;
-    z-index:10;
-    background:rgba(250,246,238,.9);backdrop-filter:blur(6px);
+  .bar.top .brand-mini{
+    position:absolute;left:18px;top:50%;transform:translateY(-50%);
+    font-family:'Playfair Display',serif;font-size:.85rem;color:var(--gold);text-decoration:none;
   }
-  .film-header .name{font-family:'Playfair Display',serif;font-size:1rem;letter-spacing:.02em;text-transform:none;color:var(--navy)}
-  .film-header .name em{font-style:italic;color:var(--gold)}
-  .wrap{max-width:660px;animation:fadeIn .7s ease}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-  .eyebrow{
-    display:inline-block;
-    font-family:'Courier Prime',monospace;font-size:.7rem;letter-spacing:.32em;
-    text-transform:uppercase;color:var(--gold);
-    border:1px solid var(--gold);padding:9px 20px;margin-bottom:26px;
+  .bar.top .brand-mini em{font-style:italic;color:var(--gold-light)}
+
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:40;opacity:.05;
+    background-image:radial-gradient(#fff 1px,transparent 1px);background-size:3px 3px;
+    animation:grain .4s steps(2) infinite;
   }
-  h1{
-    font-family:'Playfair Display',serif;font-weight:800;
-    font-size:clamp(2rem,6vw,3.2rem);line-height:1.12;
+  @keyframes grain{0%{transform:translate(0,0)}50%{transform:translate(1px,-1px)}100%{transform:translate(-1px,1px)}}
+
+  .stage{flex:1;display:flex;align-items:center;justify-content:center;padding:clamp(60px,10vh,90px) 20px}
+  .frame{width:100%;max-width:680px}
+
+  .scene{animation:fadeIn .9s ease both}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  .fadeout{animation:fadeOut .45s ease both}
+  @keyframes fadeOut{to{opacity:0;transform:translateY(-10px)}}
+
+  .slug{
+    font-family:'Courier Prime',monospace;font-weight:700;font-size:.82rem;letter-spacing:.14em;
+    color:var(--gold);text-transform:uppercase;margin-bottom:6px;
   }
-  h1 em{font-style:italic;font-weight:600;color:var(--gold-light)}
-  .rule{width:64px;height:2px;background:var(--gold);margin:26px auto}
-  .lede{
-    font-size:.98rem;line-height:1.85;color:#3a4356;max-width:560px;margin:0 auto;
+  .scene-count{
+    font-family:'Courier Prime',monospace;font-size:.7rem;letter-spacing:.2em;color:var(--muted);
+    text-transform:uppercase;margin-bottom:26px;display:block;
   }
-  .lede b{color:var(--gold-light)}
-  .promises{
-    margin:34px auto 0;max-width:520px;text-align:left;
-    border:1px solid #e8e0cf;border-top:3px solid var(--gold);padding:24px 26px;
-    background:var(--paper);box-shadow:0 10px 30px rgba(15,35,64,.07);
+  .narrative{
+    font-family:'Playfair Display',serif;font-size:clamp(1.15rem,3vw,1.5rem);font-weight:600;
+    line-height:1.65;color:var(--cream);
   }
-  .promises h4{
-    font-family:'Courier Prime',monospace;font-size:.66rem;letter-spacing:.28em;
-    color:var(--gold);text-transform:uppercase;margin-bottom:14px;text-align:center;
+  .narrative em{font-style:italic;color:var(--gold-light)}
+  .direction{
+    margin-top:22px;font-family:'Courier Prime',monospace;font-size:.85rem;color:var(--muted);
+    letter-spacing:.04em;line-height:1.7;
   }
-  .promises li{
-    list-style:none;font-size:.85rem;line-height:1.7;color:#3a4356;
-    padding-left:24px;position:relative;margin-bottom:10px;
+  .qline{
+    margin-top:30px;font-size:.75rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);
   }
-  .promises li::before{content:'★';position:absolute;left:0;color:var(--gold);font-size:.75rem;top:2px}
-  .privacy{
-    margin-top:20px;font-size:.74rem;color:var(--muted);line-height:1.7;max-width:480px;margin-left:auto;margin-right:auto;
+  .qline::before{content:"— ";color:var(--muted)}
+
+  .choices{margin-top:18px;display:grid;gap:10px}
+  .choice{
+    text-align:left;font-family:'Montserrat',sans-serif;font-weight:500;font-size:.95rem;line-height:1.5;
+    color:var(--cream);background:var(--navy-2);border:1px solid #e4dcc9;border-left:3px solid #e4dcc9;
+    padding:16px 18px;cursor:pointer;transition:border-color .15s,background .15s,transform .12s;
   }
-  .btn{
-    display:inline-block;margin-top:32px;
-    background:var(--navy);color:var(--cream);
-    font-family:'Montserrat',sans-serif;font-size:.82rem;font-weight:700;
-    letter-spacing:.2em;text-transform:uppercase;text-decoration:none;
-    padding:18px 42px;border:none;cursor:pointer;
-    transition:background .2s,transform .15s;
+  .choice:hover{border-color:var(--gold);background:#f3edde;transform:translateX(4px)}
+  .choice:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+  .choice b{color:var(--gold-light);font-weight:700}
+
+  /* number input scenes */
+  .money-wrap{margin-top:18px;display:flex;gap:12px;align-items:stretch;flex-wrap:wrap}
+  .money-box{
+    flex:1;min-width:220px;display:flex;align-items:center;
+    background:var(--navy-2);border:1px solid #e4dcc9;border-left:3px solid var(--gold);
   }
-  .btn:hover{background:var(--gold);color:var(--navy);transform:translateY(-2px)}
-  .runtime{
-    margin-top:16px;font-family:'Courier Prime',monospace;
-    font-size:.68rem;letter-spacing:.16em;color:#9aa1b0;text-transform:uppercase;
+  .money-box .sym{
+    font-family:'Courier Prime',monospace;font-weight:700;font-size:1.3rem;color:var(--gold);
+    padding:0 6px 0 18px;
   }
-  .signoff{
-    margin-top:48px;font-family:'Courier Prime',monospace;
-    font-size:.62rem;letter-spacing:.14em;color:#9aa1b0;text-transform:uppercase;line-height:2;
+  .money-box input{
+    flex:1;background:transparent;border:none;outline:none;color:var(--cream);
+    font-family:'Courier Prime',monospace;font-weight:700;font-size:1.35rem;letter-spacing:.04em;
+    padding:18px 16px 18px 4px;width:100%;
   }
+  .money-box input::placeholder{color:#c9bfa6}
+  .money-hint{margin-top:12px;font-size:.78rem;color:var(--muted);line-height:1.7}
+  .err{margin-top:10px;font-size:.78rem;color:var(--red);display:none}
+
+  .beat{text-align:center;padding:40px 10px}
+  .beat .cut{
+    font-family:'Courier Prime',monospace;font-size:.7rem;letter-spacing:.3em;color:var(--muted);
+    text-transform:uppercase;margin-bottom:24px;display:block;
+  }
+  .beat p{
+    font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1.1rem,2.8vw,1.4rem);
+    line-height:1.7;color:var(--gold-light);max-width:520px;margin:0 auto;
+  }
+  .btn{/*light*/
+    display:inline-block;margin-top:34px;text-decoration:none;border:none;cursor:pointer;
+    font-family:'Montserrat',sans-serif;font-size:.76rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--navy);background:var(--gold);padding:15px 36px;border-radius:2px;transition:background .15s;
+  }
+  .btn:hover{background:var(--gold)}
+  .btn:focus-visible{outline:2px solid var(--cream);outline-offset:3px}
+  .btn.ghost{background:transparent;border:1px solid var(--gold);color:var(--gold-light)}
+  .btn.ghost:hover{background:rgba(184,150,90,.10)}
+  .btn.inline{margin-top:0;padding:0 28px}
+
+  /* title */
+  .title-screen{text-align:center}
+  .presents{font-family:'Courier Prime',monospace;font-size:.72rem;letter-spacing:.34em;color:var(--muted);text-transform:uppercase}
+  .movie-title{margin-top:18px;font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(2.4rem,8vw,4.4rem);line-height:1.05;color:var(--cream)}
+  .movie-title em{font-style:italic;color:var(--gold-light);display:block;font-weight:600;font-size:.5em;margin-top:10px;letter-spacing:.06em}
+  .title-rule{width:70px;height:2px;background:var(--gold);margin:28px auto}
+  .logline{max-width:460px;margin:0 auto;color:var(--muted);font-size:.92rem;line-height:1.8}
+  .credits{margin-top:30px;font-family:'Courier Prime',monospace;font-size:.68rem;letter-spacing:.16em;color:#8d94a5;text-transform:uppercase;line-height:2}
+
+  /* results */
+  .poster{text-align:center}
+  .verdict-tag{
+    display:inline-block;font-family:'Courier Prime',monospace;font-weight:700;font-size:.8rem;
+    letter-spacing:.32em;text-transform:uppercase;padding:10px 22px;border:2px solid;margin-bottom:22px;
+  }
+  .verdict-title{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(1.9rem,5.5vw,3rem);line-height:1.1}
+  .verdict-title em{font-style:italic;font-weight:600;color:var(--gold-light)}
+  .verdict-sub{margin:16px auto 0;max-width:500px;color:var(--muted);font-size:.95rem;line-height:1.8}
+
+  /* THE BUDGET marquee number */
+  .budget{
+    margin:38px auto 0;max-width:520px;background:linear-gradient(180deg,#f3edde,#ffffff);
+    border:1px solid var(--gold);padding:30px 26px 26px;position:relative;
+  }
+  .budget::before{
+    content:"YOUR ESTIMATED BUDGET";position:absolute;top:-11px;left:50%;transform:translateX(-50%);
+    background:var(--navy);padding:2px 14px;font-family:'Courier Prime',monospace;font-size:.66rem;
+    letter-spacing:.3em;color:var(--gold);white-space:nowrap;
+  }
+  .budget[data-label="profile"]::before{content:"YOUR PROFILE"}
+  .budget[data-label="share"]::before{content:"GIVE A FRIEND THE POWER OF LENDING KNOWLEDGE"}
+  .budget .range{
+    font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(1.7rem,5vw,2.5rem);color:var(--gold-light);
+  }
+  .budget .range small{font-size:.45em;color:var(--muted);font-family:'Montserrat';font-weight:600;letter-spacing:.1em}
+  .budget .pay{margin-top:8px;font-size:.95rem;color:var(--cream);font-weight:600}
+  .budget .pay b{color:var(--gold-light)}
+  .b-grid{
+    margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;text-align:left;
+    border-top:1px solid #e4dcc9;padding-top:18px;
+  }
+  .b-item .k{font-size:.64rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .b-item .v{font-family:'Courier Prime',monospace;font-weight:700;font-size:1.05rem;color:var(--cream)}
+  .b-note{margin-top:16px;font-size:.72rem;color:var(--muted);line-height:1.7;text-align:left}
+
+  .scores{margin:36px auto 0;max-width:440px;text-align:left}
+  .scores h4{font-family:'Courier Prime',monospace;font-size:.7rem;letter-spacing:.26em;color:var(--muted);text-transform:uppercase;text-align:center;margin-bottom:18px}
+  .score-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .score-row .lbl{flex:0 0 92px;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cream)}
+  .track{flex:1;height:7px;background:#f3edde;border-radius:99px;overflow:hidden}
+  .fill{height:100%;border-radius:99px;background:var(--gold);width:0;transition:width 1.1s ease .3s}
+  .score-row .val{flex:0 0 34px;font-family:'Courier Prime',monospace;font-size:.75rem;color:var(--muted);text-align:right}
+
+  .notes{
+    margin:36px auto 0;max-width:500px;text-align:left;background:var(--navy-2);
+    border:1px solid #e4dcc9;border-top:2px solid var(--gold);padding:26px 26px 22px;
+  }
+  .notes h4{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:1.1rem;color:var(--gold-light);margin-bottom:14px}
+  .notes ol{margin-left:18px}
+  .notes li{font-size:.9rem;line-height:1.7;color:#3a4356;margin-bottom:10px}
+  .notes li b{color:var(--cream)}
+  .final-ctas{margin-top:10px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .signoff{margin-top:34px;font-family:'Courier Prime',monospace;font-size:.68rem;letter-spacing:.2em;color:#8d94a5;text-transform:uppercase;line-height:2.1}
   .signoff a{color:var(--gold);text-decoration:none}
 
-  /* ===== SITE HEADER (ignaciotorano.com) ===== */
-  .site-header{background:#f7f5f0;padding:14px 0;position:sticky;top:0;z-index:500;box-shadow:0 1px 0 rgba(15,35,64,0.06)}
-  .site-header .inner{max-width:1280px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+/* ===== LEAD MODAL ===== */
+.lead-overlay{position:fixed;inset:0;background:rgba(15,35,64,.45);backdrop-filter:blur(4px);z-index:900;display:none;align-items:center;justify-content:center;padding:20px}
+.lead-overlay.open{display:flex}
+.lead-modal{background:#ffffff;border:1px solid #e4dcc9;border-top:3px solid var(--gold);max-width:460px;width:100%;padding:34px 30px;text-align:center;animation:fadeIn .3s ease;max-height:90vh;overflow-y:auto}
+.lead-modal h3{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:1.3rem;color:var(--gold-light);margin-bottom:10px}
+.lead-modal p{font-size:.82rem;color:var(--muted);line-height:1.7;margin-bottom:20px}
+.lead-modal input{width:100%;background:#ffffff;border:1px solid #e4dcc9;border-left:3px solid var(--gold);color:var(--cream);font-family:'Courier Prime',monospace;font-size:.95rem;padding:13px 14px;margin-bottom:12px;outline:none}
+.lead-modal input:focus{border-color:var(--gold)}
+.lead-modal .consent{font-size:.68rem;color:#8d94a5;line-height:1.6;margin:6px 0 16px}
+.lead-modal .err{display:none;color:#e05252;font-size:.74rem;margin:-6px 0 12px}
+.lead-modal .btn{width:100%;justify-content:center}
+.lead-close{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer}
+.lead-modal-wrap{position:relative}
+.lead-success{display:none}
+.lead-success .big{font-size:2.2rem;margin-bottom:12px}
+
+/* ===== PRINT / SAVE AS PDF ===== */
+.print-brand{display:none}
+@media print{
+  @page{margin:9mm}
+  body{background:#fff !important;font-size:9.5px !important}
+  body::after,body::before{display:none !important}
+  .film-header,.final-ctas,.budget[data-label="share"],.lead-overlay,.back-link,.signoff{display:none !important}
+  .poster,.poster *{color:#17233a !important;background:transparent !important;border-color:#b8965a !important}
+  .verdict-title em,.notes h4,.budget::before{color:#8a6d3b !important}
+  .track{background:#eee !important}.fill{background:#b8965a !important}
+  /* branded header */
+  .print-brand{display:block !important;text-align:center;border-bottom:1.5px solid #b8965a !important;padding-bottom:6px;margin-bottom:10px}
+  .print-brand .pb-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:800}
+  .print-brand .pb-name em{font-style:italic;color:#8a6d3b !important}
+  .print-brand .pb-line{font-family:'Courier Prime',monospace;font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:#5f6879 !important;margin-top:2px}
+  /* one-page compression */
+  .poster{padding:0 !important;max-width:100% !important;margin:0 !important;border:none !important}
+  .verdict-tag{font-size:8px !important;padding:4px 10px !important;margin-bottom:6px !important}
+  .verdict-title{font-size:17px !important;line-height:1.15 !important;margin-bottom:4px !important}
+  .verdict-sub{font-size:9px !important;line-height:1.45 !important;margin-bottom:8px !important;max-width:100% !important}
+  .budget{padding:8px 10px !important;margin-top:10px !important}
+  .budget::before{font-size:7px !important}
+  .b-grid{gap:4px 10px !important}
+  .b-item .k{font-size:6.5px !important}
+  .b-item .v{font-size:9.5px !important}
+  .big-range{font-size:19px !important;margin:4px 0 !important}
+  .narrative,.qline,p{font-size:8.5px !important;line-height:1.4 !important}
+  h1,h2,h3,h4{margin:4px 0 !important}
+  .loan-opt,.opt{padding:6px 8px !important;margin-top:6px !important;page-break-inside:avoid}
+  .score-row{margin-bottom:3px !important}
+  .score-row .lbl{font-size:7px !important;flex-basis:64px !important}
+  .score-row .val{font-size:7px !important}
+  .track{height:4px !important}
+  .notes{padding:8px 10px !important;margin-top:8px !important;page-break-inside:avoid}
+  .notes h4{font-size:10px !important;margin-bottom:4px !important}
+  .notes li{font-size:8px !important;line-height:1.4 !important;margin-bottom:3px !important}
+}
+
+/* BACK NAVIGATION */
+.back-link{
+  display:inline-block;margin-top:26px;background:none;border:none;cursor:pointer;
+  font-family:'Courier Prime',monospace;font-size:.7rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--muted);transition:color .15s;
+}
+.back-link:hover{color:var(--gold-light)}
+
+/* MOBILE READABILITY */
+@media (max-width:600px){
+  .narrative{font-size:1.02rem !important;line-height:1.8 !important}
+  .qline{font-size:1.05rem !important}
+  .direction{font-size:.85rem !important}
+  .choice{font-size:.95rem !important;padding:17px 16px !important;line-height:1.55 !important}
+  .beat p{font-size:1rem !important;line-height:1.85 !important}
+  .money-hint{font-size:.85rem !important}
+  .money-box input{font-size:1.15rem !important}
+  .logline{font-size:.95rem !important;line-height:1.85 !important}
+  .verdict-sub{font-size:.95rem !important}
+  .notes li{font-size:.92rem !important}
+  .lead-modal p{font-size:.9rem !important}
+}
+
+/* PRE-APPROVAL FEATURE BOX */
+.preapprove-box{
+  max-width:520px;margin:30px auto 0;background:var(--navy-2);
+  border:1.5px solid var(--gold);padding:26px 24px;text-align:center;
+  box-shadow:0 12px 30px rgba(15,35,64,.08);
+}
+.preapprove-box .btn{font-size:.88rem;padding:17px 36px}
+.preapprove-box .pa-note{
+  font-size:.78rem;color:var(--muted);line-height:1.7;margin-top:12px;
+}
+.preapprove-box .pa-note b{color:var(--gold-light)}
+.fb-share{
+  display:inline-flex;align-items:center;gap:8px;margin-top:14px;
+  background:#1877f2;color:#fff;border:none;cursor:pointer;
+  font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;padding:12px 22px;
+  text-decoration:none;transition:opacity .2s;
+}
+.fb-share:hover{opacity:.88}
+
+  /* ===== SITE HEADER (matches ignaciotorano.com main nav pattern) ===== */
+  .site-header{background:#f7f5f0;padding:0;position:sticky;top:0;z-index:500;box-shadow:0 1px 0 rgba(15,35,64,0.06)}
+  .site-header .inner{max-width:1280px;margin:0 auto;padding:0 24px;height:74px;display:flex;align-items:center;justify-content:space-between;gap:20px}
   .site-header .logo img{height:46px;width:auto;display:block}
-  .site-header nav{display:flex;align-items:center;flex-wrap:wrap;gap:26px}
+  .site-header nav{display:flex;align-items:center;gap:26px}
   .site-header nav a{font-family:'Montserrat',sans-serif;font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;font-weight:500;color:#0f2340;text-decoration:none;transition:color .2s ease}
   .site-header nav a:hover{color:#b8965a}
   .site-header nav a.connect-btn{background:#0f2340;color:#fff;font-weight:600;padding:12px 22px}
@@ -122,11 +301,13 @@
   .sh-dropdown:hover .sh-menu,.sh-dropdown:focus-within .sh-menu{opacity:1;visibility:visible}
   .sh-dropdown .sh-menu a{display:block;padding:10px 22px;white-space:nowrap}
   .sh-dropdown .sh-menu a:hover{background:#faf6ee;color:#b8965a}
-  @media (max-width:900px){
-    .site-header .inner{flex-direction:column}
-    .site-header nav{justify-content:center;gap:12px 16px}
-    .sh-dropdown .sh-menu{position:static;transform:none;opacity:1;visibility:visible;border:none;box-shadow:none;background:transparent;padding:0;display:inline}
-    .sh-dropdown .sh-menu a{display:inline;padding:0 0 0 10px}
+  .site-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+  .site-hamburger span{display:block;width:24px;height:1.5px;background:#0f2340}
+  @media (max-width:1200px){
+    .site-header nav{display:none}
+    .site-header nav.open{display:flex;flex-direction:column;align-items:flex-start;position:fixed;top:74px;left:0;right:0;background:rgba(250,246,238,0.98);backdrop-filter:blur(14px);padding:1.5rem 5vw;border-bottom:0.5px solid #e8e0cf;gap:1.2rem;z-index:499}
+    .site-hamburger{display:flex}
+    .sh-dropdown .sh-menu{position:static;transform:none;opacity:1;visibility:visible;border:none;box-shadow:none;background:transparent;padding:6px 0 0 16px}
     .sh-dropdown>a::after{display:none}
   }
 </style>
@@ -138,7 +319,7 @@
     <a class="logo" href="https://ignaciotorano.com/">
       <img src="https://ignaciotorano.com/iggy_logo_v2.webp" alt="Ignacio Toraño South Tampa Real Estate">
     </a>
-    <nav aria-label="Main navigation">
+    <nav aria-label="Main navigation" id="siteNav">
       <a href="https://ignaciotorano.com/#about">About</a>
       <a href="https://ignaciotorano.com/#services">Services</a>
       <a href="https://ignaciotorano.com/neighborhoods/">Neighborhoods</a>
@@ -153,52 +334,920 @@
         </div>
       </div>
       <a href="https://ignaciotorano.com/#testimonials">Reviews</a>
+      <a href="https://ignaciotorano.com/news.html">In The News</a>
       <a class="connect-btn" href="https://ignaciotorano.com/#contact">Let's Connect</a>
     </nav>
+    <div class="site-hamburger" id="siteNavBurger"><span></span><span></span><span></span></div>
   </div>
 </header>
 
 
+<!-- Netlify form definitions (hidden; required for build-time detection) -->
+<form name="quiz-results" netlify netlify-honeypot="bot-field" hidden>
+  <input type="text" name="name"><input type="email" name="email"><input type="tel" name="phone">
+  <input type="text" name="verdict"><textarea name="results"></textarea><input type="text" name="bot-field">
+</form>
+<form name="preapproval" netlify netlify-honeypot="bot-field" hidden>
+  <input type="text" name="name"><input type="email" name="email"><input type="tel" name="phone">
+  <input type="text" name="verdict"><textarea name="results"></textarea><input type="text" name="bot-field">
+</form>
 
-<div class="wrap">
-  <span class="eyebrow">You Made It To The Right Place</span>
-
-  <h1>Congratulations — you just took the <em>first step</em> toward buying a home.</h1>
-
-  <div class="rule"></div>
-
-  <p class="lede">
-    That step is <b>knowledge</b> — and knowledge is power. Most people guess at what they can afford,
-    or wait years longer than they need to, because nobody ever showed them their real numbers.
-    In the next five minutes, you'll see exactly where you stand: <b>the home price range that fits
-    your actual finances</b>, what your loan options look like, and the specific moves that get you to keys-in-hand.
-    No commitment. No pressure. Just your numbers, made clear.
-  </p>
-
-  <div class="promises">
-    <h4>By The Final Scene, You'll Know</h4>
-    <ul>
-      <li>The <b>home price range</b> that fits your real income, cash, and credit</li>
-      <li>What your <b>estimated monthly payment</b> looks like next to your rent</li>
-      <li>Your <b>loan options</b> — and what each one buys you</li>
-      <li>Your personalized <b>next steps</b>, straight from a South Tampa native</li>
-    </ul>
-  </div>
-
-  <p class="privacy">
-    Your information is never stored or shared — unless, at the end, YOU choose to send your
-    results to Ignacio or his preferred mortgage lenders to start your pre-approval.
-  </p>
-
-  <a class="btn" href="/resources/quiz">▶ &nbsp;Start The Purchasing Power Quiz</a>
-  <div class="runtime">Runtime: ±5 min · Starring: You</div>
-
-  <div class="signoff">
-    Ignacio Toraño, Realtor® · Agile Group Realty · The Kerin Group<br>
-    <a href="https://ignaciotorano.com">ignaciotorano.com</a> · Educational estimate only — not a loan approval,<br>
-    lending, legal, or financial advice.
+<!-- Lead capture modal -->
+<div class="lead-overlay" id="leadOverlay">
+  <div class="lead-modal lead-modal-wrap">
+    <button class="lead-close" onclick="closeLeadModal()">&times;</button>
+    <div id="leadFormView">
+      <h3 id="leadTitle"></h3>
+      <p style="font-size:.84rem;color:var(--gold-light);line-height:1.7;margin-bottom:10px;font-style:italic">Your next step is to talk to Ignacio and get pre-approved. Knowledge is power — and you're not making a commitment by educating yourself on your home purchasing power early.</p>
+      <p id="leadCopy"></p>
+      <input id="leadName" type="text" placeholder="your name" autocomplete="name">
+      <input id="leadEmail" type="email" placeholder="email" autocomplete="email" inputmode="email">
+      <input id="leadPhone" type="tel" placeholder="phone" autocomplete="tel" inputmode="tel">
+      <p class="err" id="leadErr">Please enter your name and at least an email or a phone number.</p>
+      <p class="consent" id="leadConsent"></p>
+      <button class="btn" id="leadSubmit" onclick="submitLead()">Send It &#10142;</button>
+    </div>
+    <div class="lead-success" id="leadSuccessView">
+      <div class="big">&#127916;</div>
+      <h3 id="leadSuccessTitle"></h3>
+      <p id="leadSuccessCopy"></p>
+      <button class="btn ghost" onclick="closeLeadModal()">Close</button>
+    </div>
   </div>
 </div>
 
+
+<div class="bar top">
+  <a class="brand-mini" href="index.html">Ignacio <em>Toraño</em></a>
+  <span class="film-info" id="filmInfo">First-Time Buyer Hub</span>
+</div>
+<div class="bar bottom"></div>
+
+<main class="stage">
+  <div class="frame" id="frame" aria-live="polite"></div>
+</main>
+
+<script>
+(function () {
+  var burger = document.getElementById('siteNavBurger');
+  var nav = document.getElementById('siteNav');
+  if (burger && nav) {
+    burger.addEventListener('click', function () { nav.classList.toggle('open'); });
+    nav.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { nav.classList.remove('open'); });
+    });
+  }
+})();
+</script>
+
+<script>
+/* ==================== STATE ==================== */
+let D = {}; // collected data
+let scores = {credit:0, savings:0, debt:0, income:0, mindset:0};
+let sceneNum = 0;
+const TOTAL_SCENES = 10;
+
+const fmt = n => "$" + Math.round(n).toLocaleString("en-US");
+const fmtK = n => "$" + (Math.round(n/1000)) + "K";
+
+/* rate by credit tier — illustrative only */
+const RATES = {a:0.064, b:0.0675, c:0.074, d:0.079};
+
+/* partner credit follow-up: lenders typically price off the LOWER of the two scores */
+function tier2(score,rate,label){
+  D.rate=Math.max(D.rate||rate,rate);
+  scores.credit=Math.min(scores.credit,score);
+  D.creditLabel=(D.creditLabel||"?")+" & "+label;
+}
+const PARTNER_STABILITY = {
+  slug:"INT. YOUR WORKPLACE — MOMENTS LATER",
+  narrative:`And the co-star? The bank will ask the same simple question about <em>their</em> paycheck.`,
+  q:"How steady is THEIR paycheck?",
+  choices:[
+    {t:"<b>Very steady.</b> Same job (or same type of work) for 2+ years.", act:()=>{}, beat:"A double-steady household — banks absolutely love this picture. Both incomes count at full strength."},
+    {t:"<b>Pretty steady.</b> New job, but the same kind of work.", act:()=>{scores.income=Math.min(scores.income,2)}, beat:"Great — banks are usually fine with a job change within the same field. Both incomes should count. Just keep everything steady while the loan is in motion."},
+    {t:"<b>They work for themselves</b> — with 2 years of tax returns.", act:()=>{scores.income=Math.min(scores.income,2)}, beat:"Totally workable — self-employed income counts with two years of tax returns. A little more paperwork, same buying power."},
+    {t:"<b>Just getting started.</b> New career, gig work, or under a year in.", act:()=>{scores.income=Math.min(scores.income,1)}, beat:"Good to know — and here's the encouraging part: lenders can lean on the steadier paycheck, and sometimes qualifying on one income is the winning play while the other builds its track record. Ignacio and a lender can show you both paths."}
+  ]
+};
+
+const PARTNER_CREDIT = {
+  slug:"INT. KITCHEN TABLE — CONTINUOUS",
+  narrative:`Now the co-star's turn. You slide the laptop across the table — <em>their</em> moment of truth.`,
+  q:"What does their credit say?",
+  choices:[
+    {t:"<b>740 or above.</b> Also glowing.", act:()=>tier2(3,RATES.a,"740+"), beat:"A power couple on paper! One thing to know: lenders typically set your rate using the LOWER of your two scores — so the stronger both are, the better your rate."},
+    {t:"<b>670–739.</b> Solid.", act:()=>tier2(2,RATES.b,"670–739"), beat:"Good teamwork! Heads up: lenders typically use the LOWER of your two scores to set the rate — a few months of polish on the lower one pays off for both of you."},
+    {t:"<b>580–669.</b> A work in progress.", act:()=>tier2(1,RATES.c,"580–669"), beat:"Totally workable — several loan programs welcome exactly this. Know that lenders typically price off the LOWER of your two scores, so boosting that one is the fastest win. In some cases, applying with just one borrower can even make sense — Ignacio and a lender can walk you through both paths."},
+    {t:"<b>Below 580 — or they've never looked.</b>", act:()=>tier2(0,RATES.d,"Building"), beat:`Here's the exciting part: their score has the MOST room to grow — and every point it climbs raises your buying power as a team! Pull their free reports at <a href="https://www.annualcreditreport.com" target="_blank" rel="noopener" style="color:var(--gold)">AnnualCreditReport.com</a> to see exactly where to start. And a smart play to know about: sometimes buying under one name first is the winning move — Ignacio can help you and a lender map the best path for you two.`}
+  ]
+};
+
+/* ==================== SCRIPT ==================== */
+const SCRIPT = [
+  { // 1 · motivation (choice)
+    type:"choice",
+    slug:"INT. YOUR APARTMENT — NIGHT",
+    narrative:`The letter sits on the kitchen counter. <em>Your rent is going up. Again.</em> You've been scrolling listings late at night for months, but tonight feels different. Tonight, the question stops being hypothetical.`,
+    direction:"CLOSE ON: your face, lit by the phone screen.",
+    q:"What's really driving you toward buying?",
+    choices:[
+      {t:"<b>Rent keeps climbing.</b> I want payments that build something I own.", act:()=>{scores.mindset+=1}, beat:"A practical dreamer. The best kind. Every mortgage payment is rent you pay to your future self."},
+      {t:"<b>Everyone keeps telling me</b> renting is throwing money away.", act:()=>{}, beat:"Smart move checking it out for yourself — that's exactly what savvy buyers do. By the final scene you'll have YOUR answer, based on YOUR numbers, not everyone else's opinion."},
+      {t:"<b>My lease ends soon</b> and I need to figure this out fast.", act:()=>{}, followUp:{
+        slug:"INT. YOUR APARTMENT — THE LEASE",
+        narrative:`You dig out the lease and flip to the last page, looking for the one date that changes everything.`,
+        q:"When does your lease end?",
+        choices:[
+          {t:"<b>Within the next month.</b>", act:()=>{D.leaseEnd="within 1 month";D.timeline="5+ weeks"}, beat:"That's tight. Remember the math: closing takes about 30 days AFTER a seller accepts your offer. Talk to your landlord about going month-to-month right away — don't let a lease date force you to rush the biggest purchase of your life."},
+          {t:"<b>In 2–3 months.</b>", act:()=>{D.leaseEnd="2-3 months";D.timeline="0-3 months"}, beat:"Workable. Closing takes about 30 days after your offer is accepted — that leaves you 1–2 months to find the home. Ask your landlord now if month-to-month is an option, just for breathing room."},
+          {t:"<b>In 4–6 months.</b>", act:()=>{D.leaseEnd="4-6 months";D.timeline="3-6 months"}, beat:"A comfortable runway — enough time to prepare properly AND shop without pressure. This is actually the sweet spot."},
+          {t:"<b>I'm month-to-month already.</b>", act:()=>{D.leaseEnd="month-to-month"}, beat:"The most flexible position a buyer can be in — you can move exactly when the right home shows up, with no lease penalty hanging over you."}
+        ]
+      }},
+      {t:"<b>Honestly? Just curious</b> what I could even afford.", act:()=>{scores.mindset+=1}, beat:"Curiosity is step 1 of every homeowner's story. By the final scene, you'll have a real number."}
+    ]
+  },
+  { // cast: solo or together (choice)
+    type:"choice",
+    slug:"INT. YOUR APARTMENT — SAME NIGHT",
+    narrative:`Before this story goes any further, it needs its <em>cast.</em> Buying with someone changes the whole script — lenders count BOTH incomes, and they look at BOTH credit scores.`,
+    direction:"ON SCREEN: 'Starring...'",
+    q:"Who's starring in this home purchase?",
+    choices:[
+      {t:"<b>Just me</b> — solo lead.", act:()=>{D.coBuyer=false;D.castLabel="Solo"}, beat:"A one-person show — clean and simple. Every number in this story is yours alone, and so will be every square foot of the house."},
+      {t:"<b>Me and my spouse</b> — we're married.", act:()=>{D.coBuyer=true;D.coWord="spouse";D.castLabel="Married"}, beat:"A co-starring role! Great news: lenders count BOTH of your incomes, which can seriously expand your budget. They'll also look at both credit scores — we'll cover that in a few scenes."},
+      {t:"<b>Me and my partner</b> — buying together, not married.", act:()=>{D.coBuyer=true;D.coWord="partner";D.castLabel="Co-buying"}, beat:"Very common and absolutely doable — you don't need to be married to buy together. Lenders count BOTH incomes and BOTH credit scores. Ignacio can explain how to title the home so you're both protected."}
+    ]
+  },
+  { // 2 · RENT (input)
+    type:"money",
+    key:"rent",
+    slug:"INT. YOUR APARTMENT — CONTINUOUS",
+    narrative:`You look at that letter again. The number stares back at you. Every month this money leaves your account — <em>and never comes back.</em>`,
+    direction:"INSERT SHOT: the rent amount, circled in red.",
+    q:()=>D.coBuyer? "What is your COMBINED rent right now, each month?" : "What are you paying in rent right now, each month?",
+    hint:()=>D.coBuyer? "The full amount the two of you pay together each month. At the end, you'll see exactly how a real house payment compares to this number." : "Just your share, if you split it with someone. At the end, you'll see exactly how a real house payment compares to this number.",
+    placeholder:"1,800",
+    beat:v=>`${fmt(v)} a month. That's ${fmt(v*12)} a year — building your landlord's future instead of yours. Let's find out what it would take to redirect it.`,
+    act:v=>{}
+  },
+  { // 3 · credit (choice)
+    type:"choice",
+    slug:"INT. KITCHEN TABLE — LATER THAT NIGHT",
+    narrative:`Laptop open. You type the words <em>"free credit report."</em> Your finger hovers over the button. Every great story has a moment of truth — this is yours.`,
+    direction:`SOUND: one deep breath. A click.<br><br>Don't know your score? Check it free right now at
+      <a href="https://www.annualcreditreport.com" target="_blank" rel="noopener" style="color:var(--gold);font-weight:700">AnnualCreditReport.com</a>
+      — the official government-authorized site for your free credit reports (checking never hurts your score).
+      Many banks and credit card apps also show your score free.`,
+    q:"The screen loads. What does it say? (If you're buying together: YOUR score first — theirs is next.)",
+    choices:[
+      {t:"<b>740 or above.</b> The screen practically glows.", act:()=>{scores.credit=3;D.rate=RATES.a;D.creditLabel="740+"}, followUp:()=>D.coBuyer?PARTNER_CREDIT:null, beat:"Top-tier credit means the best interest rates — which means more house for the same monthly payment. Remember that for the final scene."},
+      {t:"<b>670–739.</b> Solid, not spotless.", act:()=>{scores.credit=2;D.rate=RATES.b;D.creditLabel="670–739"}, followUp:()=>D.coBuyer?PARTNER_CREDIT:null, beat:"You're in the game. Good credit gets good loans — and a few months of on-time payments could bump you to the top tier."},
+      {t:"<b>580–669.</b> There's... history there.", act:()=>{scores.credit=1;D.rate=RATES.c;D.creditLabel="580–669"}, followUp:()=>D.coBuyer?PARTNER_CREDIT:null, beat:"Plot twist — not a dead end! There are loan programs designed for buyers exactly like you, and every point your score climbs puts real money back in your pocket. You're closer than you think."},
+      {t:"<b>Below 580 — or I've never actually looked.</b>", act:()=>{scores.credit=0;D.rate=RATES.d;D.creditLabel="Building"}, followUp:()=>D.coBuyer?PARTNER_CREDIT:null, beat:`Every great comeback story starts with this exact moment! Pull your free reports at <a href="https://www.annualcreditreport.com" target="_blank" rel="noopener" style="color:var(--gold)">AnnualCreditReport.com</a> — it's free and never hurts your score. And Ignacio can point you to trusted resources that help buyers improve fast.`}
+    ]
+  },
+  { // 3 · CASH (input) — reworded per Ignacio
+    type:"money",
+    key:"cash",
+    slug:"EXT. COFFEE SHOP PATIO — SATURDAY MORNING",
+    narrative:`Your best friend leans across the table, stirring their café con leche. <em>"So you're serious about this house thing. How much cash do you actually have for it?"</em>`,
+    direction:"You do the math in your head before answering.",
+    q:()=>D.coBuyer? `How much cash do you AND your ${D.coWord||"spouse"} have RIGHT NOW to put toward ALL the costs of buying a home?` : "How much cash do you have RIGHT NOW to put toward ALL the costs of buying a home?",
+    hint:"Count all the money you could really use — and if you're buying together, count BOTH of your savings, plus any money family would give you to help. This has to cover 3 things: the down payment, the fees to close the deal, and some money left over for emergencies. Your best honest guess is fine.",
+    placeholder:"25,000",
+    beat:v=>{
+      if(v>=40000) return "A serious war chest. In the final scene you'll see exactly how far it stretches — down payment, closing costs, and cushion included.";
+      if(v>=15000) return "Real money — enough to open real doors, especially with low-down-payment programs. Let's see what it buys.";
+      if(v>=5000)  return "The saving montage has begun — and you're not alone on this one. Florida has down-payment assistance programs built for exactly this stage. Ignacio knows them all.";
+      return "Every homeowner's story started at exactly this scene! Your verdict will give you a clear target to aim for — and Florida's down-payment assistance programs may get you there faster than you think. Ignacio can walk you through them for free.";
+    },
+    act:v=>{scores.savings = v>=30000?3 : v>=12000?2 : v>=4000?1 : 0;}
+  },
+  { // 4 · INCOME (input)
+    type:"money",
+    key:"income",
+    slug:"INT. YOUR WORKPLACE — WEDNESDAY",
+    narrative:`Between meetings, it hits you: the bank won't just ask <em>if</em> you make money. They'll ask exactly how much — because that one number decides how big your loan can be.`,
+    direction:"FLASHBACK: pay stubs and tax forms flutter past.",
+    q:"How much money do you make each month — BEFORE taxes are taken out?",
+    hint:"Look at your pay stub for the bigger number (before taxes come out). Paid hourly? Use a normal month. Buying with a partner or spouse? Add both paychecks together.",
+    placeholder:"5,500",
+    beat:v=>"Got it. In the next scene we'll add up what you owe each month — together, those two numbers decide the biggest house payment you can handle.",
+    act:v=>{scores.income = v>0?2:0;}
+  },
+  { // 5 · income stability (choice)
+    type:"choice",
+    slug:"INT. YOUR WORKPLACE — CONTINUOUS",
+    narrative:`But how much you make is only half the story. The bank also wants to know one simple thing: <em>is your paycheck steady, and will it keep coming?</em>`,
+    direction:"The loan officer looks up and asks one question.",
+    q:()=>D.coBuyer? "How steady is YOUR paycheck? (Theirs is next.)" : "How steady is your paycheck?",
+    choices:[
+      {t:"<b>Very steady.</b> Same job (or same type of work) for 2+ years.", act:()=>{scores.income=3}, followUp:()=>D.coBuyer?PARTNER_STABILITY:null, beat:"Perfect. Banks love a steady paycheck with pay stubs and tax forms to prove it — this makes getting a home loan much easier."},
+      {t:"<b>Pretty steady.</b> I just started a new job, but it's the same kind of work.", act:()=>{scores.income=Math.max(scores.income,2)}, followUp:()=>D.coBuyer?PARTNER_STABILITY:null, beat:"Usually fine — banks are OK with a new job if it's the same type of work, especially for better pay. Just don't switch jobs again while you're getting your loan."},
+      {t:"<b>I work for myself</b> — and I have 2 years of tax returns to show what I make.", act:()=>{scores.income=Math.max(scores.income,2)}, followUp:()=>D.coBuyer?PARTNER_STABILITY:null, beat:"Totally doable — it just takes more paperwork. Two years of tax returns showing steady money is exactly what banks want to see."},
+      {t:"<b>Just getting started.</b> New career, gig work, or less than a year at my job.", act:()=>{scores.income=1}, followUp:()=>D.coBuyer?PARTNER_STABILITY:null, beat:"That's not a no — it's a 'not yet.' Most banks want to see about 2 years of steady income. Every month you work gets you closer."}
+    ]
+  },
+  { // VA eligibility (choice)
+    type:"choice",
+    slug:"EXT. MACDILL AFB GATE — DRIVING PAST",
+    narrative:`You drive past the base and a thought surfaces. Tampa is a military town — and military service unlocks <em>one of the most powerful home loans in America.</em> Most buyers never even get asked this question.`,
+    direction:"A flag snaps in the breeze. This one matters here.",
+    q:"Will you be using a VA loan? (Have you or your co-buyer served in the military?)",
+    choices:[
+      {t:"<b>Yes — I'm a veteran or active-duty service member.</b>", act:()=>{D.va=true;D.vaLabel="Yes"}, beat:"Thank you for your service — and get ready: the VA loan can mean $0 down payment, NO monthly mortgage insurance, and flexible approval standards. This benefit can dramatically expand your budget. Watch your final scene."},
+      {t:"<b>Yes — I'm an eligible surviving spouse.</b>", act:()=>{D.va=true;D.vaLabel="Yes"}, beat:"That benefit was earned, and it's yours to use: $0 down payment, no monthly mortgage insurance, and flexible approval standards. It can dramatically expand your budget — watch your final scene."},
+      {t:"<b>Not sure if I qualify</b> — someone in my family served.", act:()=>{D.vaMaybe=true;D.vaLabel="Checking"}, beat:"Absolutely worth 5 minutes to find out — the benefit is that powerful. Ignacio can help you verify eligibility and request your Certificate of Eligibility. We'll show your numbers both ways in the final scene."},
+      {t:"<b>No military service here.</b>", act:()=>{D.va=false;D.vaLabel="No"}, beat:"No worries at all — today's loan programs have fantastic first-time buyer options, and Florida's assistance programs stack right on top of them. Onward!"}
+    ]
+  },
+  { // 7 · DEBTS (input)
+    type:"money",
+    key:"debts",
+    slug:"INT. YOUR CAR — MONDAY, STUCK ON THE CROSSTOWN",
+    narrative:`Traffic crawls. Your mind runs through the bills you HAVE to pay every month: <em>the car payment... the credit cards... that student loan that will not die.</em> Every one of these shrinks the loan the bank will give you.`,
+    direction:"The light turns green. Nobody moves.",
+    q:"Let's break your monthly bills into pieces — what do you pay on each?",
+    hint:"Minimum required payments only — and if you're buying together, include BOTH of your bills. Got student loans, personal loans, or child support? Add those monthly payments into the credit card box. DON'T count: rent, electricity, phone, food, or gas. Enter 0 for anything that doesn't apply.",
+    placeholder:"450",
+    allowZero:true,
+    multi:[
+      {id:"debtCar",   label:"CAR PAYMENT(S)",           ph:"350"},
+      {id:"debtCards", label:"CREDIT CARD MINIMUMS",     ph:"120"}
+    ],
+    beat:v=>{
+      if(v===0) return "Debt-free. A clean balance sheet is a superpower — every dollar of income goes toward qualifying you.";
+      if(v<=300) return "A light load. Lenders will like this picture — most of your income stays available for the mortgage.";
+      if(v<=800) return "A real but manageable slice. Every card you pay down between now and pre-approval buys you more house.";
+      return "Here's the exciting part: this is the number you have the MOST power over. Every payment you knock out expands your home budget dramatically — and Ignacio can help you see which quick win moves the needle fastest.";
+    },
+    act:v=>{
+      const dti = D.income>0 ? v/D.income : 1;
+      scores.debt = dti<0.15?3 : dti<0.30?2 : dti<0.45?1 : 0;
+    }
+  },
+  { // 8 · timeline (choice)
+    type:"choice",
+    slug:"EXT. OPEN HOUSE — SUNDAY AFTERNOON",
+    narrative:`You weren't even planning to stop. But the sign said OPEN, and now you're standing in a sunlit living room thinking, <em>"I could put the couch right there."</em>`,
+    direction:"Through the window: a yard. A future.",
+    q:"When do you want keys in your hand?",
+    choices:[
+      {t:"<b>5 weeks or so</b> — I need this to happen FAST.", act:()=>{D.timeline="5+ weeks"}, beat:"The full sprint. Here's the math: once a seller accepts your offer, closing normally takes about 30 days. That means you'd need to find your home in the first week — possible, but only with a pre-approval letter already in hand and a decisive game plan."},
+      {t:"<b>The next 3 months</b> — as soon as reasonably possible.", act:()=>{D.timeline="0-3 months"}, beat:"Very doable. Here's the math: from the day your offer is accepted, closing normally takes about 30 days. That gives you about 2 months to find the right home — a comfortable pace if your fundamentals are ready. Your verdict AND your budget are one scene away."},
+      {t:"<b>This year</b> — 3 to 6 months out.", act:()=>{D.timeline="3-6 months"}, beat:"The sweet spot. Enough runway to prepare properly, close enough to feel real."},
+      {t:"<b>6 to 12 months</b> — I want to do this right.", act:()=>{D.timeline="6-12 months"}, beat:"Patience is a strategy. A year of preparation can save you five figures over the life of a loan."},
+      {t:"<b>No date yet</b> — I'm gathering intelligence.", act:()=>{D.timeline="exploring"}, beat:"Smart. The best buyers start learning long before they start touring."}
+    ]
+  }
+];
+
+/* ==================== RENDER ==================== */
+const frame = document.getElementById('frame');
+const filmInfo = document.getElementById('filmInfo');
+function setInfo(t){filmInfo.textContent=t}
+
+function swap(html, cls="scene"){
+  const cur = frame.firstElementChild;
+  if(cur){cur.classList.add('fadeout');setTimeout(()=>{frame.innerHTML=`<div class="${cls}">${html}</div>`;},420);}
+  else frame.innerHTML=`<div class="${cls}">${html}</div>`;
+}
+
+function titleScreen(){
+  setInfo("Purchasing Power Quiz");
+  D={};scores={credit:0,savings:0,debt:0,income:0,mindset:0};sceneNum=0;
+  swap(`
+    <div class="title-screen">
+      <div class="presents">Ignacio Toraño Presents</div>
+      <h1 class="movie-title">Purchasing Power<em>the quiz</em></h1>
+      <div class="title-rule"></div>
+      <p class="logline">In 5 minutes, you'll find out <b style="color:var(--gold-light)">what type of house you can afford</b> — plus
+      the tips that put you in a position to succeed when it comes to buying a home.
+      <b style="color:var(--gold-light)">Knowledge is power</b>, and today you've taken the step to arm yourself with it.</p>
+      <p class="logline" style="margin-top:14px;font-size:.82rem">
+      <b style="color:var(--gold-light)">Your information is never stored or shared</b> — unless, at the end, YOU choose to send your
+      results to Ignacio or his preferred mortgage lenders. Ignacio's preferred lenders are people he trusts and has worked with
+      himself. <b style="color:var(--gold-light)">Ignacio does not benefit in any way</b> from you using these lenders — he wants you
+      to succeed, and with the right team, you will. There's no obligation or commitment if you choose to send your information.</p>
+      <p class="logline" style="margin-top:14px;font-size:.8rem;border:1px solid #e4dcc9;padding:12px 16px">
+      <b style="color:var(--gold-light)">Heads up before we roll:</b> this quiz is a guide with rough estimates to help you
+      understand where you stand. Only a lender can officially approve you for a loan — and Ignacio can connect you with great ones.</p>
+      <div class="credits">Starring: You · Runtime: ±5 min<br>Rated R — for Readiness</div>
+      <button class="btn" onclick="playScene()">▶ &nbsp;Begin Scene One</button>
+    </div>
+  `);
+}
+
+
+/* ===== BACK NAVIGATION: state snapshots per scene ===== */
+const SNAP = {};
+function takeSnap(){ SNAP[sceneNum] = {D: JSON.parse(JSON.stringify(D)), scores: {...scores}}; }
+function restoreSnap(n){ const s = SNAP[n]; if(!s) return; D = JSON.parse(JSON.stringify(s.D)); scores = {...s.scores}; }
+function backScene(){         /* from a question: go to previous scene (or title) */
+  if(sceneNum === 0){ titleScreen(); return; }
+  sceneNum--; restoreSnap(sceneNum); playScene();
+}
+function redoScene(){         /* from a beat/follow-up: undo this answer, re-ask */
+  currentFollow = null; restoreSnap(sceneNum); playScene();
+}
+
+function playScene(){
+  takeSnap();
+  const s = SCRIPT[sceneNum];
+  setInfo(`Scene ${sceneNum+1} of ${TOTAL_SCENES}`);
+  if(s.type==="choice"){
+    const qText = typeof s.q==="function"? s.q() : s.q;
+    swap(`
+      <span class="scene-count">Scene ${sceneNum+1} / ${TOTAL_SCENES}</span>
+      <div class="slug">${s.slug}</div>
+      <p class="narrative">${s.narrative}</p>
+      <p class="qline">${qText}</p>
+      <div class="choices">
+        ${s.choices.map((c,i)=>`<button class="choice" onclick="choose(${i})">${c.t}</button>`).join('')}
+      </div>
+      <button class="back-link" onclick="backScene()">&#8249; Back</button>
+    `);
+  }else if(s.multi){
+    const qText = typeof s.q==="function"? s.q() : s.q;
+    const hintText = typeof s.hint==="function"? s.hint() : s.hint;
+    swap(`
+      <span class="scene-count">Scene ${sceneNum+1} / ${TOTAL_SCENES}</span>
+      <div class="slug">${s.slug}</div>
+      <p class="narrative">${s.narrative}</p>
+      <p class="qline">${qText}</p>
+      ${s.multi.map((m,i)=>`
+        <div style="margin-top:14px;font-size:.7rem;font-weight:700;letter-spacing:.14em;color:var(--gold-light)">${m.label}</div>
+        <div class="money-wrap" style="margin-top:8px">
+          <div class="money-box"><span class="sym">$</span>
+            <input id="multi_${m.id}" type="text" inputmode="numeric" placeholder="${m.ph}" autocomplete="off" oninput="fmtLive(this)" ${i===s.multi.length-1?`onkeydown="if(event.key==='Enter')submitMulti()"`:``}>
+          </div>
+        </div>`).join('')}
+      <div class="money-wrap" style="margin-top:18px">
+        <button class="btn inline" onclick="submitMulti()">Continue ➜</button>
+      </div>
+      <p class="money-hint">${hintText}</p>
+      <p class="err" id="moneyErr">Enter a number in each box — 0 is fine for anything that doesn't apply.</p>
+      <button class="back-link" onclick="backScene()">&#8249; Back</button>
+    `);
+    setTimeout(()=>{const el=document.getElementById('multi_'+s.multi[0].id);if(el)el.focus();},600);
+  }else{
+    const dual = (s.key==="income" && D.coBuyer);
+    const co = D.coWord||"partner";
+    const qText = typeof s.q==="function"? s.q() : s.q;
+    const hintText = typeof s.hint==="function"? s.hint() : s.hint;
+    swap(`
+      <span class="scene-count">Scene ${sceneNum+1} / ${TOTAL_SCENES}</span>
+      <div class="slug">${s.slug}</div>
+      <p class="narrative">${s.narrative}</p>
+      <p class="qline">${dual? "What does EACH of you make per month — before taxes?" : qText}</p>
+      ${dual? `
+      <div style="margin-top:14px;font-size:.72rem;font-weight:700;letter-spacing:.16em;color:var(--gold-light)">YOU</div>
+      <div class="money-wrap" style="margin-top:8px">
+        <div class="money-box"><span class="sym">$</span>
+          <input id="moneyIn" type="text" inputmode="numeric" placeholder="${s.placeholder}" autocomplete="off" oninput="fmtLive(this)">
+        </div>
+      </div>
+      <div style="margin-top:14px;font-size:.72rem;font-weight:700;letter-spacing:.16em;color:var(--gold-light)">YOUR ${co.toUpperCase()}</div>
+      <div class="money-wrap" style="margin-top:8px">
+        <div class="money-box"><span class="sym">$</span>
+          <input id="moneyIn2" type="text" inputmode="numeric" placeholder="4,200" autocomplete="off" onkeydown="if(event.key==='Enter')submitMoney()" oninput="fmtLive(this)">
+        </div>
+        <button class="btn inline" onclick="submitMoney()">Continue ➜</button>
+      </div>` : `
+      <div class="money-wrap">
+        <div class="money-box">
+          <span class="sym">$</span>
+          <input id="moneyIn" type="text" inputmode="numeric" placeholder="${s.placeholder}" autocomplete="off"
+                 onkeydown="if(event.key==='Enter')submitMoney()" oninput="fmtLive(this)">
+        </div>
+        <button class="btn inline" onclick="submitMoney()">Continue ➜</button>
+      </div>`}
+      <p class="money-hint">${dual? "Look at each pay stub for the bigger number (before taxes come out). Paid hourly? Use a normal month for each of you." : hintText}</p>
+      <p class="err" id="moneyErr">Enter a number${s.allowZero?" (0 is allowed)":" greater than zero"} — your best estimate works.</p>
+      <button class="back-link" onclick="backScene()">&#8249; Back</button>
+    `);
+    setTimeout(()=>{const el=document.getElementById('moneyIn');if(el)el.focus();},600);
+  }
+}
+
+function fmtLive(el){
+  const raw = el.value.replace(/[^0-9]/g,"");
+  el.value = raw ? Number(raw).toLocaleString("en-US") : "";
+}
+
+function submitMulti(){
+  const s = SCRIPT[sceneNum];
+  let total = 0;
+  for(const m of s.multi){
+    const raw = document.getElementById('multi_'+m.id).value.replace(/[^0-9]/g,"");
+    const v = raw===""? 0 : Number(raw);           /* blank counts as 0 */
+    if(isNaN(v) || v<0 || v>100000000){ document.getElementById('moneyErr').style.display="block"; return; }
+    D[m.id] = v; total += v;
+  }
+  D[s.key] = total;
+  s.act(total);
+  showBeat(typeof s.beat==="function"? s.beat(total) : s.beat);
+}
+
+function submitMoney(){
+  const s = SCRIPT[sceneNum];
+  const dual = (s.key==="income" && D.coBuyer);
+  const raw = document.getElementById('moneyIn').value.replace(/[^0-9]/g,"");
+  const v = raw===""? NaN : Number(raw);
+  if(isNaN(v) || (!s.allowZero && v<=0) || v>100000000){
+    document.getElementById('moneyErr').style.display="block";return;
+  }
+  if(dual){
+    const raw2 = document.getElementById('moneyIn2').value.replace(/[^0-9]/g,"");
+    const v2 = raw2===""? NaN : Number(raw2);
+    if(isNaN(v2) || v2<0 || v2>100000000){
+      document.getElementById('moneyErr').style.display="block";return;
+    }
+    D.income1=v; D.income2=v2; D[s.key]=v+v2;
+    s.act(v+v2);
+    showBeat(`Together: <b style="color:var(--cream)">${fmt(v+v2)}</b> a month. That's the power of buying as a team — lenders count BOTH incomes, and in the next scenes we'll see what that combined number can do.`);
+    return;
+  }
+  D[s.key]=v;
+  s.act(v);
+  showBeat(typeof s.beat==="function"? s.beat(v) : s.beat);
+}
+
+let currentFollow=null;
+function choose(i){
+  const c = SCRIPT[sceneNum].choices[i];
+  c.act();
+  let fu = c.followUp;
+  if(typeof fu === "function") fu = fu();
+  if(fu){showFollowUp(fu);return;}
+  showBeat(c.beat);
+}
+
+function showFollowUp(f){
+  currentFollow=f;
+  swap(`
+    <span class="scene-count">Scene ${sceneNum+1} / ${TOTAL_SCENES}</span>
+    <div class="slug">${f.slug}</div>
+    <p class="narrative">${f.narrative}</p>
+    <p class="qline">${f.q}</p>
+    <div class="choices">
+      ${f.choices.map((c,i)=>`<button class="choice" onclick="chooseFollow(${i})">${c.t}</button>`).join('')}
+    </div>
+    <button class="back-link" onclick="redoScene()">&#8249; Back</button>
+  `);
+}
+
+function chooseFollow(i){
+  const c=currentFollow.choices[i];
+  c.act();
+  currentFollow=null;
+  showBeat(c.beat);
+}
+
+function showBeat(text){
+  swap(`
+    <div class="beat">
+      <span class="cut">Cut to —</span>
+      <p>${text}</p>
+      <button class="btn ghost" onclick="nextScene()">${sceneNum===TOTAL_SCENES-1?"Roll the Verdict ➜":"Continue ➜"}</button>
+      <div><button class="back-link" onclick="redoScene()">&#8249; Change my answer</button></div>
+    </div>
+  `);
+}
+
+function nextScene(){
+  sceneNum++;
+  if(sceneNum>=TOTAL_SCENES){showResults();return;}
+  playScene();
+}
+
+/* ==================== AFFORDABILITY MATH ==================== */
+/*
+  Assumptions (shown to user, rate itself not displayed):
+  - 30-year fixed at 6.5% for all estimates.
+  - Property taxes + homeowners insurance ≈ 1.9%/yr of price (FL estimate). HOA not included.
+  - Closing costs ≈ 3% of price.
+  - Cushion held back from cash: max($3,000, 10% of cash), capped at $12,000.
+  - Program down payments: Conventional 3%–20% (3% min used), FHA 3.5%–10% (3.5% min used), VA $0 down.
+*/
+const FLAT_RATE = 0.065;
+function calcBudget(){
+  const {cash=0, income=0, debts=0} = D;
+  if(income<=0 || cash<=0) return null;
+
+  const cushion = Math.min(Math.max(3000, cash*0.10), 12000);
+  const A = cash - cushion;                       // usable for down + closing
+  if(A < 4000) return {tooLow:true, cushion, A};
+
+  const r = FLAT_RATE/12, n=360;
+  const M = r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1); // payment per $1 of loan
+  const t = 0.019/12;                              // taxes+ins per $1 of price monthly
+
+  // program-specific: fe/be DTI caps, minimum down payment %
+  function programCalc(fe, be, minDown){
+    const pitiCap = Math.min(fe*income, be*income - debts);
+    if(pitiCap<=0) return {price:0, payment:0};
+    // at minimum down: loan = (1-minDown)·p ; payment = (1-minDown)·p·M + p·t
+    let p = pitiCap/(( (1-minDown)*M ) + t);
+    // cash must cover minimum down + ~3% closing
+    p = Math.min(p, A/(minDown+0.03));
+    p = Math.max(p,0);
+    const payment = (1-minDown)*p*M + p*t;
+    return {price:p, payment};
+  }
+
+  const conv = programCalc(0.33,0.50,0.03);   // Conventional: 3%–20% down (3% min), AUS-flexible DTI
+  const fha  = programCalc(0.31,0.55,0.035);  // FHA: 3.5%–10% down, compensating-factor DTI
+  const vaEligible = !!(D.va || D.vaMaybe);
+  const va   = vaEligible ? programCalc(0.41,0.41,0.0) : {price:0,payment:0};  // VA: $0 down
+
+  // comfortable end: conservative DTI, buyer's actual cash as down payment
+  function comfyCalc(){
+    const pitiCap = Math.min(0.28*income, 0.36*income - debts);
+    if(pitiCap<=0) return 0;
+    let p = (pitiCap + A*M)/(1.03*M + t);
+    p = Math.min(p, A/0.065);
+    return Math.max(p,0);
+  }
+  const comfy = comfyCalc();
+  const stretchMax = Math.max(conv.price, fha.price, va.price);
+  if(stretchMax < 100000) return {tooLow:true, cushion, A};   // below realistic Tampa-area home prices
+  const comfyPrice  = Math.max(Math.min(comfy, stretchMax), 100000);
+
+  const price = comfyPrice;                        // headline at comfortable level
+  const closing = price*0.03;
+  let down = Math.max(A - closing, price*0.035);
+  let finalCushion = cushion;
+  if(down > price*0.8){                            // extra cash beyond 80% down stays in your pocket
+    finalCushion += down - price*0.8;
+    down = price*0.8;
+  }
+  const loan = price - down;
+  const pi = loan*M;
+  const ti = price*0.019/12;
+  return {comfyPrice, maxPrice:stretchMax,
+          programs:{conv, fha, va, vaEligible},
+          cushion:finalCushion, closing, down, loan, payment: pi+ti, tooLow:false};
+}
+
+/* ==================== RESULTS ==================== */
+function showResults(){
+  setInfo("The Verdict");
+  const CATS={credit:"Credit",savings:"Cash",debt:"Debt Load",income:"Income",mindset:"Mindset"};
+  const max={credit:3,savings:3,debt:3,income:3,mindset:1};
+  const total=Object.values(scores).reduce((a,b)=>a+b,0);
+  const hasZero=Object.values(scores).some(v=>v===0);
+  const B = calcBudget();
+
+  let tag,tagColor,title,sub;
+  if(total>=12 && !hasZero && B && !B.tooLow){
+    tag="Now Showing";tagColor="var(--green)";
+    title=`You're <em>ready for the leading role.</em>`;
+    sub=`Strong credit, real cash, manageable debt. Your next scene is a pre-approval letter — bring the budget below to that conversation${D.timeline&&D.timeline!=="exploring"?", and your "+D.timeline+" timeline is realistic":""}.`;
+  }else if(total>=8){
+    tag="Coming Soon";tagColor="var(--amber)";
+    title=`Your premiere is <em>months away, not years.</em>`;
+    sub=`The foundation is real — you're closer than most people ever get. A few scenes need polish before opening night, and the notes below show exactly which ones${D.timeline&&D.timeline!=="exploring"?"; your "+D.timeline+" timeline is absolutely possible with focus":""}. <b style="color:var(--gold-light)">Reach out to Ignacio now</b> — starting the conversation early is how buyers like you hit their timeline.`;
+  }else{
+    tag="In Production";tagColor="var(--amber)";
+    title=`Your story is <em>still being written</em> — and it's going to be a good one.`;
+    sub=`You just did something most people never do: you got real about your numbers. That puts you AHEAD, not behind. The notes below are your script for the months ahead — and here's the best part: <b style="color:var(--gold-light)">you don't have to figure it out alone. Reach out to Ignacio today</b> — he helps future buyers at exactly this stage every day, and mapping your fastest path costs you nothing.`;
+  }
+
+  /* your profile card */
+  const profileHTML = `
+    <div class="budget" style="margin-top:34px" data-label="profile">
+      <div class="b-grid" style="border-top:none;padding-top:0;grid-template-columns:1fr 1fr 1fr">
+        <div class="b-item"><div class="k">Buying as</div><div class="v" style="font-size:.9rem">${D.castLabel||"—"}</div></div>
+        <div class="b-item"><div class="k">Cash on hand</div><div class="v">${D.cash?fmt(D.cash):"—"}</div></div>
+        <div class="b-item"><div class="k">Income (pre-tax)</div><div class="v">${D.income?fmt(D.income)+"/mo":"—"}${D.coBuyer&&D.income1!=null?"<br><span style='font-size:.68rem;color:var(--muted)'>you "+fmt(D.income1)+" · "+(D.coWord||"partner")+" "+fmt(D.income2)+"</span>":""}</div></div>
+        <div class="b-item"><div class="k">Monthly debts</div><div class="v">${D.debts!=null?fmt(D.debts)+"/mo":"—"}</div>${D.debts>0?`<div style="font-size:.62rem;color:var(--muted);margin-top:3px">car ${fmt(D.debtCar||0)} · cards ${fmt(D.debtCards||0)}</div>`:``}</div>
+        <div class="b-item"><div class="k">Current rent</div><div class="v">${D.rent?fmt(D.rent)+"/mo":"—"}</div></div>
+        <div class="b-item"><div class="k">Credit range</div><div class="v">${D.creditLabel||"—"}</div></div>
+        <div class="b-item"><div class="k">VA loan</div><div class="v">${D.vaLabel||"—"}</div></div>
+        <div class="b-item"><div class="k">Timeline</div><div class="v" style="font-size:.85rem">${D.timeline||"Exploring"}${D.leaseEnd?"<br><span style='font-size:.7rem;color:var(--muted)'>lease: "+D.leaseEnd+"</span>":""}</div></div>
+      </div>
+    </div>`;
+
+  /* budget block */
+  let budgetHTML="";
+  let rentLine="";
+  if(D.rent>0 && B && !B.tooLow){
+    const diff = B.payment - D.rent;
+    if(Math.abs(diff)<75){
+      rentLine=`<div class="pay" style="margin-top:8px;color:var(--gold-light)">You pay <b>${fmt(D.rent)}</b> in rent now — a house payment would be <b>almost the same</b>. But this one builds YOUR equity.</div>`;
+    }else if(diff>0){
+      rentLine=`<div class="pay" style="margin-top:8px">You pay <b>${fmt(D.rent)}</b> in rent now — this is about <b style="color:var(--gold-light)">${fmt(diff)} more</b> per month, and it builds YOUR equity instead of your landlord's.</div>`;
+    }else{
+      rentLine=`<div class="pay" style="margin-top:8px;color:var(--gold-light)">You pay <b>${fmt(D.rent)}</b> in rent now — this is about <b>${fmt(-diff)} LESS</b> per month than your rent. Read that again.</div>`;
+    }
+  }
+  if(B && !B.tooLow){
+    const P=B.programs;
+    budgetHTML=`
+      <div class="budget">
+        <div style="font-size:.82rem;font-weight:700;letter-spacing:.08em;color:var(--cream);margin-bottom:8px">Based on your numbers, you could shop for homes priced around:</div>
+        <div class="range">${fmtK(B.comfyPrice)} – ${fmtK(B.maxPrice)}</div>
+        <div style="font-size:.78rem;color:var(--muted);margin-top:4px">comfortable end &nbsp;→&nbsp; most flexible loan programs</div>
+        <div class="pay" style="margin-top:14px">Est. monthly payment around <b>${fmt(B.payment)}</b> at the comfortable end<br>
+        <span style="font-size:.78rem;color:var(--muted)">(principal + interest + est. taxes &amp; insurance)</span></div>
+        ${rentLine}
+        <div class="b-grid">
+          <div class="b-item"><div class="k">Down payment</div><div class="v">${fmt(B.down)}</div></div>
+          <div class="b-item"><div class="k">Est. closing costs</div><div class="v">${fmt(B.closing)}</div></div>
+          <div class="b-item"><div class="k">Cushion you keep</div><div class="v">${fmt(B.cushion)}</div></div>
+          <div class="b-item"><div class="k">Est. loan amount</div><div class="v">${fmt(B.loan)}</div></div>
+        </div>
+
+        <div style="border-top:1px solid #e4dcc9;margin-top:20px;padding-top:18px;text-align:left">
+          <div style="font-family:'Courier Prime',monospace;font-size:.66rem;letter-spacing:.26em;color:var(--gold);margin-bottom:12px">YOUR LOAN OPTIONS — WHAT EACH ONE BUYS</div>
+          <p style="font-size:.82rem;line-height:1.75;color:#3a4356">Lenders compare your monthly debts to your pre-tax income — your
+          <b style="color:var(--cream)">Debt-to-Income ratio (DTI)</b>. Your house payment (principal, interest, taxes &amp; insurance)
+          should ideally land around <b style="color:var(--gold-light)">28–31% of your pre-tax income</b>, with ALL monthly debts together
+          maxing out between <b style="color:var(--gold-light)">43% and 56%</b> depending on the program. Here's what that means for YOUR numbers:</p>
+          <div style="margin-top:14px;display:grid;gap:10px">
+            ${P.vaEligible ? `
+            <div style="background:#e7f2e6;border-left:3px solid var(--green);padding:14px 16px">
+              <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;align-items:baseline">
+                <span style="font-size:.72rem;font-weight:700;letter-spacing:.12em;color:#2e7a4e">★ VA — YOUR EARNED BENEFIT · $0 DOWN</span>
+              </div>
+              <div style="display:flex;gap:26px;flex-wrap:wrap;margin-top:8px">
+                <div><div style="font-size:.62rem;letter-spacing:.14em;color:#3e8a5f;font-weight:700">HOME PRICE UP TO</div><div style="font-family:'Playfair Display',serif;font-weight:800;font-size:1.35rem;color:#1e5c38">~${fmtK(P.va.price)}</div></div>
+                <div><div style="font-size:.62rem;letter-spacing:.14em;color:#3e8a5f;font-weight:700">EST. MONTHLY PAYMENT</div><div style="font-family:'Playfair Display',serif;font-weight:800;font-size:1.35rem;color:#1e5c38">~${fmt(P.va.payment)}/mo</div></div>
+              </div>
+              <div style="font-size:.78rem;color:#4a5468;line-height:1.65;margin-top:8px"><b style="color:#2e7a4e">$0 down payment</b> — your cash covers closing costs and the rest stays in your pocket. No monthly mortgage insurance.${D.vaMaybe?" <b style='color:var(--gold-light)'>Not sure you qualify? Ignacio can help you verify eligibility — it takes minutes.</b>":""}</div>
+            </div>` : ``}
+            <div style="background:#f3edde;border-left:3px solid var(--gold);padding:14px 16px">
+              <span style="font-size:.72rem;font-weight:700;letter-spacing:.12em;color:var(--gold-light)">FHA · 3.5%–10% DOWN</span>
+              <div style="display:flex;gap:26px;flex-wrap:wrap;margin-top:8px">
+                <div><div style="font-size:.62rem;letter-spacing:.14em;color:#5f6879;font-weight:700">HOME PRICE UP TO</div><div style="font-family:'Playfair Display',serif;font-weight:800;font-size:1.35rem;color:var(--gold-light)">~${fmtK(P.fha.price)}</div></div>
+                <div><div style="font-size:.62rem;letter-spacing:.14em;color:#5f6879;font-weight:700">EST. MONTHLY PAYMENT</div><div style="font-family:'Playfair Display',serif;font-weight:800;font-size:1.35rem;color:var(--gold-light)">~${fmt(P.fha.payment)}/mo</div></div>
+              </div>
+              <div style="font-size:.78rem;color:#4a5468;line-height:1.65;margin-top:8px">Down payment as low as <b style="color:var(--cream)">3.5%</b>. Friendly to credit stories still being built — with strong savings or credit, approvals can flex further.</div>
+            </div>
+            <div style="background:#f3edde;border-left:3px solid var(--gold);padding:14px 16px">
+              <span style="font-size:.72rem;font-weight:700;letter-spacing:.12em;color:var(--gold-light)">CONVENTIONAL · 3%–20% DOWN</span>
+              <div style="display:flex;gap:26px;flex-wrap:wrap;margin-top:8px">
+                <div><div style="font-size:.62rem;letter-spacing:.14em;color:#5f6879;font-weight:700">HOME PRICE UP TO</div><div style="font-family:'Playfair Display',serif;font-weight:800;font-size:1.35rem;color:var(--gold-light)">~${fmtK(P.conv.price)}</div></div>
+                <div><div style="font-size:.62rem;letter-spacing:.14em;color:#5f6879;font-weight:700">EST. MONTHLY PAYMENT</div><div style="font-family:'Playfair Display',serif;font-weight:800;font-size:1.35rem;color:var(--gold-light)">~${fmt(P.conv.payment)}/mo</div></div>
+              </div>
+              <div style="font-size:.78rem;color:#4a5468;line-height:1.65;margin-top:8px">Down payment from <b style="color:var(--cream)">3% up to 20%</b> — put down 20% and the monthly mortgage insurance disappears. Strongest with good credit and reserves.</div>
+            </div>
+          </div>
+        </div>
+
+        <p class="b-note">Estimates assume a 30-year loan at today's typical rates, minimum down payments per program, ~3% closing costs from your cash
+        (minus a kept cushion), and Florida-typical taxes + insurance (~1.9%/yr). HOA/CDD fees and mortgage insurance not included.
+        <b style="color:var(--gold-light)">Remember: this is a guide with rough estimates — a lender is the one who officially approves you, and Ignacio can connect you with trusted ones.</b></p>
+      </div>`;
+  }else if(B && B.tooLow){
+    budgetHTML=`
+      <div class="budget">
+        <div class="range" style="font-size:1.4rem">Your budget scene is coming — and sooner than you think.</div>
+        <p class="b-note" style="margin-top:12px">Today's numbers are a starting point, not a ceiling. Thousands of Tampa Bay homeowners started right where you are —
+        and Florida's down-payment assistance programs, first-time buyer loans, and a few smart moves can change this picture fast.
+        <b style="color:var(--gold-light)">The single best next step: reach out to Ignacio.</b> He'll map your personal fastest path to keys-in-hand —
+        it's free, it's zero pressure, and it's what he loves doing most.</p>
+      </div>`;
+  }
+
+  /* director's notes */
+  const advice={
+    credit:{low:`<b>Pull all three credit reports</b> — free at <a href="https://www.annualcreditreport.com" target="_blank" rel="noopener" style="color:var(--gold)">AnnualCreditReport.com</a> — dispute errors, set every account to autopay, and get card balances under 30% of limits. Better credit = lower rate = bigger budget.`,
+            mid:"<b>Polish the credit.</b> A few months of on-time payments and lower utilization could move you a rate tier — at your numbers that's real buying power."},
+    savings:{low:"<b>Open a dedicated house fund</b> with automatic transfers every payday, and ask about Florida down-payment assistance. Target: enough for 3.5–5% down + ~3% closing costs + cushion.",
+             mid:"<b>Keep stacking the house fund</b> — closing costs (~3%) are the line item that surprises everyone. Every $5K saved noticeably moves your price range."},
+    debt:{low:"<b>List every debt with its payment and rate,</b> then attack the highest-rate cards first. At your income, each $100/mo you eliminate adds roughly $15–18K to your maximum price.",
+          mid:"<b>Trim the debt load</b> and take on absolutely nothing new — no cars, no cards, no co-signing — until after closing."},
+    income:{low:"<b>Let the employment clock run.</b> Most lenders want a 2-year track record. Gather tax returns, W-2s/1099s, and pay stubs now so you're ready the day you qualify.",
+            mid:"<b>Stay put professionally.</b> Your income story works — just avoid job changes once you're in the loan process."},
+    mindset:{low:"<b>Build the 'July AC fund.'</b> Plan 1–2% of home value per year for maintenance, and buy at the comfortable end of your range — cushion is what makes ownership feel good.",
+             mid:"<b>Shop the comfortable end of your range,</b> not the maximum. The payment you can handle in a bad month is the right payment."}
+  };
+  let notes=[];
+  const order=Object.keys(scores).sort((a,b)=>scores[a]-scores[b]);
+  for(const k of order){
+    if(scores[k]<=1&&advice[k])notes.push(advice[k].low);
+    else if(scores[k]===2&&advice[k])notes.push(advice[k].mid);
+    if(notes.length>=3)break;
+  }
+  if(notes.length===0)notes.push("<b>Get pre-approved</b> — shop 2–3 lenders, compare rates and fees, and ask about first-time buyer programs. Bring your budget numbers to the conversation.");
+  notes.push("<b>Talk it through with a local expert.</b> Fifteen minutes with Ignacio turns this estimate into a personal game plan — no pressure, no cost.");
+
+  const emailBody = encodeURIComponent(
+`Hi Ignacio,
+
+I just took the readiness quiz. My verdict: ${tag.toUpperCase()}${B&&!B.tooLow?`
+Estimated range: ${fmtK(B.comfyPrice)} - ${fmtK(B.maxPrice)}`:""}
+Buying as: ${D.castLabel||"—"}
+Current rent: ${D.rent?fmt(D.rent)+"/mo":"not shared"}${D.leaseEnd?`
+Lease ends: ${D.leaseEnd}`:""}${D.vaLabel?`
+VA loan: ${D.vaLabel}`:""}
+Timeline: ${D.timeline||"not sure yet"}
+
+I'd like to talk about next steps.`);
+
+  window._verdict = {tag, D, B, scores, notes, CATS, max};
+
+  swap(`
+    <div class="poster">
+      <div class="print-brand">
+        <div class="pb-name">Ignacio <em>Toraño</em></div>
+        <div class="pb-line">South Tampa &amp; Tampa Bay Real Estate &middot; Agile Group Realty &middot; The Kerin Group</div>
+        <div class="pb-line">813-390-2228 &middot; ignacio@agilegrouprealty.com &middot; ignaciotorano.com</div>
+      </div>
+      <span class="verdict-tag" style="color:${tagColor};border-color:${tagColor}">${tag}</span>
+      <h2 class="verdict-title">${title}</h2>
+      <p class="verdict-sub">${sub}</p>
+      ${profileHTML}
+      ${budgetHTML}
+      <div class="scores">
+        <h4>Critics' Scores</h4>
+        ${Object.keys(CATS).map(k=>`
+          <div class="score-row">
+            <span class="lbl">${CATS[k]}</span>
+            <div class="track"><div class="fill" data-w="${(scores[k]/max[k])*100}"></div></div>
+            <span class="val">${scores[k]}/${max[k]}</span>
+          </div>`).join('')}
+      </div>
+      <div class="notes">
+        <h4>Director's Notes — your next scenes</h4>
+        <ol>${notes.map(n=>`<li>${n}</li>`).join('')}</ol>
+      </div>
+      <div class="preapprove-box">
+        <button class="btn" onclick="openLeadModal('preapproval')">🏦 Get Pre-Approved</button>
+        <p class="pa-note">Sends your results to <b>Ignacio's 3 preferred lenders</b> — people he trusts and has worked with himself.<br>
+        <b>Reminder:</b> they'll give you knowledge. There is <b>no commitment</b>.</p>
+      </div>
+      <div class="final-ctas" style="margin-top:18px">
+        <button class="btn ghost" onclick="openLeadModal('ignacio')">✉️ Email This to Ignacio</button>
+        <button class="btn ghost" onclick="window.print()">💾 Save Results as PDF</button>
+      </div>
+
+      <div class="budget" data-label="share" style="margin-top:34px;max-width:520px;margin-left:auto;margin-right:auto">
+        <div style="font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:1.05rem;color:var(--gold-light)">Know a friend who should take this?</div>
+        <p style="font-size:.8rem;color:var(--muted);line-height:1.7;margin-top:8px">Drop their phone number or email and send them the quiz — every future homeowner deserves a head start.</p>
+        <div class="money-wrap" style="margin-top:14px">
+          <div class="money-box" style="border-left-color:var(--gold)">
+            <input id="friendIn" type="text" inputmode="email" placeholder="friend's email or phone number" autocomplete="off"
+                   style="padding-left:16px" onkeydown="if(event.key==='Enter')shareWithFriend()">
+          </div>
+          <button class="btn inline" onclick="shareWithFriend()">Send It ➜</button>
+        </div>
+        <p class="err" id="friendErr">Enter a valid email address or phone number.</p>
+        <a class="fb-share" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fignaciotorano.com%2Fresources%2Fpurchasing-power-quiz" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Share on Facebook
+        </a>
+      </div>
+
+      <div class="final-ctas" style="margin-top:18px">
+        <a class="btn ghost" href="tel:8133902228">📞 Call Ignacio — 813.390.2228</a>
+      </div>
+
+      <div class="final-ctas" style="margin-top:14px">
+        <button class="btn ghost" onclick="titleScreen()">↺ Watch Again</button>
+      </div>
+      <div class="signoff">
+        Ignacio Toraño, Realtor® · Agile Group Realty · The Kerin Group<br>
+        <a href="https://ignaciotorano.com">ignaciotorano.com</a> · Educational estimate only — not a loan approval,<br>
+        lending, legal, or financial advice. Rates illustrative &amp; change daily.
+      </div>
+    </div>
+  `);
+  setTimeout(()=>{document.querySelectorAll('.fill').forEach(f=>f.style.width=f.dataset.w+'%');},600);
+}
+
+/* ===== Lead modal: Email to Ignacio / Get Pre-Approved ===== */
+let leadMode = "ignacio";
+
+function resultsText(){
+  const v = window._verdict; if(!v) return "";
+  const L = [];
+  L.push("VERDICT: " + v.tag.toUpperCase());
+  L.push("");
+  L.push("--- PROFILE ---");
+  L.push("Buying as: " + (v.D.castLabel||"-"));
+  if(v.D.cash!=null) L.push("Cash on hand: " + fmt(v.D.cash));
+  if(v.D.income!=null) L.push("Income (pre-tax): " + fmt(v.D.income) + "/mo");
+  if(v.D.debts!=null){
+    L.push("Monthly debts: " + fmt(v.D.debts) + (v.D.debts>0 ? " (car "+fmt(v.D.debtCar||0)+" | cards & other "+fmt(v.D.debtCards||0)+")" : ""));
+  }
+  if(v.D.rent!=null) L.push("Current rent: " + fmt(v.D.rent) + "/mo");
+  if(v.D.credLabel) L.push("Credit range: " + v.D.credLabel);
+  if(v.D.vaLabel) L.push("VA loan: " + v.D.vaLabel);
+  if(v.D.timeline) L.push("Timeline: " + v.D.timeline);
+  if(v.D.leaseEnd) L.push("Lease ends: " + v.D.leaseEnd);
+  if(v.B && !v.B.tooLow){
+    L.push("");
+    L.push("--- ESTIMATED BUDGET ---");
+    L.push("Price range: " + fmtK(v.B.comfyPrice) + " - " + fmtK(v.B.maxPrice));
+    L.push("Est. monthly payment: " + fmt(v.B.payment));
+    L.push("Down payment: " + fmt(v.B.down) + " | Closing: " + fmt(v.B.closing));
+    L.push("Cushion kept: " + fmt(v.B.cushion) + " | Est. loan: " + fmt(v.B.loan));
+  }
+  L.push("");
+  L.push("--- CRITICS' SCORES ---");
+  Object.keys(v.CATS).forEach(k=>L.push(v.CATS[k] + ": " + v.scores[k] + "/" + v.max[k]));
+  L.push("");
+  L.push("--- DIRECTOR'S NOTES ---");
+  v.notes.forEach((n,i)=>L.push((i+1)+". "+n.replace(/<[^>]+>/g,"")));
+  L.push("");
+  L.push("Sent from the readiness quiz at ignaciotorano.com");
+  return L.join("\n");
+}
+
+function openLeadModal(mode){
+  leadMode = mode;
+  const t = document.getElementById('leadTitle'),
+        c = document.getElementById('leadCopy'),
+        cons = document.getElementById('leadConsent'),
+        btn = document.getElementById('leadSubmit');
+  if(mode === 'preapproval'){
+    t.textContent = "Let's get you pre-approved.";
+    c.innerHTML = "Your results will be sent to <b style='color:var(--gold-light)'>Ignacio's preferred lenders</b> — chosen for how they take care of his clients — and one will reach out to start your pre-approval. Ignacio gets a copy so he can guide you through it.";
+    cons.textContent = "By submitting, you agree that Ignacio and his preferred lenders may contact you about your pre-approval. Ignacio receives no compensation for these referrals.";
+    btn.innerHTML = "Send to Ignacio's Lenders &#10142;";
+  } else {
+    t.textContent = "Send your results to Ignacio.";
+    c.textContent = "Drop your info and your full verdict lands in Ignacio's inbox — he'll follow up to talk next steps. No pressure, no cost.";
+    cons.textContent = "By submitting, you agree that Ignacio may contact you about your results.";
+    btn.innerHTML = "Send It &#10142;";
+  }
+  document.getElementById('leadFormView').style.display = "block";
+  document.getElementById('leadSuccessView').style.display = "none";
+  document.getElementById('leadErr').style.display = "none";
+  document.getElementById('leadOverlay').classList.add('open');
+}
+
+function closeLeadModal(){ document.getElementById('leadOverlay').classList.remove('open'); }
+
+function submitLead(){
+  const name = document.getElementById('leadName').value.trim();
+  const email = document.getElementById('leadEmail').value.trim();
+  const phone = document.getElementById('leadPhone').value.trim();
+  const err = document.getElementById('leadErr');
+  const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+  const validPhone = phone.replace(/[^0-9]/g,"").length >= 7;
+  if(!name || (!validEmail && !validPhone)){ err.style.display = "block"; return; }
+  err.style.display = "none";
+
+  const btn = document.getElementById('leadSubmit');
+  btn.disabled = true; btn.textContent = "Sending...";
+  const formName = leadMode === 'preapproval' ? 'preapproval' : 'quiz-results';
+  const v = window._verdict || {};
+  const body = new URLSearchParams({
+    "form-name": formName,
+    name, email, phone,
+    verdict: v.tag || "",
+    results: resultsText()
+  }).toString();
+
+  fetch("/", {
+    method: "POST",
+    headers: {"Content-Type": "application/x-www-form-urlencoded"},
+    body
+  }).then(r => {
+    btn.disabled = false; btn.innerHTML = "Send It &#10142;";
+    if(!r.ok) throw new Error();
+    document.getElementById('leadFormView').style.display = "none";
+    const st = document.getElementById('leadSuccessTitle'),
+          sc = document.getElementById('leadSuccessCopy');
+    if(leadMode === 'preapproval'){
+      st.textContent = "Your results are on their way.";
+      sc.textContent = "Ignacio's preferred lenders have your numbers, and Ignacio has a copy. Expect a call or email shortly to start your pre-approval — you're closer than you think.";
+    } else {
+      st.textContent = "Sent to Ignacio.";
+      sc.textContent = "Your verdict is in his inbox. He'll reach out to turn these numbers into a game plan.";
+    }
+    document.getElementById('leadSuccessView').style.display = "block";
+  }).catch(() => {
+    btn.disabled = false; btn.innerHTML = "Send It &#10142;";
+    err.textContent = "Something went wrong sending. Please try again, or just call Ignacio at 813-390-2228.";
+    err.style.display = "block";
+  });
+}
+
+/* share with a friend: email → mailto, phone → sms */
+function shareWithFriend(){
+  const raw = document.getElementById('friendIn').value.trim();
+  const err = document.getElementById('friendErr');
+  const msg = "I just took Ignacio Toraño's first-time home buyer quiz — it shows you what home price fits your real numbers. You should try it: https://ignaciotorano.com";
+  if(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(raw)){
+    err.style.display="none";
+    window.location.href = "mailto:"+raw+"?subject="+encodeURIComponent("You should take this home buyer quiz")+"&body="+encodeURIComponent(msg);
+  }else if(raw.replace(/[^0-9]/g,"").length>=7){
+    err.style.display="none";
+    window.location.href = "sms:"+raw.replace(/[^0-9+]/g,"")+"?&body="+encodeURIComponent(msg);
+  }else{
+    err.style.display="block";
+  }
+}
+
+/* boot */
+titleScreen();
+</script>
 </body>
 </html>

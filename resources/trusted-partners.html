@@ -45,19 +45,20 @@
 
   .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
 
-  /* ===== SITE HEADER ===== */
+  /* ===== SITE HEADER (matches ignaciotorano.com main nav pattern) ===== */
   .site-header {
     background: #f7f5f0;
-    padding: 14px 0;
+    padding: 0;
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 200;
     box-shadow: 0 1px 0 rgba(15,35,64,0.06);
   }
   .site-header .inner {
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 24px;
+    height: 74px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -67,14 +68,13 @@
   .site-header nav {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
     gap: 26px;
   }
   .site-header nav a {
-    font-size: 0.78rem;
-    letter-spacing: 0.16em;
+    font-size: 0.72rem;
+    letter-spacing: 0.13em;
     text-transform: uppercase;
-    font-weight: 400;
+    font-weight: 500;
     color: var(--navy);
     text-decoration: none;
     transition: color .2s ease;
@@ -84,14 +84,14 @@
   .nav-dropdown > a { display: inline-flex; align-items: center; gap: 6px; }
   .nav-dropdown > a::after {
     content: '';
-    width: 6px; height: 6px;
+    width: 5px; height: 5px;
     border-right: 1.5px solid currentColor;
     border-bottom: 1.5px solid currentColor;
     transform: rotate(45deg) translateY(-2px);
   }
   .nav-dropdown .dropdown-menu {
     position: absolute;
-    top: calc(100% + 12px);
+    top: calc(100% + 14px);
     left: 50%;
     transform: translateX(-50%);
     background: #fff;
@@ -99,11 +99,12 @@
     border-top: 2px solid var(--gold);
     box-shadow: 0 12px 28px rgba(15,35,64,0.12);
     min-width: 200px;
-    padding: 10px 0;
+    padding: 8px 0;
+    list-style: none;
     opacity: 0;
     visibility: hidden;
     transition: opacity .2s ease, visibility .2s ease;
-    z-index: 200;
+    z-index: 210;
   }
   .nav-dropdown:hover .dropdown-menu,
   .nav-dropdown:focus-within .dropdown-menu {
@@ -112,11 +113,37 @@
   }
   .nav-dropdown .dropdown-menu a {
     display: block;
-    padding: 10px 22px;
+    padding: 10px 20px;
     white-space: nowrap;
   }
   .nav-dropdown .dropdown-menu a:hover { background: var(--cream); color: var(--gold); }
-  @media (max-width: 900px) {
+  .site-header nav a.connect-btn {
+    background: var(--navy);
+    color: #fff;
+    font-weight: 600;
+    padding: 10px 22px;
+  }
+  .site-header nav a.connect-btn:hover { background: var(--navy-deep); color: var(--gold-soft); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 24px; height: 1.5px; background: var(--navy); }
+  @media (max-width: 1200px) {
+    .site-header nav { display: none; }
+    .site-header nav.open {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      position: fixed;
+      top: 74px;
+      left: 0;
+      right: 0;
+      background: rgba(250,246,238,0.98);
+      backdrop-filter: blur(14px);
+      padding: 1.5rem 5vw;
+      border-bottom: 0.5px solid #e8e0cf;
+      gap: 1.2rem;
+      z-index: 199;
+    }
+    .hamburger { display: flex; }
     .nav-dropdown .dropdown-menu {
       position: static;
       transform: none;
@@ -125,22 +152,9 @@
       border: none;
       box-shadow: none;
       background: transparent;
-      padding: 0;
-      display: inline;
+      padding: 6px 0 0 16px;
     }
-    .nav-dropdown .dropdown-menu a { display: inline; padding: 0 0 0 10px; }
     .nav-dropdown > a::after { display: none; }
-  }
-  .site-header nav a.connect-btn {
-    background: var(--navy);
-    color: #fff;
-    font-weight: 500;
-    padding: 12px 22px;
-  }
-  .site-header nav a.connect-btn:hover { background: var(--navy-deep); color: var(--gold-soft); }
-  @media (max-width: 900px) {
-    .site-header .inner { flex-direction: column; }
-    .site-header nav { justify-content: center; gap: 14px 18px; }
   }
 
   /* ===== SITE FOOTER ===== */
@@ -500,7 +514,7 @@
     <a class="logo" href="https://ignaciotorano.com/">
       <img src="https://ignaciotorano.com/iggy_logo_v2.webp" alt="Ignacio Toraño South Tampa Real Estate">
     </a>
-    <nav aria-label="Main navigation">
+    <nav aria-label="Main navigation" id="siteNav">
       <a href="https://ignaciotorano.com/#about">About</a>
       <a href="https://ignaciotorano.com/#services">Services</a>
       <a href="https://ignaciotorano.com/neighborhoods/">Neighborhoods</a>
@@ -509,14 +523,16 @@
       <a href="/parks">Parks</a>
       <div class="nav-dropdown">
         <a href="https://ignaciotorano.com/resources/trusted-partners" aria-haspopup="true">Resources</a>
-        <div class="dropdown-menu">
-          <a href="https://ignaciotorano.com/resources/trusted-partners">Trusted Partners</a>
-          <a href="https://ignaciotorano.com/resources/purchasing-power-quiz">Purchasing Power Quiz</a>
-        </div>
+        <ul class="dropdown-menu">
+          <li><a href="https://ignaciotorano.com/resources/trusted-partners">Trusted Partners</a></li>
+          <li><a href="https://ignaciotorano.com/resources/purchasing-power-quiz">Purchasing Power Quiz</a></li>
+        </ul>
       </div>
       <a href="https://ignaciotorano.com/#testimonials">Reviews</a>
+      <a href="https://ignaciotorano.com/news.html">In The News</a>
       <a class="connect-btn" href="https://ignaciotorano.com/#contact">Let's Connect</a>
     </nav>
+    <div class="hamburger" id="siteNavBurger"><span></span><span></span><span></span></div>
   </div>
 </header>
 
@@ -781,6 +797,18 @@
 
 </main>
 
+<script>
+(function () {
+  var burger = document.getElementById('siteNavBurger');
+  var nav = document.getElementById('siteNav');
+  if (burger && nav) {
+    burger.addEventListener('click', function () { nav.classList.toggle('open'); });
+    nav.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { nav.classList.remove('open'); });
+    });
+  }
+})();
+</script>
 <script>
 (function () {
   var searchInput = document.getElementById('partnerSearch');
