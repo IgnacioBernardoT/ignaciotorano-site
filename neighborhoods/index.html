@@ -141,9 +141,15 @@ footer .sources a:hover{color:var(--gold)}
 .site-nav .nav-links a:hover{color:var(--n-gold)}
 .site-nav .nav-cta{background:var(--n-navy)!important;color:var(--n-white)!important;padding:10px 22px;font-weight:600!important}
 .site-nav .nav-cta:hover{background:var(--n-gold)!important;color:var(--n-navy-dark)!important}
+.site-nav .nav-dropdown{position:relative}
+.site-nav .nav-dropdown>a{display:inline-flex;align-items:center;gap:5px}
+.site-nav .nav-dropdown>a::after{content:'';width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px)}
+.site-nav .nav-dropdown .dropdown-menu{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%);background:rgba(253,252,249,0.98);border:0.5px solid var(--n-border);border-top:2px solid var(--n-gold);box-shadow:0 12px 28px rgba(0,0,0,0.10);min-width:190px;padding:8px 0;list-style:none;opacity:0;visibility:hidden;transition:opacity 0.2s,visibility 0.2s;z-index:510}
+.site-nav .nav-dropdown:hover .dropdown-menu,.site-nav .nav-dropdown:focus-within .dropdown-menu{opacity:1;visibility:visible}
+.site-nav .nav-dropdown .dropdown-menu a{display:block;padding:10px 20px;white-space:nowrap}
 .site-nav .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
 .site-nav .hamburger span{display:block;width:24px;height:1.5px;background:var(--n-navy)}
-@media(max-width:960px){.site-nav .nav-links{display:none}.site-nav .nav-links.open{display:flex;flex-direction:column;align-items:flex-start;position:fixed;top:74px;left:0;right:0;background:rgba(253,252,249,0.98);backdrop-filter:blur(14px);padding:1.5rem 5vw;border-bottom:.5px solid var(--n-border);gap:1.2rem;z-index:499}.site-nav .hamburger{display:flex}}
+@media(max-width:1200px){.site-nav .nav-links{display:none}.site-nav .nav-links.open{display:flex;flex-direction:column;align-items:flex-start;position:fixed;top:74px;left:0;right:0;background:rgba(253,252,249,0.98);backdrop-filter:blur(14px);padding:1.5rem 5vw;border-bottom:.5px solid var(--n-border);gap:1.2rem;z-index:499}.site-nav .hamburger{display:flex}.site-nav .nav-dropdown .dropdown-menu{position:static;transform:none;opacity:1;visibility:visible;border:none;box-shadow:none;background:transparent;padding:6px 0 0 16px}.site-nav .nav-dropdown>a::after{display:none}}
 /* ===== Share row ===== */
 .share-row{max-width:900px;margin:40px auto 0;padding:22px 24px;background:#fff;border:1px solid var(--line);border-radius:14px;text-align:center}
 .share-row .share-label{font-family:Arial,sans-serif;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--navy);margin-bottom:14px;font-weight:bold}
@@ -178,7 +184,15 @@ footer .sources a:hover{color:var(--gold)}
     <li><a href="https://ignaciotorano.com/videos.html">Videos</a></li>
     <li><a href="https://ignaciotorano.com/blog.html">Blog</a></li>
     <li><a href="https://ignaciotorano.com/parks.html">Parks</a></li>
+    <li class="nav-dropdown">
+      <a href="https://ignaciotorano.com/resources/trusted-partners" aria-haspopup="true">Resources</a>
+      <ul class="dropdown-menu">
+        <li><a href="https://ignaciotorano.com/resources/trusted-partners">Trusted Partners</a></li>
+        <li><a href="https://ignaciotorano.com/resources/purchasing-power-quiz">Purchasing Power Quiz</a></li>
+      </ul>
+    </li>
     <li><a href="https://ignaciotorano.com/#testimonials">Reviews</a></li>
+    <li><a href="https://ignaciotorano.com/news.html">In The News</a></li>
     <li><a href="https://ignaciotorano.com/#contact" class="nav-cta">Let's Connect</a></li>
   </ul>
   <div class="hamburger" id="siteNavBurger"><span></span><span></span><span></span></div>
