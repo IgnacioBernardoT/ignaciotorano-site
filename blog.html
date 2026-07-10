@@ -52,6 +52,13 @@ nav.scrolled{box-shadow:0 2px 24px rgba(0,0,0,0.07)}
 .nav-links a:hover,.nav-links a.active{color:var(--gold)}
 .nav-cta{background:var(--navy)!important;color:var(--warm-white)!important;padding:10px 22px;font-size:0.7rem!important;letter-spacing:0.13em!important;text-transform:uppercase!important;text-decoration:none;transition:background 0.2s!important;font-weight:600!important}
 .nav-cta:hover{background:var(--gold)!important;color:var(--navy-dark)!important}
+/* RESOURCES DROPDOWN */
+.nav-dropdown{position:relative}
+.nav-dropdown>a{display:inline-flex;align-items:center;gap:5px}
+.nav-dropdown>a::after{content:'';width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px)}
+.nav-dropdown .dropdown-menu{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%);background:rgba(253,252,249,0.98);border:0.5px solid var(--border);border-top:2px solid var(--gold);box-shadow:0 12px 28px rgba(0,0,0,0.10);min-width:190px;padding:8px 0;list-style:none;opacity:0;visibility:hidden;transition:opacity 0.2s,visibility 0.2s;z-index:210}
+.nav-dropdown:hover .dropdown-menu,.nav-dropdown:focus-within .dropdown-menu{opacity:1;visibility:visible}
+.nav-dropdown .dropdown-menu a{display:block;padding:10px 20px;white-space:nowrap}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
 .hamburger span{display:block;width:24px;height:1.5px;background:var(--navy)}
 
@@ -71,6 +78,15 @@ nav.scrolled{box-shadow:0 2px 24px rgba(0,0,0,0.07)}
 .section-eyebrow::before{content:'';display:block;width:22px;height:1px;background:var(--gold)}
 .section-title{font-family:var(--serif);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:400;color:var(--navy-dark)}
 .section-title em{font-style:italic;color:var(--gold)}
+
+/* BLOG SEARCH */
+.blog-search-wrap{max-width:1200px;margin:0 auto 2.5rem;position:relative}
+.blog-search-input{width:100%;padding:16px 20px 16px 52px;font-family:var(--sans);font-size:0.95rem;color:var(--navy-dark);background:var(--warm-white);border:0.5px solid var(--border);outline:none;transition:border-color 0.2s;border-radius:0;-webkit-appearance:none;appearance:none}
+.blog-search-input::placeholder{color:var(--muted)}
+.blog-search-input:focus{border-color:var(--gold)}
+.blog-search-icon{position:absolute;left:20px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.blog-card.hidden,.blog-featured.hidden{display:none}
+.blog-no-results{display:none;text-align:center;padding:3rem 1rem;font-family:var(--serif);font-size:1.3rem;font-style:italic;color:var(--muted)}
 
 .blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:2rem}
 .blog-card{background:var(--warm-white);border:0.5px solid var(--border);transition:box-shadow 0.3s,transform 0.3s;cursor:pointer;text-decoration:none;color:inherit;display:block}
@@ -133,6 +149,8 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
 @media(max-width:960px){
   .nav-links{display:none}
   .nav-links.open{display:flex;flex-direction:column;position:fixed;top:74px;left:0;right:0;background:rgba(253,252,249,0.97);backdrop-filter:blur(14px);padding:1.5rem 5vw;border-bottom:0.5px solid var(--border);gap:1.2rem;z-index:199}
+  .nav-dropdown .dropdown-menu{position:static;transform:none;opacity:1;visibility:visible;border:none;box-shadow:none;background:transparent;padding:6px 0 0 16px}
+  .nav-dropdown>a::after{display:none}
   .hamburger{display:flex}
   .blog-grid{grid-template-columns:1fr}
   .blog-featured{grid-template-columns:1fr}
@@ -150,12 +168,18 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
   <ul class="nav-links" id="navLinks">
     <li><a href="/#about">About</a></li>
     <li><a href="/#services">Services</a></li>
-    <li><a href="/#neighborhoods">Neighborhoods</a></li>
+    <li><a href="/neighborhoods">Neighborhoods</a></li>
     <li><a href="videos.html">Videos</a></li>
     <li><a href="blog.html" class="active">Blog</a></li>
-    <li><a href="https://effervescent-churros-d0d56b.netlify.app">Parks</a></li>
+    <li><a href="/parks">Parks</a></li>
+    <li class="nav-dropdown">
+      <a href="/resources/trusted-partners" aria-haspopup="true">Resources</a>
+      <ul class="dropdown-menu">
+        <li><a href="/resources/trusted-partners">Trusted Partners</a></li>
+        <li><a href="/resources/purchasing-power-quiz">Purchasing Power Quiz</a></li>
+      </ul>
+    </li>
     <li><a href="/#testimonials">Reviews</a></li>
-    <li><a href="news.html">In The News</a></li>
     <li><a href="/#contact" class="nav-cta">Let's Connect</a></li>
   </ul>
   <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
@@ -177,9 +201,17 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
         <h2 class="section-title">From the <em>Blog</em></h2>
       </div>
     </div>
-    <div class="blog-grid">
 
-      <a class="blog-featured" href="blog/how-to-learn-about-a-neighborhood-before-you-buy/" style="text-decoration:none;color:inherit">
+    <div class="blog-search-wrap">
+      <svg class="blog-search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="blogSearch" class="blog-search-input" placeholder="Search posts by title, topic, or neighborhood…" aria-label="Search blog posts">
+    </div>
+    <p class="blog-no-results" id="blogNoResults">No posts found. Try a different search.</p>
+
+    <div class="blog-grid">
+      <!--AUTO_POSTS_START--><!--AUTO_POSTS_END-->
+
+      <a class="blog-featured" href="blog/how-to-learn-about-a-neighborhood-before-you-buy/" data-date="2026-06-01" style="text-decoration:none;color:inherit">
         <div class="blog-thumb">
           <img src="learn_neighborhood_before_buying.png" alt="How to learn about a neighborhood before you buy a home — parks, schools, commute, and lifestyle" loading="lazy">
           <span class="blog-category">Buyers Guide</span>
@@ -192,7 +224,20 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
         </div>
       </a>
 
-      <a class="blog-card" href="blog/hyde-park-tampa-neighborhood-guide/" style="text-decoration:none;color:inherit">
+      <a class="blog-card" href="blog/condos-vs-townhomes-what-you-actually-own/" style="text-decoration:none;color:inherit">
+        <div class="blog-thumb">
+          <img src="condo_vs_townhome.png" alt="Condo vs. Townhome infographic — what you actually own with each, financing differences, and why knowing the ownership structure before you buy in South Tampa matters" loading="lazy">
+          <span class="blog-category">Buyers Guide</span>
+        </div>
+        <div class="blog-body">
+          <p class="blog-date">June 2026</p>
+          <h3 class="blog-card-title">Condos vs Townhomes: What You Actually Own</h3>
+          <p class="blog-excerpt">Most people think condos and townhomes are basically the same thing. They're not — and the difference in what you own changes your financing, your insurance, and what to check before you fall in love with a place in South Tampa.</p>
+          <span class="blog-read-more">Read Article →</span>
+        </div>
+      </a>
+
+      <a class="blog-card" href="blog/hyde-park-tampa-neighborhood-guide/" data-date="2026-05-01" style="text-decoration:none;color:inherit">
         <div class="blog-thumb">
           <img src="hyde_park_village.png" alt="Hyde Park Tampa neighborhood guide — walkable streets, Hyde Park Village, and Bayshore Boulevard" loading="lazy">
           <span class="blog-category">Neighborhood Guide</span>
@@ -205,7 +250,7 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
         </div>
       </a>
 
-      <a class="blog-card" href="blog/port-tampa-best-kept-secret/" style="text-decoration:none;color:inherit">
+      <a class="blog-card" href="blog/port-tampa-best-kept-secret/" data-date="2026-05-01" style="text-decoration:none;color:inherit">
         <div class="blog-thumb">
           <img src="port-tampa-aerial.png" alt="Port Tampa waterfront — one of Tampa's best-kept secrets for buyers and families" loading="lazy">
           <span class="blog-category">Neighborhood Guide</span>
@@ -218,7 +263,7 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
         </div>
       </a>
 
-      <div class="blog-card" onclick="showArticle('south-tampa-guide')">
+      <div class="blog-card" onclick="showArticle('south-tampa-guide')" data-date="2026-05-01">
         <div class="blog-thumb">
           <img src="south_tampa_buying_guide.png" alt="Tree-lined street with elegant homes in South Tampa" loading="lazy">
           <span class="blog-category">Neighborhood Guide</span>
@@ -231,7 +276,7 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
         </div>
       </div>
 
-      <div class="blog-card" onclick="showArticle('hyde-park-vs-davis')">
+      <div class="blog-card" onclick="showArticle('hyde-park-vs-davis')" data-date="2026-04-01">
         <div class="blog-thumb">
           <img src="nbhd_hyde_park.svg" alt="Hyde Park Tampa" loading="lazy">
           <span class="blog-category">Neighborhoods</span>
@@ -244,7 +289,7 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
         </div>
       </div>
 
-      <div class="blog-card" onclick="showArticle('first-time-buyers')">
+      <div class="blog-card" onclick="showArticle('first-time-buyers')" data-date="2026-03-01">
         <div class="blog-thumb">
           <img src="iggy_interior.webp" alt="Tampa Bay home interior" loading="lazy">
           <span class="blog-category">Buyers Guide</span>
@@ -257,7 +302,7 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
         </div>
       </div>
 
-      <div class="blog-card" onclick="showArticle('selling-tips')">
+      <div class="blog-card" onclick="showArticle('selling-tips')" data-date="2026-02-01">
         <div class="blog-thumb">
           <img src="iggy_outdoor.png" alt="Tampa home exterior" loading="lazy">
           <span class="blog-category">Sellers Guide</span>
@@ -270,7 +315,7 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
         </div>
       </div>
 
-      <div class="blog-card" onclick="showArticle('why-south-tampa')">
+      <div class="blog-card" onclick="showArticle('why-south-tampa')" data-date="2026-01-01">
         <div class="blog-thumb">
           <img src="tampa_banner.png" alt="Tampa Bay skyline" loading="lazy">
           <span class="blog-category">Living in Tampa</span>
@@ -283,7 +328,7 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
         </div>
       </div>
 
-      <a class="blog-card" href="blog/tampa-dog-rescue/" style="text-decoration:none;color:inherit">
+      <a class="blog-card" href="blog/tampa-dog-rescue/" data-date="2026-05-01" style="text-decoration:none;color:inherit">
         <div class="blog-thumb">
           <img src="https://img.youtube.com/vi/k4D4dwwW-gs/maxresdefault.jpg" alt="Dog rescue at Davis Islands Dog Park, Tampa" loading="lazy">
           <span class="blog-category">Community</span>
@@ -509,7 +554,7 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
       <li><a href="/#about">About</a></li>
       <li><a href="videos.html">Videos</a></li>
       <li><a href="blog.html">Blog</a></li>
-      <li><a href="news.html">In The News</a></li>
+      <li><a href="/resources/trusted-partners">Trusted Partners</a></li>
       <li><a href="/#contact">Contact</a></li>
     </ul>
   </div>
@@ -560,7 +605,123 @@ if(window.location.hash){
     article.classList.add('active');
   }
 }
+
+/* BLOG SEARCH — filters all cards (static, featured, onclick) by title/excerpt/category */
+(function(){
+  var input=document.getElementById('blogSearch');
+  var noResults=document.getElementById('blogNoResults');
+  if(!input)return;
+  function run(){
+    var q=input.value.trim().toLowerCase();
+    var cards=document.querySelectorAll('.blog-card, .blog-featured');
+    var visible=0;
+    cards.forEach(function(card){
+      var match=q===''||card.textContent.toLowerCase().indexOf(q)!==-1;
+      card.classList.toggle('hidden',!match);
+      if(match)visible++;
+    });
+    noResults.style.display=(q!==''&&visible===0)?'block':'none';
+  }
+  input.addEventListener('input',run);
+})();
 </script>
+
+<script>
+/* AUTO-LIST + UNIFIED SORT:
+   - builds cards for every GitHub /blog post (real frozen date),
+   - then sorts EVERY card (auto + hand-built) into one list, newest-first. */
+window.addEventListener("load", function(){
+  (async function(){
+    var existing = [
+      "how-to-learn-about-a-neighborhood-before-you-buy",
+      "hyde-park-tampa-neighborhood-guide",
+      "port-tampa-best-kept-secret",
+      "port-tampa-living",
+      "tampa-dog-rescue"
+    ].map(function(s){return s.trim();});
+
+    var owner="IgnacioBernardoT", repo="ignaciotorano-site";
+    var MONTHS={january:0,february:1,march:2,april:3,may:4,june:5,july:6,
+                august:7,september:8,october:9,november:10,december:11};
+    var grid=document.querySelector(".blog-grid");
+    if(!grid) return;
+
+    try{
+      var res = await fetch("https://api.github.com/repos/"+owner+"/"+repo+"/contents/blog");
+      if(res.ok){
+        var items = await res.json();
+        var folders = items
+          .filter(function(i){return i.type==="dir";})
+          .map(function(i){return i.name.trim();})
+          .filter(function(n){return existing.indexOf(n)===-1;});
+
+        var posts = await Promise.all(folders.map(async function(slug){
+          var iso="", dateLabel="", excerpt="";
+          try{
+            var r = await fetch("/blog/"+slug+"/");
+            if(r.ok){
+              var t = await r.text();
+              var m = t.match(/article:published_time"\s+content="([^"]+)"/);
+              if(m && m[1]){
+                var d=new Date(m[1]);
+                iso=m[1];
+                dateLabel=d.toLocaleDateString("en-US",{month:"long",year:"numeric"});
+              } else {
+                var v = t.match(/·\s*([A-Z][a-z]+)\s+(20\d{2})\s*·/);
+                if(v){
+                  dateLabel=v[1]+" "+v[2];
+                  var mo=MONTHS[v[1].toLowerCase()];
+                  if(mo!==undefined){
+                    iso=v[2]+"-"+String(mo+1).padStart(2,"0")+"-01";
+                  }
+                }
+              }
+              var dm = t.match(/<meta name="description" content="([^"]*)"/);
+              if(dm && dm[1]) excerpt=dm[1];
+            }
+          }catch(e){}
+          return {slug:slug,iso:iso,dateLabel:dateLabel,excerpt:excerpt};
+        }));
+
+        posts.forEach(function(p){
+          var title=p.slug.replace(/-/g," ").replace(/\w\S*/g,function(w){
+            return w.charAt(0).toUpperCase()+w.slice(1);
+          });
+          var a=document.createElement("a");
+          a.className="blog-card";
+          a.href="blog/"+p.slug+"/";
+          if(p.iso) a.setAttribute("data-date",p.iso);
+          a.style="text-decoration:none;color:inherit";
+          a.innerHTML=
+            '<div class="blog-thumb">'+
+              '<img src="blog/'+p.slug+'/'+p.slug+'-feature.png" alt="'+title+'" loading="lazy" onerror="this.onerror=null;this.src=\'tampa_banner.png\'">'+
+            '</div>'+
+            '<div class="blog-body">'+
+              '<p class="blog-date">'+p.dateLabel+'</p>'+
+              '<h3 class="blog-card-title">'+title+'</h3>'+
+              '<p class="blog-excerpt">'+(p.excerpt||"Read the full article.")+'</p>'+
+              '<span class="blog-read-more">Read Article &#8594;</span>'+
+            '</div>';
+          grid.appendChild(a);
+        });
+      }
+    }catch(e){}
+
+    // ---- Unified sort: every card (auto + hand-built) by data-date, newest first ----
+    var all=Array.prototype.slice.call(grid.querySelectorAll(".blog-card, .blog-featured"));
+    all.sort(function(a,b){
+      var da=a.getAttribute("data-date")||"";
+      var db=b.getAttribute("data-date")||"";
+      if(!da && !db) return 0;
+      if(!da) return 1;
+      if(!db) return -1;
+      return db < da ? -1 : (db > da ? 1 : 0);  // newest first
+    });
+    all.forEach(function(card){ grid.appendChild(card); });
+  })();
+});
+</script>
+
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
