@@ -85,6 +85,8 @@ nav.scrolled{box-shadow:0 2px 24px rgba(0,0,0,0.07)}
 .press-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s}
 .press-card:hover .press-thumb img{transform:scale(1.04)}
 .press-outlet-badge{position:absolute;top:1rem;left:1rem;padding:6px 13px;background:rgba(15,30,53,0.88);backdrop-filter:blur(6px);font-family:var(--serif);font-size:0.82rem;font-weight:500;font-style:italic;letter-spacing:0.02em;color:var(--gold-light)}
+.press-outlet-logo{position:absolute;top:1rem;left:1rem;height:36px;max-width:130px;width:auto;padding:7px 11px;border-radius:8px;object-fit:contain;box-shadow:0 4px 16px rgba(0,0,0,0.28);background:#fff}
+.press-featured .press-outlet-logo{height:46px;max-width:160px;padding:8px 14px;border-radius:10px}
 .press-body{padding:1.6rem}
 .press-date{font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 .press-title{font-family:var(--serif);font-size:1.3rem;font-weight:400;color:var(--navy-dark);line-height:1.3;margin-bottom:10px}
@@ -177,7 +179,7 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
       <a class="press-featured" href="https://www.thedodo.com/drowning-dog-is-saved-with-mouth-to-mouth-1251305183.html" target="_blank" rel="noopener">
         <div class="press-thumb">
           <img src="https://img.youtube.com/vi/k4D4dwwW-gs/maxresdefault.jpg" alt="Dog rescue at Davis Islands Dog Park, Tampa — covered by The Dodo" loading="lazy">
-          <span class="press-outlet-badge">The Dodo</span>
+          <img class="press-outlet-logo" src="thedodo-logo.png" alt="The Dodo logo">
         </div>
         <div class="press-body">
           <p class="press-date">July 2015</p>
@@ -190,7 +192,7 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
       <a class="press-card" href="https://www.fox13news.com/news/tampa-realtor-creates-digital-neighborhood-project-americas-250th-anniversary" target="_blank" rel="noopener">
         <div class="press-thumb">
           <img src="porttampaaerial.png" alt="Digital Neighborhood project coverage — FOX 13 Tampa Bay" loading="lazy">
-          <span class="press-outlet-badge">FOX 13</span>
+          <img class="press-outlet-logo" src="fox13-logo.png" alt="FOX 13 logo">
         </div>
         <div class="press-body">
           <p class="press-date">July 2026</p>
@@ -203,7 +205,7 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
       <a class="press-card" href="https://www.yahoo.com/news/videos/celebrating-tampa-preserving-story-031529835.html" target="_blank" rel="noopener">
         <div class="press-thumb">
           <img src="porttampaaerial.png" alt="Celebrating Tampa, Preserving Its Story — Yahoo News" loading="lazy">
-          <span class="press-outlet-badge">Yahoo News</span>
+          <img class="press-outlet-logo" src="yahoo-logo.png" alt="Yahoo News logo">
         </div>
         <div class="press-body">
           <p class="press-date">July 2026</p>
@@ -216,7 +218,7 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
       <a class="press-card" href="https://www.aol.com/news/tampa-realtor-creates-digital-neighborhood-024709557.html" target="_blank" rel="noopener">
         <div class="press-thumb">
           <img src="porttampaaerial.png" alt="Tampa Realtor Creates Digital Neighborhood — AOL News" loading="lazy">
-          <span class="press-outlet-badge">AOL</span>
+          <img class="press-outlet-logo" src="aol-logo.png" alt="AOL logo">
         </div>
         <div class="press-body">
           <p class="press-date">July 2026</p>
@@ -229,7 +231,7 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
       <a class="press-card" href="https://www.msn.com/en-us/news/us/tampa-realtor-creates-digital-neighborhood-project-for-americas-250th-anniversary/ar-AA271uFb" target="_blank" rel="noopener">
         <div class="press-thumb">
           <img src="porttampaaerial.png" alt="Tampa Realtor Creates Digital Neighborhood Project — MSN" loading="lazy">
-          <span class="press-outlet-badge">MSN</span>
+          <img class="press-outlet-logo" src="msn-logo.png" alt="MSN logo">
         </div>
         <div class="press-body">
           <p class="press-date">July 2026</p>
@@ -242,7 +244,7 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
       <a class="press-card" href="https://www.wfla.com/news/hillsborough-county/valentines-day-gift-of-billboard-helps-wife-new-business-owner-start-up-dog-moms-in-south-tampa/" target="_blank" rel="noopener">
         <div class="press-thumb">
           <img src="tampa_banner.png" alt="Dog Moms in South Tampa billboard story — WFLA News Channel 8" loading="lazy">
-          <span class="press-outlet-badge">WFLA</span>
+          <img class="press-outlet-logo" src="wfla-logo.png" alt="WFLA News Channel 8 logo">
         </div>
         <div class="press-body">
           <p class="press-date">March 2021</p>
@@ -255,7 +257,7 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
       <a class="press-card" href="https://www.tampabay.com/news/humaninterest/romp-then-rinse/2277484/?template=amp" target="_blank" rel="noopener">
         <div class="press-thumb">
           <img src="romp-then-rinse.png" alt="Dog wash station at Davis Islands Dog Park — Tampa Bay Times, Romp Then Rinse" loading="lazy">
-          <span class="press-outlet-badge">Tampa Bay Times</span>
+          <img class="press-outlet-logo" src="tampa-bay-times-logo.png" alt="Tampa Bay Times logo">
         </div>
         <div class="press-body">
           <p class="press-date">May 2016</p>
@@ -268,7 +270,7 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
       <a class="press-card" href="https://www.businessobserverfl.com/news/2011/nov/25/tampa-chamber-revamps-style/" target="_blank" rel="noopener">
         <div class="press-thumb">
           <img src="tampa_banner.png" alt="Tampa Chamber Revamps Style — Business Observer FL" loading="lazy">
-          <span class="press-outlet-badge">Business Observer</span>
+          <img class="press-outlet-logo" src="businessobserver-logo.png" alt="Business Observer FL logo">
         </div>
         <div class="press-body">
           <p class="press-date">November 2011</p>
@@ -281,7 +283,7 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
       <a class="press-card" href="https://www.tampabay.com/archive/2007/10/10/rivalry-tickets-worth-a-wait/" target="_blank" rel="noopener">
         <div class="press-thumb">
           <img src="tampa_banner.png" alt="Rivalry Tickets Worth a Wait — Tampa Bay Times, USF student story" loading="lazy">
-          <span class="press-outlet-badge">Tampa Bay Times</span>
+          <img class="press-outlet-logo" src="tampa-bay-times-logo.png" alt="Tampa Bay Times logo">
         </div>
         <div class="press-body">
           <p class="press-date">October 2007</p>
