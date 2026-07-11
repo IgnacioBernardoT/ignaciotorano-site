@@ -84,9 +84,8 @@ nav.scrolled{box-shadow:0 2px 24px rgba(0,0,0,0.07)}
 .press-thumb{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--cream);display:flex;align-items:center;justify-content:center}
 .press-thumb img.press-outlet-logo{transition:transform 0.4s}
 .press-card:hover .press-thumb img.press-outlet-logo{transform:scale(1.05)}
-.press-outlet-badge{position:absolute;top:1rem;left:1rem;padding:6px 13px;background:rgba(15,30,53,0.88);backdrop-filter:blur(6px);font-family:var(--serif);font-size:0.82rem;font-weight:500;font-style:italic;letter-spacing:0.02em;color:var(--gold-light)}
-.press-outlet-logo{position:static;width:auto;height:auto;max-width:62%;max-height:56%;object-fit:contain;box-shadow:none;background:transparent;padding:0;border-radius:0}
-.press-featured .press-outlet-logo{max-width:50%;max-height:44%}
+.press-outlet-logo{position:static;width:auto;height:auto;max-width:78%;max-height:72%;object-fit:contain;box-shadow:none;background:transparent;padding:0;border-radius:0}
+.press-featured .press-outlet-logo{max-width:62%;max-height:58%}
 .press-body{padding:1.6rem}
 .press-date{font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 .press-title{font-family:var(--serif);font-size:1.3rem;font-weight:400;color:var(--navy-dark);line-height:1.3;margin-bottom:10px}
@@ -118,12 +117,14 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
 .footer-links a{font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(253,252,249,0.28);text-decoration:none;transition:color 0.2s}
 .footer-links a:hover{color:var(--gold)}
 
-@media(max-width:960px){
+@media(max-width:1200px){
   .nav-links{display:none}
   .nav-links.open{display:flex;flex-direction:column;position:fixed;top:74px;left:0;right:0;background:rgba(253,252,249,0.97);backdrop-filter:blur(14px);padding:1.5rem 5vw;border-bottom:0.5px solid var(--border);gap:1.2rem;z-index:199}
   .nav-dropdown .dropdown-menu{position:static;transform:none;opacity:1;visibility:visible;border:none;box-shadow:none;background:transparent;padding:6px 0 0 16px}
   .nav-dropdown>a::after{display:none}
   .hamburger{display:flex}
+}
+@media(max-width:960px){
   .press-grid{grid-template-columns:1fr}
   .press-featured{grid-template-columns:1fr}
   .press-featured .press-thumb{min-height:220px}
