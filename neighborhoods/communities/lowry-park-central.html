@@ -65,6 +65,7 @@ header::before{content:"★";position:absolute;font-size:340px;color:rgba(255,25
 .back:hover{color:#fff}
 .eyebrow{font-family:Arial,sans-serif;font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
 h1{font-size:clamp(2.2rem,6vw,4rem);line-height:1.05;letter-spacing:-.01em;max-width:14ch;margin:0 auto}
+.hood-logo{width:132px;height:132px;border-radius:50%;display:block;margin:0 auto 20px;box-shadow:0 10px 30px rgba(0,0,0,.35);border:3px solid rgba(201,162,39,.55);position:relative;z-index:2}
 .wrap{max-width:760px;margin:0 auto;padding:0 24px}
 .cover{display:block;max-width:712px;width:100%;margin:32px auto 0;border-radius:14px;box-shadow:0 18px 50px rgba(6,21,46,.28);position:relative;z-index:2}
 .player{background:var(--navy);border-radius:14px;padding:28px;margin:24px auto 48px;max-width:712px;box-shadow:0 18px 50px rgba(6,21,46,.18);position:relative;z-index:2;text-align:center}
@@ -77,12 +78,30 @@ article h2{font-size:1.9rem;color:var(--navy);margin:40px 0 14px;letter-spacing:
 article p{margin-bottom:18px;font-size:1.08rem}
 .lyrics{background:var(--cream);border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:28px 32px;margin:36px 0;white-space:pre-wrap;font-size:.98rem;line-height:1.8}
 .lyrics .lhead{font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:.2em;font-size:.7rem;color:var(--red);margin-bottom:18px;font-weight:bold}
+.bmap{display:block;width:100%;border-radius:14px;border:1px solid var(--line);box-shadow:0 12px 36px rgba(6,21,46,.14);margin:10px 0 8px}
+.bmap-cap{font-family:Arial,sans-serif;font-size:.78rem;color:#6b7078;text-align:center;margin-bottom:8px}
+.meeting-card{background:linear-gradient(150deg,var(--navy) 0%,var(--navy-deep) 100%);color:var(--cream);border-radius:16px;padding:34px 30px;margin:26px 0 10px;text-align:center;position:relative;overflow:hidden}
+.meeting-card::before{content:"\2605";position:absolute;font-size:220px;color:rgba(255,255,255,.04);top:-50px;right:-30px;line-height:1}
+.meeting-card .mc-kicker{font-family:Arial,sans-serif;font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;position:relative}
+.meeting-card h3{font-size:1.5rem;margin-bottom:6px;position:relative}
+.meeting-card .mc-tag{font-family:Arial,sans-serif;font-size:.82rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,243,232,.75);margin-bottom:20px;position:relative}
+.meeting-card .mc-grid{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;position:relative;margin-bottom:20px}
+.meeting-card .mc-item{background:rgba(255,255,255,.06);border:1px solid rgba(201,162,39,.3);border-radius:12px;padding:16px 20px;min-width:200px;flex:1 1 200px;max-width:320px}
+.meeting-card .mc-label{font-family:Arial,sans-serif;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.meeting-card .mc-val{font-size:1.05rem;line-height:1.5}
+.meeting-card .mc-val .es{display:block;font-size:.85rem;color:rgba(247,243,232,.6);font-style:italic}
+.meeting-card .mc-contact{font-family:Arial,sans-serif;font-size:.9rem;color:rgba(247,243,232,.85);position:relative}
+.meeting-card .mc-contact a{color:var(--gold);text-decoration:none;font-weight:bold}
+.meeting-card .mc-contact a:hover{color:#fff}
+.meeting-card .mc-join{display:inline-flex;align-items:center;gap:10px;background:var(--red);color:#fff;text-decoration:none;padding:12px 26px;border-radius:40px;font-family:Arial,sans-serif;font-weight:bold;font-size:.9rem;margin-top:18px;position:relative}
+.meeting-card .mc-join:hover{background:#d12b3e}
+.meeting-card .mc-hosted{font-family:Arial,sans-serif;font-size:.66rem;color:rgba(247,243,232,.45);margin-top:18px;line-height:1.6;position:relative}
 footer{background:var(--navy-deep);color:rgba(247,243,232,.7);text-align:center;padding:36px 24px;font-family:Arial,sans-serif;font-size:.82rem}
 footer a{color:var(--gold);text-decoration:none}
 footer .credit-name{color:var(--cream);font-size:1rem;letter-spacing:.04em;margin-bottom:4px}
 footer .credit-sub{margin-top:6px;color:rgba(247,243,232,.55)}
 footer p{margin:2px 0}
-@media(max-width:520px){.player{padding:22px}}
+@media(max-width:520px){.player{padding:22px}.meeting-card{padding:26px 18px}}
 
 /* ===== Site nav (matches ignaciotorano.com) ===== */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap');
@@ -174,6 +193,7 @@ footer p{margin:2px 0}
 <header>
   <div class="wrap">
     <a class="back" href="../index.html">← All Tampa Bay Neighborhoods</a>
+    <img class="hood-logo" src="lpc-logo.png" alt="Lowry Park Central neighborhood logo — elephant, flamingo, and cypress tree along the Hillsborough River, TPA 813">
     <div class="eyebrow">West Bank of the Hillsborough River • Home of ZooTampa • Lowry Park Named 1925</div>
     <h1>Lowry Park Central</h1>
   </div>
@@ -331,6 +351,30 @@ From the river to the park…
 From the past to the future…
 Lowry Park Central—
 Where the animals run and we soar!</div>
+
+  <h2>Neighborhood Boundaries</h2>
+  <p>Lowry Park Central is framed by Busch Boulevard to the north, Florida Avenue to the east, Sligh Avenue to the south, and Rome and Armenia Avenues to the west, with the Hillsborough River curving along its southeastern edge past ZooTampa.</p>
+  <img class="bmap" src="lowry-park-central-map.png" alt="Map of Lowry Park Central neighborhood boundaries in Tampa — outlined in red between Busch Boulevard, Florida Avenue, Sligh Avenue, and Rome/Armenia Avenues, with the Hillsborough River and ZooTampa along the southeastern edge">
+  <p class="bmap-cap">Lowry Park Central neighborhood boundaries</p>
+
+  <div class="meeting-card">
+    <p class="mc-kicker">Lowry Park Central Community Organization</p>
+    <h3>Meet · Learn · Interact</h3>
+    <p class="mc-tag">Get to know your neighbors! · &iexcl;Conozca a sus vecinos!</p>
+    <div class="mc-grid">
+      <div class="mc-item">
+        <p class="mc-label">When</p>
+        <p class="mc-val">Third Thursday of each month<span class="es">Tercer jueves de cada mes</span>6:30 – 7:30 PM</p>
+      </div>
+      <div class="mc-item">
+        <p class="mc-label">Where</p>
+        <p class="mc-val">Salvation Army Church<span class="es">1100 W Sligh Avenue</span></p>
+      </div>
+    </div>
+    <p class="mc-contact">Questions / Preguntas: <a href="mailto:lowryparkcentral@gmail.com">lowryparkcentral@gmail.com</a> &middot; <a href="tel:+18135038328">(813) 503-8328</a></p>
+    <a class="mc-join" href="https://www.facebook.com/groups/500779677432574" target="_blank" rel="noopener">Join the Facebook Group</a>
+    <p class="mc-hosted">Hosted by the residents of Lowry Park Central &amp; the City of Tampa Community Engagement &amp; Partnership Department<br>Organizado por los residentes de Lowry Park Central &amp; el Departamento de Asociaciones y Participaci&oacute;n Comunitaria de la Ciudad de Tampa</p>
+  </div>
 </article>
 </div>
 
