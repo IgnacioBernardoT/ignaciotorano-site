@@ -11,7 +11,9 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/parks_data.js"></script>
+<script src="/custom_parks.js"></script>
 <script src="/park_photos.js"></script>
+<script src="/custom_park_photos.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -304,13 +306,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--off);color:var(--text);mi
 /* MOBILE */
 body { overflow-x: hidden; max-width: 100vw; }
 #map-view { overflow: visible; }
-@media(max-width:1200px){
+@media(max-width:900px){
   .site-nav{display:none}
   .site-nav.open{display:flex;flex-direction:column;position:absolute;top:70px;left:0;right:0;background:var(--navy);border-bottom:1px solid rgba(184,150,90,.2);padding:12px 20px 20px;gap:4px;z-index:199}
   .site-nav.open a{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.07)}
   .mob-btn{display:flex}
-}
-@media(max-width:900px){
   .hdr-in{padding:0 16px}
   .parks-bar{padding:0 16px}
   .hero{padding:28px 16px 24px;background:linear-gradient(rgba(10,18,32,.82),rgba(10,18,32,.82)),url("/parks_hero.webp") center 65%/cover no-repeat}
@@ -418,6 +418,27 @@ body { overflow-x: hidden; max-width: 100vw; }
 .m-fav-btn.faved{background:var(--gold-pale);border-color:#E0C98A;color:var(--gold)}
 .m-fav-btn svg{width:15px;height:15px;stroke:currentColor;fill:none}
 .m-fav-btn.faved svg{fill:var(--gold)}
+/* SIGN-IN BANNER */
+@keyframes pulseDot{
+  0%{box-shadow:0 0 0 0 rgba(66,133,244,.5)}
+  70%{box-shadow:0 0 0 14px rgba(66,133,244,0)}
+  100%{box-shadow:0 0 0 0 rgba(66,133,244,0)}
+}
+.signin-banner{background:linear-gradient(90deg,#FAF6EC 0%,#F5EDD8 100%);border-bottom:1px solid var(--border);padding:16px 40px}
+.signin-banner-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:20px}
+.signin-emoji{font-size:36px;flex-shrink:0;filter:drop-shadow(0 1px 2px rgba(0,0,0,.08))}
+.signin-text{flex:1;min-width:0}
+.signin-headline{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy);line-height:1.2;margin-bottom:3px}
+.signin-sub{font-size:12.5px;color:var(--text-mid);line-height:1.5}
+.signin-btn{display:inline-flex;align-items:center;gap:7px;padding:11px 22px;background:var(--navy);color:#fff;border:none;border-radius:24px;font-size:12px;font-weight:600;letter-spacing:.5px;font-family:'DM Sans',sans-serif;cursor:pointer;flex-shrink:0;transition:background .15s,transform .15s;box-shadow:0 3px 10px rgba(14,26,43,.2)}
+.signin-btn:hover{background:var(--gold);color:var(--navy);transform:translateY(-1px)}
+@media(max-width:700px){
+  .signin-banner{padding:16px 18px}
+  .signin-banner-inner{flex-direction:column;text-align:center;gap:12px}
+  .signin-emoji{font-size:32px}
+  .signin-headline{font-size:17px}
+  .signin-sub{font-size:12px}
+}
 /* RESOURCES DROPDOWN */
 .nav-dropdown{position:relative;display:inline-flex;align-items:center}
 .nav-dropdown > a{display:inline-flex;align-items:center;gap:5px}
@@ -426,7 +447,7 @@ body { overflow-x: hidden; max-width: 100vw; }
 .nav-dropdown:hover .dropdown-menu,.nav-dropdown:focus-within .dropdown-menu{opacity:1;visibility:visible}
 .nav-dropdown .dropdown-menu a{display:block;padding:9px 20px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.85);white-space:nowrap;text-decoration:none;transition:color .12s,background .12s}
 .nav-dropdown .dropdown-menu a:hover{color:var(--gold);background:rgba(184,150,90,.08)}
-@media(max-width:1200px){
+@media(max-width:900px){
   .nav-dropdown{display:block;width:100%}
   .nav-dropdown > a::after{display:none}
   .nav-dropdown .dropdown-menu{position:static;transform:none;opacity:1;visibility:visible;border:none;box-shadow:none;background:transparent;padding:0 0 0 12px;margin-top:4px}
@@ -453,11 +474,9 @@ body { overflow-x: hidden; max-width: 100vw; }
         <a href="https://ignaciotorano.com/resources/trusted-partners" aria-haspopup="true">Resources</a>
         <div class="dropdown-menu">
           <a href="https://ignaciotorano.com/resources/trusted-partners">Trusted Partners</a>
-          <a href="https://ignaciotorano.com/resources/purchasing-power-quiz">Purchasing Power Quiz</a>
         </div>
       </div>
       <a href="https://ignaciotorano.com/#testimonials">Reviews</a>
-      <a href="https://ignaciotorano.com/news.html">In The News</a>
       <a href="https://ignaciotorano.com/#contact" class="cta">Let's Connect</a>
     </nav>
     <button class="mob-btn" onclick="document.getElementById('site-nav').classList.toggle('open')" aria-label="Menu">
@@ -526,6 +545,21 @@ body { overflow-x: hidden; max-width: 100vw; }
         💬 Share Feedback
       </button>
     </div>
+  </div>
+</div>
+
+<!-- SIGN-IN PROMPT BANNER (hidden when logged in) -->
+<div class="signin-banner" id="signin-banner">
+  <div class="signin-banner-inner">
+    <div class="signin-emoji">❤️</div>
+    <div class="signin-text">
+      <div class="signin-headline">Sign in to save your favorite Tampa parks</div>
+      <div class="signin-sub">Bookmark the parks your family loves and get notified when new parks & features are added.</div>
+    </div>
+    <button class="signin-btn" onclick="openAuthModal()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Sign In / Create Account
+    </button>
   </div>
 </div>
 
@@ -838,6 +872,12 @@ body { overflow-x: hidden; max-width: 100vw; }
         <button class="btn btn-g" onclick="closeEdit()">Cancel</button>
         <button class="btn btn-p" onclick="saveEdit()"><span id="e-savetxt">Save Changes</span></button>
       </div>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);text-align:center;">
+        <button onclick="promptDelete(cur.OBJECTID)" style="background:none;border:1px solid #FECACA;color:#B91C1C;padding:8px 18px;border-radius:var(--r);font-size:11px;letter-spacing:1px;text-transform:uppercase;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:600;">
+          🗑 Delete This Park
+        </button>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:6px;">Removes it from your directory. Can be restored by clearing browser data.</div>
+      </div>
       <div class="saveok" id="e-saveok">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
         Saved successfully
@@ -978,6 +1018,8 @@ async function setUser(user) {
   if (avatar) av.innerHTML = `<img src="${avatar}" alt="${initials}">`;
   else av.textContent = initials;
   document.getElementById('user-email-display').textContent = user.email;
+  const banner = document.getElementById('signin-banner');
+  if (banner) banner.style.display = 'none';
   await loadFavorites();
   renderGrid();
 }
@@ -987,6 +1029,8 @@ function clearUser() {
   userFavorites = new Set();
   document.getElementById('login-btn').style.display = 'flex';
   document.getElementById('user-pill').style.display = 'none';
+  const banner = document.getElementById('signin-banner');
+  if (banner) banner.style.display = 'block';
   renderGrid();
 }
 
@@ -1164,6 +1208,15 @@ async function init() {
   let deletedIds = [];
   try { deletedIds = JSON.parse(localStorage.getItem('deletedParks')||'[]'); } catch(e){}
   allParks = PARKS_DATA.map(p => ({...p})).filter(p => !deletedIds.includes(p.OBJECTID));
+  // Merge in Hillsborough County parks (or any other custom datasets)
+  if (typeof CUSTOM_PARKS !== 'undefined') {
+    const customIds = new Set(allParks.map(p => p.OBJECTID));
+    for (const p of CUSTOM_PARKS) {
+      if (!customIds.has(p.OBJECTID) && !deletedIds.includes(p.OBJECTID)) {
+        allParks.push({...p});
+      }
+    }
+  }
   filtered = [...allParks];
   // Load edits and render simultaneously
   fetchEditsAndRender();
@@ -1181,9 +1234,20 @@ async function fetchEditsAndRender() {
         edits[String(row.park_id)] = row.payload;
       });
       try { localStorage.setItem('parkEdits', JSON.stringify(edits)); } catch(e){}
-      renderGrid();
     }
-  } catch(e){ console.warn('Supabase fetch failed, using local cache', e); }
+  } catch(e){ console.warn('Supabase edits fetch failed, using local cache', e); }
+  // Load deleted list from Supabase (so deletes persist across users)
+  try {
+    const { data, error } = await sbClient.from('park_deleted').select('park_id');
+    if (!error && data && data.length) {
+      const deletedIds = data.map(r => parseInt(r.park_id,10)).filter(x => !isNaN(x));
+      const set = new Set(deletedIds);
+      allParks = allParks.filter(p => !set.has(p.OBJECTID));
+      try { localStorage.setItem('deletedParks', JSON.stringify(deletedIds)); } catch(e){}
+      filtered = [...allParks];
+    }
+  } catch(e){ console.warn('Supabase deleted fetch failed', e); }
+  renderGrid();
 }
 
 function showSkeletons() {
@@ -1224,13 +1288,14 @@ function placeholderSVG(p){
 function getPhoto(id){
   const e = edits[String(id)];
   if(e && e.photos && e.photos.length) return e.photos[0];
-  if(typeof PARK_PHOTOS !== "undefined" && PARK_PHOTOS[String(id)] && PARK_PHOTOS[String(id)].length) return PARK_PHOTOS[String(id)][0];
-  if(typeof PARK_PHOTOS_BY_NAME !== "undefined"){
-    const p = allParks.find(x => String(x.OBJECTID) === String(id));
-    if(p){
-      const key = p.NAME.toLowerCase().trim();
-      if(PARK_PHOTOS_BY_NAME[key] && PARK_PHOTOS_BY_NAME[key].length) return PARK_PHOTOS_BY_NAME[key][0];
-    }
+  const key = String(id);
+  if(typeof PARK_PHOTOS !== "undefined" && PARK_PHOTOS[key] && PARK_PHOTOS[key].length) return PARK_PHOTOS[key][0];
+  if(typeof CUSTOM_PARK_PHOTOS !== "undefined" && CUSTOM_PARK_PHOTOS[key] && CUSTOM_PARK_PHOTOS[key].length) return CUSTOM_PARK_PHOTOS[key][0];
+  const p = allParks.find(x => String(x.OBJECTID) === key);
+  if(p){
+    const nameKey = p.NAME.toLowerCase().trim();
+    if(typeof PARK_PHOTOS_BY_NAME !== "undefined" && PARK_PHOTOS_BY_NAME[nameKey] && PARK_PHOTOS_BY_NAME[nameKey].length) return PARK_PHOTOS_BY_NAME[nameKey][0];
+    if(typeof CUSTOM_PARK_PHOTOS_BY_NAME !== "undefined" && CUSTOM_PARK_PHOTOS_BY_NAME[nameKey] && CUSTOM_PARK_PHOTOS_BY_NAME[nameKey].length) return CUSTOM_PARK_PHOTOS_BY_NAME[nameKey][0];
   }
   return null;
 }
@@ -1357,8 +1422,49 @@ function switchView(v){
 }
 
 function initMap(){
-  if(!lmap){ lmap=L.map('map').setView([27.9506,-82.4572],12); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(lmap); }
+  if(!lmap){
+    lmap=L.map('map').setView([27.9506,-82.4572],12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(lmap);
+    // Add "My Location" control
+    const LocationBtn = L.Control.extend({
+      options: { position: 'topright' },
+      onAdd: function(){
+        const c = L.DomUtil.create('div','leaflet-bar leaflet-control');
+        c.innerHTML = `<a href="#" title="Show my location" style="background:#fff;color:#0E1A2B;width:34px;height:34px;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:18px" onclick="event.preventDefault();showMyLocationOnMap();return false;">📍</a>`;
+        L.DomEvent.disableClickPropagation(c);
+        return c;
+      }
+    });
+    lmap.addControl(new LocationBtn());
+  }
   renderMap();
+}
+
+let userLocMarker = null;
+let userLocAccuracy = null;
+function showMyLocationOnMap(){
+  if(!navigator.geolocation){ alert('Geolocation is not supported by your browser.'); return; }
+  const btn = document.querySelector('.leaflet-control a[title="Show my location"]');
+  if(btn) btn.innerHTML = '⏳';
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const lat = pos.coords.latitude, lng = pos.coords.longitude, acc = pos.coords.accuracy;
+    if(userLocMarker){ userLocMarker.remove(); userLocMarker=null; }
+    if(userLocAccuracy){ userLocAccuracy.remove(); userLocAccuracy=null; }
+    // Pulsing blue dot
+    const dot = L.divIcon({
+      html: `<div style="position:relative;width:16px;height:16px;">
+        <div style="position:absolute;inset:0;background:#4285F4;border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 rgba(66,133,244,.6);animation:pulseDot 2s infinite"></div>
+      </div>`,
+      iconSize:[16,16], iconAnchor:[8,8], className:''
+    });
+    userLocMarker = L.marker([lat,lng],{icon:dot,zIndexOffset:1000}).addTo(lmap).bindPopup('You are here');
+    userLocAccuracy = L.circle([lat,lng],{radius:acc,color:'#4285F4',fillColor:'#4285F4',fillOpacity:.08,weight:1,opacity:.4}).addTo(lmap);
+    lmap.setView([lat,lng],14);
+    if(btn) btn.innerHTML = '📍';
+  }, err=>{
+    if(btn) btn.innerHTML = '📍';
+    alert('Could not get your location. Please enable location access in your browser and try again.');
+  }, { enableHighAccuracy:true, timeout:10000, maximumAge:60000 });
 }
 
 function renderMap(){
@@ -1902,19 +2008,29 @@ function promptDelete(id){
 
 function confirmDelete(){
   if(!deleteTargetId) return;
+  const idToDelete = deleteTargetId;
   // Remove from allParks
-  const idx = allParks.findIndex(p=>p.OBJECTID===deleteTargetId);
+  const idx = allParks.findIndex(p=>p.OBJECTID===idToDelete);
   if(idx>=0) allParks.splice(idx,1);
   // Remove from edits
-  delete edits[String(deleteTargetId)];
-  // Save to localStorage
+  delete edits[String(idToDelete)];
+  // Save to localStorage (instant)
   try { localStorage.setItem('parkEdits', JSON.stringify(edits)); } catch(e){}
-  // Save deleted list
   try {
     const deleted = JSON.parse(localStorage.getItem('deletedParks')||'[]');
-    deleted.push(deleteTargetId);
+    if(!deleted.includes(idToDelete)) deleted.push(idToDelete);
     localStorage.setItem('deletedParks', JSON.stringify(deleted));
   } catch(e){}
+  // Persist to Supabase so it stays deleted for everyone
+  (async () => {
+    try {
+      await sbClient.from('park_deleted').upsert({
+        park_id: String(idToDelete),
+        deleted_at: new Date().toISOString()
+      }, { onConflict: 'park_id' });
+      await sbClient.from('park_edits').delete().eq('park_id', String(idToDelete));
+    } catch(e){ console.warn('Supabase delete sync failed:', e); }
+  })();
   deleteTargetId = null;
   document.getElementById('delete-modal').classList.remove('open');
   closeEdit();
@@ -2012,34 +2128,51 @@ async function submitFeedback() {
   }
 }
 
-// NEAR ME BUTTON
+// NEAR ME BUTTON - opens map, drops your dot, shows parks around you
 function useMyLocation() {
   const btn = document.querySelector('.hero-btn-primary');
   if (!navigator.geolocation) { alert('Geolocation not supported by your browser.'); return; }
-  btn.textContent = '📍 Finding you…';
+  btn.innerHTML = '📍 Finding you…';
   btn.disabled = true;
   navigator.geolocation.getCurrentPosition(pos => {
     const lat = pos.coords.latitude;
     const lng = pos.coords.longitude;
-    // Use the existing radius system
+    const acc = pos.coords.accuracy;
+    // Filter to within 5 miles for context
     radCenter = [lat, lng];
     radMi = 5;
-    // Show the radius badge
     const badge = document.getElementById('rad-badge');
     const txt = document.getElementById('rad-txt');
     if (badge) badge.style.display = 'flex';
     if (txt) txt.textContent = 'Within 5 mi of your location';
-    // Run the filter
     filterParks();
-    // Scroll to results
-    document.querySelector('.toolbar').scrollIntoView({ behavior: 'smooth' });
-    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg> 📍 Parks Near Me';
+    // Switch to MAP view (this is what drivers need)
+    switchView('map');
+    // After the map renders, drop the blue dot and zoom in
+    setTimeout(() => {
+      if (!lmap) return;
+      if (typeof userLocMarker !== 'undefined' && userLocMarker) { userLocMarker.remove(); userLocMarker = null; }
+      if (typeof userLocAccuracy !== 'undefined' && userLocAccuracy) { userLocAccuracy.remove(); userLocAccuracy = null; }
+      const dot = L.divIcon({
+        html: `<div style="position:relative;width:18px;height:18px;">
+          <div style="position:absolute;inset:0;background:#4285F4;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 rgba(66,133,244,.6),0 2px 6px rgba(0,0,0,.3);animation:pulseDot 2s infinite"></div>
+        </div>`,
+        iconSize:[18,18], iconAnchor:[9,9], className:''
+      });
+      userLocMarker = L.marker([lat,lng],{icon:dot,zIndexOffset:1000}).addTo(lmap).bindPopup('<b>You are here</b>').openPopup();
+      userLocAccuracy = L.circle([lat,lng],{radius:acc,color:'#4285F4',fillColor:'#4285F4',fillOpacity:.08,weight:1,opacity:.4}).addTo(lmap);
+      // Zoom to street level so nearby parks are visible around you
+      lmap.setView([lat,lng], 13);
+      lmap.invalidateSize();
+    }, 300);
+    btn.innerHTML = '📍 Parks Near Me';
     btn.disabled = false;
   }, err => {
     btn.innerHTML = '📍 Parks Near Me';
     btn.disabled = false;
     alert('Could not get your location. Please allow location access in your browser and try again.');
-  });
+  }, { enableHighAccuracy:true, timeout:10000, maximumAge:60000 });
+}
 }
 
 
