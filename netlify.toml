@@ -8,7 +8,8 @@ directory = "netlify/functions"
   ]
 
 [build.environment]
-  SECRETS_SCAN_OMIT_PATHS = "park_photos.js,custom_park_photos.js,custom_parks.js"
+  SECRETS_SCAN_OMIT_PATHS = "park_photos.js,custom_park_photos.js,custom_parks.js,fetch_park_photos.py,fetch_custom_park_photos.py,fetch_hcfl_parks.py,rebuild_park_photos.py,parks.html"
+  SECRETS_SCAN_OMIT_KEYS = "GOOGLE_PLACES_API_KEY"
 
 [[headers]]
 for = "/*"
@@ -26,6 +27,7 @@ for = "/sitemap.xml"
   [headers.values]
   Cache-Control = "public, max-age=86400"
   Content-Type = "application/xml"
+
 [[redirects]]
 from = "/blog/tampa-dog-rescue"
 to = "/blog/tampa-dog-rescue/"
@@ -42,6 +44,31 @@ status = 200
 from = "/parks/"
 to = "/parks.html"
 status = 200
+[[redirects]]
+from = "/resources/trusted-partners"
+to = "/resources/trusted-partners.html"
+status = 200
+[[redirects]]
+from = "/resources/trusted-partners/"
+to = "/resources/trusted-partners.html"
+status = 200
+[[redirects]]
+from = "/trusted-partners"
+to = "/resources/trusted-partners"
+status = 301
+[[redirects]]
+from = "/resources/purchasing-power-quiz"
+to = "/resources/purchasing-power-quiz.html"
+status = 200
+[[redirects]]
+from = "/resources/purchasing-power-quiz/"
+to = "/resources/purchasing-power-quiz.html"
+status = 200
+[[redirects]]
+from = "/resources/quiz"
+to = "/resources/quiz.html"
+status = 200
+
 [context]
   [context.production]
     [context.production.functions]
