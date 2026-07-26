@@ -295,7 +295,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--off);color:var(--text);mi
 .pwhint{font-size:13px;color:var(--text-muted);margin-bottom:18px}
 .pwerr{color:#B91C1C;font-size:13px;margin-top:6px;display:none}
 
-/* VIDEO */
+/* VIDEO BUTTONS */
+.video-link-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px 20px;background:#FF0000;color:#fff;border-radius:var(--r);text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.5px;font-family:'DM Sans',sans-serif;transition:all .15s;box-shadow:0 2px 8px rgba(255,0,0,.25);margin-top:8px}
+.video-link-btn:hover{background:#CC0000;transform:translateY(-1px);box-shadow:0 4px 12px rgba(255,0,0,.35);color:#fff}
+.video-360-btn{background:linear-gradient(135deg,#5B21B6 0%,#7C3AED 100%);box-shadow:0 2px 8px rgba(124,58,237,.3)}
+.video-360-btn:hover{background:linear-gradient(135deg,#4C1D95 0%,#6D28D9 100%);box-shadow:0 4px 12px rgba(124,58,237,.45)}
+/* VIDEO EMBED WRAPPER */
 .vwrap{aspect-ratio:16/9;border-radius:4px;overflow:hidden;margin-top:10px;background:var(--off)}
 .vwrap iframe{width:100%;height:100%;border:none}
 
@@ -810,8 +815,17 @@ body { overflow-x: hidden; max-width: 100vw; }
       <div class="divider"></div>
 
       <!-- VIDEO -->
-      <div class="slbl">Video Link</div>
-      <div class="fg"><input class="fi" type="url" id="e-video" placeholder="YouTube or Instagram URL"></div>
+      <div class="slbl">Video Links</div>
+      <div class="fg">
+        <label class="fl" style="display:flex;align-items:center;gap:6px;">▶ Regular YouTube Video</label>
+        <input class="fi" type="url" id="e-video" placeholder="https://youtube.com/watch?v=… or Instagram URL">
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Embeds a standard YouTube or Instagram video player in the park page.</div>
+      </div>
+      <div class="fg">
+        <label class="fl" style="display:flex;align-items:center;gap:6px;">🌐 360° YouTube Video</label>
+        <input class="fi" type="url" id="e-video-360" placeholder="https://youtube.com/watch?v=… (must be a 360° video)">
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Add a YouTube 360° VR walkthrough so visitors can look around the park.</div>
+      </div>
 
       <div class="divider"></div>
 
@@ -1569,14 +1583,30 @@ function openPark(id){
   } else socSec.style.display='none';
 
   // Review
-  const hasRev = e.rating || e.notes || e.videoUrl;
+  const hasRev = e.rating || e.notes || e.videoUrl || e.video360Url;
   document.getElementById('m-norev').style.display = hasRev ? 'none' : 'block';
   const mr = document.getElementById('m-rating');
   if(e.rating){ mr.style.display='block'; document.getElementById('m-stars').innerHTML=starsHtml(e.rating,17); document.getElementById('m-rat-txt').textContent=`${e.rating}/5`; } else mr.style.display='none';
   const mn = document.getElementById('m-notes');
   if(e.notes){ mn.style.display='block'; mn.textContent=e.notes; } else mn.style.display='none';
   const mv = document.getElementById('m-video');
-  if(e.videoUrl){ const em=embedUrl(e.videoUrl); mv.style.display='block'; mv.innerHTML=em?`<div class="vwrap"><iframe src="${em}" allowfullscreen></iframe></div>`:`<a href="${e.videoUrl}" target="_blank" style="color:var(--gold);font-size:13px;">▶ Watch Video</a>`; } else mv.style.display='none';
+  let videoHtml = '';
+  if(e.videoUrl){
+    const em = embedUrl(e.videoUrl);
+    videoHtml += `<div class="slbl" style="margin-top:8px;">▶ Watch a Review of the Park</div>` +
+      (em ? `<div class="vwrap"><iframe src="${em}" allowfullscreen></iframe></div>`
+          : `<a href="${e.videoUrl}" target="_blank" rel="noopener" class="video-link-btn">▶ Watch Video on YouTube</a>`);
+  }
+  if(e.video360Url){
+    videoHtml += `<div class="slbl" style="margin-top:14px;">🌐 Explore the Park in 360°</div>
+      <a href="${e.video360Url}" target="_blank" rel="noopener" class="video-link-btn video-360-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        Watch 360° Tour on YouTube
+      </a>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:6px;text-align:center;">Drag to look around · Best in the YouTube app or on desktop</div>`;
+  }
+  mv.style.display = videoHtml ? 'block' : 'none';
+  mv.innerHTML = videoHtml;
 
   document.getElementById('park-modal').classList.add('open');
   updateModalFav(id);
@@ -1665,6 +1695,7 @@ function launchEdit(){
   document.getElementById('e-desc').value = cur.DESCRIPT || '';
   document.getElementById('e-notes').value = e.notes || '';
   document.getElementById('e-video').value = e.videoUrl || '';
+  document.getElementById('e-video-360').value = e.video360Url || '';
 
   // Amenity checkboxes
   const ag = document.getElementById('e-amenities');
@@ -1787,6 +1818,7 @@ async function saveEdit(){
       rating: curRating,
       notes: document.getElementById('e-notes').value,
       videoUrl: document.getElementById('e-video').value,
+      video360Url: document.getElementById('e-video-360').value,
       photos, blogLinks: pendBlogs, socialLinks: pendSocials,
       parkData: updatedPark
     };
@@ -1963,6 +1995,7 @@ function openAddPark(){
   document.getElementById('e-desc').value = '';
   document.getElementById('e-notes').value = '';
   document.getElementById('e-video').value = '';
+  document.getElementById('e-video-360').value = '';
   curRating = 0; updateStars();
   savedPhotos = []; pendPhotos = []; renderPhotoGrid();
   pendBlogs = []; renderBlogList();
