@@ -1,43 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XBTLFZ7QLY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-XBTLFZ7QLY');
-</script>
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1977453569800552');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1977453569800552&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>In the News | Ignacio Toraño | South Tampa Realtor</title>
-<meta name="description" content="Press and media coverage of Ignacio Toraño — South Tampa native, Realtor®, and community storyteller — featured in local and national news.">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ignaciotorano.com/news.html">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"CollectionPage","name":"In the News — Ignacio Toraño","description":"Press and media coverage of Ignacio Toraño, South Tampa Realtor","author":{"@type":"Person","name":"Ignacio Toraño","url":"https://ignaciotorano.com"}}
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>In the News | Ignacio Toraño (Prototype)</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -88,6 +51,10 @@ nav.scrolled{box-shadow:0 2px 24px rgba(0,0,0,0.07)}
 .press-featured .press-outlet-logo{max-width:62%;max-height:58%}
 .press-cover-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s}
 .press-featured:hover .press-cover-img{transform:scale(1.03)}
+.press-card:hover .press-cover-img{transform:scale(1.03)}
+.press-card-static{cursor:default}
+.press-card-static:hover{box-shadow:none;transform:none}
+.press-sub{font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-top:1rem}
 .press-body{padding:1.6rem}
 .press-date{font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 .press-title{font-family:var(--serif);font-size:1.3rem;font-weight:400;color:var(--navy-dark);line-height:1.3;margin-bottom:10px}
@@ -134,10 +101,7 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
   .footer-links{justify-content:center}
 }
 </style>
-
-</head>
-<body>
-
+</head><body>
 <nav id="navbar">
   <a href="/" class="nav-logo"><img src="iggy_logo_v2.webp" alt="Ignacio Toraño South Tampa Real Estate"></a>
   <ul class="nav-links" id="navLinks">
@@ -160,177 +124,139 @@ footer{background:#080E1C;padding:3rem 5vw;border-top:0.5px solid rgba(201,169,1
   </ul>
   <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
 </nav>
+<div class="page-hero"><div class="page-hero-inner">
+<p class="eyebrow">Press &amp; Media</p>
+<h1 class="page-title">In the <em>News</em></h1>
+<p class="page-lead">One card per story — click any thumbnail to read the full story, with every outlet that covered it linked at the top.</p>
+</div></div>
 
-<div class="page-hero">
-  <div class="page-hero-inner">
-    <p class="eyebrow">Press &amp; Media</p>
-    <h1 class="page-title">In the <em>News</em></h1>
-    <p class="page-lead">From local human-interest stories to national coverage — a look at some of the moments, projects, and community stories that have put Ignacio, and this city, in the spotlight.</p>
-  </div>
-</div>
-
-<section class="press-section">
-  <div class="press-inner">
-    <div class="section-header">
-      <div>
-        <p class="section-eyebrow">Featured Coverage</p>
-        <h2 class="section-title">As Seen <em>In</em></h2>
-      </div>
-    </div>
-    <div class="press-grid">
-
-      <a class="press-featured" href="https://www.thedodo.com/drowning-dog-is-saved-with-mouth-to-mouth-1251305183.html" target="_blank" rel="noopener">
-        <div class="press-thumb">
-          <img class="press-cover-img" src="dog-rescue-coverage.png" alt="International media coverage of the Davis Islands dog rescue — Tampa Bay Times, WFLA, WTSP, JEMS, FOX 29, The Dodo">
-        </div>
+<section class="press-section"><div class="press-inner">
+<div class="section-header"><div><p class="section-eyebrow">Featured Coverage</p><h2 class="section-title">Community &amp; <em>Advocacy</em></h2></div></div>
+<div class="press-grid">
+      <a class="press-featured" href="story-dog-rescue.html">
+        <div class="press-thumb"><img class="press-cover-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMzAwIj4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiMwRjFFMzUiLz4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9InVybCgjZykiLz4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMUIyQTRBIiBzdG9wLW9wYWNpdHk9IjAuNCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzBGMUUzNSIgc3RvcC1vcGFjaXR5PSIwLjkiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPGxpbmUgeDE9IjQwIiB5MT0iMTUwIiB4Mj0iMTIwIiB5Mj0iMTUwIiBzdHJva2U9IiNDOUE5NkUiIHN0cm9rZS13aWR0aD0iMSIvPgo8dGV4dCB4PSI0MCIgeT0iMTQwIiBmb250LWZhbWlseT0iQ29ybW9yYW50IEdhcmFtb25kLHNlcmlmIiBmb250LXNpemU9IjM0IiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiNGQUY4RjQiPkRvZyBSZXNjdWU8L3RleHQ+Cjx0ZXh0IHg9IjQwIiB5PSIxODAiIGZvbnQtZmFtaWx5PSJKb3N0LHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxldHRlci1zcGFjaW5nPSIyIiBmaWxsPSIjQzlBOTZFIiB0ZXh0LXRyYW5zZm9ybT0idXBwZXJjYXNlIj5EQVZJUyBJU0xBTkRTPC90ZXh0Pgo8cmVjdCB4PSIyNCIgeT0iMjQiIHdpZHRoPSIxMDkiIGhlaWdodD0iMzAiIGZpbGw9IiNDOUE5NkUiLz48dGV4dCB4PSIzOCIgeT0iNDQiIGZvbnQtZmFtaWx5PSJKb3N0LHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMwRjFFMzUiIGxldHRlci1zcGFjaW5nPSIxIj41IE9VVExFVFM8L3RleHQ+Cjwvc3ZnPg==" alt="Davis Islands dog rescue"></div>
         <div class="press-body">
-          <p class="press-date">July 2015</p>
-          <h3 class="press-title">Drowning Dog Is Saved With Mouth-to-Mouth</h3>
-          <p class="press-desc">A dramatic rescue at Davis Islands Dog Park, filmed by Ignacio, went viral and was picked up by national outlets — a firsthand look at the community spirit that makes Tampa special.</p>
-          <span class="press-more">Read Article →</span>
+          <p class="press-date">2015 · Davis Islands</p>
+          <h3 class="press-title">A Tampa Community Moment: The Davis Islands Dog Rescue</h3>
+          <p class="press-desc">A dog was revived on the beach at Davis Islands Dog Park after ingesting too much water — a rescue Ignacio captured on video that was picked up by outlets across the country. One card, every outlet linked inside.</p>
+          <span class="press-more">Read Story →</span>
         </div>
       </a>
 
-      <a class="press-card" href="https://www.fox13news.com/news/tampa-realtor-creates-digital-neighborhood-project-americas-250th-anniversary" target="_blank" rel="noopener">
-        <div class="press-thumb">
-          <img class="press-outlet-logo" src="fox13-logo.png" alt="FOX 13 logo">
-        </div>
+      <a class="press-card" href="story-dog-rescue.html">
+        <div class="press-thumb"><img class="press-cover-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMzAwIj4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiMwRjFFMzUiLz4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9InVybCgjZykiLz4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMUIyQTRBIiBzdG9wLW9wYWNpdHk9IjAuNCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzBGMUUzNSIgc3RvcC1vcGFjaXR5PSIwLjkiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPGxpbmUgeDE9IjQwIiB5MT0iMTUwIiB4Mj0iMTIwIiB5Mj0iMTUwIiBzdHJva2U9IiNDOUE5NkUiIHN0cm9rZS13aWR0aD0iMSIvPgo8dGV4dCB4PSI0MCIgeT0iMTQwIiBmb250LWZhbWlseT0iQ29ybW9yYW50IEdhcmFtb25kLHNlcmlmIiBmb250LXNpemU9IjM0IiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiNGQUY4RjQiPkVsZWN0cmljIEJpbGxzPC90ZXh0Pgo8dGV4dCB4PSI0MCIgeT0iMTgwIiBmb250LWZhbWlseT0iSm9zdCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZXR0ZXItc3BhY2luZz0iMiIgZmlsbD0iI0M5QTk2RSIgdGV4dC10cmFuc2Zvcm09InVwcGVyY2FzZSI+Rk9YIDEzIFRBTVBBIEJBWTwvdGV4dD4KPHJlY3QgeD0iMjQiIHk9IjI0IiB3aWR0aD0iMTA5IiBoZWlnaHQ9IjMwIiBmaWxsPSIjQzlBOTZFIi8+PHRleHQgeD0iMzgiIHk9IjQ0IiBmb250LWZhbWlseT0iSm9zdCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMEYxRTM1IiBsZXR0ZXItc3BhY2luZz0iMSI+MiBPVVRMRVRTPC90ZXh0Pgo8L3N2Zz4=" alt="Soaring Utility Costs Hit Tampa Bay"></div>
         <div class="press-body">
           <p class="press-date">July 2026</p>
-          <h3 class="press-title">Tampa Realtor Creates Digital Neighborhood Project for America's 250th Anniversary</h3>
-          <p class="press-desc">"I wanted to provide music to people, because I know that will touch a different audience." — Ignacio Toraño, reported by Jennifer Kveglis, FOX 13 News.</p>
-          <span class="press-more">Read Article →</span>
+          <h3 class="press-title">Soaring Utility Costs Hit Tampa Bay<span class="badge-count">2 outlets</span></h3>
+          <p class="press-desc">Quoted on camera by FOX 13 on an $800 power bill during peak summer heat — and picked up nationally by AOL.</p>
+          <span class="press-more">Read Story →</span>
         </div>
       </a>
 
-      <a class="press-card" href="https://www.yahoo.com/news/videos/celebrating-tampa-preserving-story-031529835.html" target="_blank" rel="noopener">
-        <div class="press-thumb">
-          <img class="press-outlet-logo" src="yahoo-logo.png" alt="Yahoo News logo">
-        </div>
+      <a class="press-card" href="story-dog-rescue.html">
+        <div class="press-thumb"><img class="press-cover-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMzAwIj4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiMwRjFFMzUiLz4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9InVybCgjZykiLz4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMUIyQTRBIiBzdG9wLW9wYWNpdHk9IjAuNCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzBGMUUzNSIgc3RvcC1vcGFjaXR5PSIwLjkiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPGxpbmUgeDE9IjQwIiB5MT0iMTUwIiB4Mj0iMTIwIiB5Mj0iMTUwIiBzdHJva2U9IiNDOUE5NkUiIHN0cm9rZS13aWR0aD0iMSIvPgo8dGV4dCB4PSI0MCIgeT0iMTQwIiBmb250LWZhbWlseT0iQ29ybW9yYW50IEdhcmFtb25kLHNlcmlmIiBmb250LXNpemU9IjM0IiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiNGQUY4RjQiPkRpZ2l0YWwgTmVpZ2hib3Job29kPC90ZXh0Pgo8dGV4dCB4PSI0MCIgeT0iMTgwIiBmb250LWZhbWlseT0iSm9zdCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZXR0ZXItc3BhY2luZz0iMiIgZmlsbD0iI0M5QTk2RSIgdGV4dC10cmFuc2Zvcm09InVwcGVyY2FzZSI+QU1FUklDQSdTIDI1MFRIPC90ZXh0Pgo8cmVjdCB4PSIyNCIgeT0iMjQiIHdpZHRoPSIxMDkiIGhlaWdodD0iMzAiIGZpbGw9IiNDOUE5NkUiLz48dGV4dCB4PSIzOCIgeT0iNDQiIGZvbnQtZmFtaWx5PSJKb3N0LHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMwRjFFMzUiIGxldHRlci1zcGFjaW5nPSIxIj40IE9VVExFVFM8L3RleHQ+Cjwvc3ZnPg==" alt="A Digital Neighborhood for America's 250th"></div>
         <div class="press-body">
           <p class="press-date">July 2026</p>
-          <h3 class="press-title">Celebrating Tampa, Preserving Its Story</h3>
-          <p class="press-desc">National video coverage of the digital neighborhood project documenting Tampa's history and character.</p>
-          <span class="press-more">Watch Video →</span>
+          <h3 class="press-title">A Digital Neighborhood for America's 250th<span class="badge-count">4 outlets</span></h3>
+          <p class="press-desc">Ignacio's hyperlocal history project drew FOX 13 coverage and national syndication across Yahoo, AOL, and MSN.</p>
+          <span class="press-more">Read Story →</span>
         </div>
       </a>
 
-      <a class="press-card" href="https://www.aol.com/news/tampa-realtor-creates-digital-neighborhood-024709557.html" target="_blank" rel="noopener">
-        <div class="press-thumb">
-          <img class="press-outlet-logo" src="aol-logo.png" alt="AOL logo">
-        </div>
+      <a class="press-card" href="story-dog-rescue.html">
+        <div class="press-thumb"><img class="press-cover-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMzAwIj4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiMwRjFFMzUiLz4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9InVybCgjZykiLz4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMUIyQTRBIiBzdG9wLW9wYWNpdHk9IjAuNCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzBGMUUzNSIgc3RvcC1vcGFjaXR5PSIwLjkiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPGxpbmUgeDE9IjQwIiB5MT0iMTUwIiB4Mj0iMTIwIiB5Mj0iMTUwIiBzdHJva2U9IiNDOUE5NkUiIHN0cm9rZS13aWR0aD0iMSIvPgo8dGV4dCB4PSI0MCIgeT0iMTQwIiBmb250LWZhbWlseT0iQ29ybW9yYW50IEdhcmFtb25kLHNlcmlmIiBmb250LXNpemU9IjM0IiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiNGQUY4RjQiPlBvcnQgVGFtcGEgRmxvb2Rpbmc8L3RleHQ+Cjx0ZXh0IHg9IjQwIiB5PSIxODAiIGZvbnQtZmFtaWx5PSJKb3N0LHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxldHRlci1zcGFjaW5nPSIyIiBmaWxsPSIjQzlBOTZFIiB0ZXh0LXRyYW5zZm9ybT0idXBwZXJjYXNlIj5XRkxBIDggT04gWU9VUiBTSURFPC90ZXh0Pgo8cmVjdCB4PSIyNCIgeT0iMjQiIHdpZHRoPSIxMDkiIGhlaWdodD0iMzAiIGZpbGw9IiNDOUE5NkUiLz48dGV4dCB4PSIzOCIgeT0iNDQiIGZvbnQtZmFtaWx5PSJKb3N0LHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMwRjFFMzUiIGxldHRlci1zcGFjaW5nPSIxIj4yIFJFUE9SVFM8L3RleHQ+Cjwvc3ZnPg==" alt="Advocating for Port Tampa on Chronic Flooding"></div>
         <div class="press-body">
-          <p class="press-date">July 2026</p>
-          <h3 class="press-title">Tampa Realtor Creates Digital Neighborhood</h3>
-          <p class="press-desc">Coverage of the digital neighborhood project, documenting Tampa ahead of the nation's 250th anniversary.</p>
-          <span class="press-more">Read Article →</span>
+          <p class="press-date">2023</p>
+          <h3 class="press-title">Advocating for Port Tampa on Chronic Flooding<span class="badge-count">2 reports</span></h3>
+          <p class="press-desc">WFLA 8 On Your Side returned twice to the same neighborhood — with Ignacio pressing the city and developers for answers.</p>
+          <span class="press-more">Read Story →</span>
         </div>
       </a>
 
-      <a class="press-card" href="https://www.msn.com/en-us/news/us/tampa-realtor-creates-digital-neighborhood-project-for-americas-250th-anniversary/ar-AA271uFb" target="_blank" rel="noopener">
-        <div class="press-thumb">
-          <img class="press-outlet-logo" src="msn-logo.png" alt="MSN logo">
-        </div>
+      <a class="press-card" href="story-dog-rescue.html">
+        <div class="press-thumb"><img class="press-cover-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMzAwIj4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiMwRjFFMzUiLz4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9InVybCgjZykiLz4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMUIyQTRBIiBzdG9wLW9wYWNpdHk9IjAuNCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzBGMUUzNSIgc3RvcC1vcGFjaXR5PSIwLjkiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPGxpbmUgeDE9IjQwIiB5MT0iMTUwIiB4Mj0iMTIwIiB5Mj0iMTUwIiBzdHJva2U9IiNDOUE5NkUiIHN0cm9rZS13aWR0aD0iMSIvPgo8dGV4dCB4PSI0MCIgeT0iMTQwIiBmb250LWZhbWlseT0iQ29ybW9yYW50IEdhcmFtb25kLHNlcmlmIiBmb250LXNpemU9IjM0IiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiNGQUY4RjQiPldlc3QgVGFtcGEgU2FmZXR5PC90ZXh0Pgo8dGV4dCB4PSI0MCIgeT0iMTgwIiBmb250LWZhbWlseT0iSm9zdCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZXR0ZXItc3BhY2luZz0iMiIgZmlsbD0iI0M5QTk2RSIgdGV4dC10cmFuc2Zvcm09InVwcGVyY2FzZSI+QUJDIEFDVElPTiBORVdTPC90ZXh0PgoKPC9zdmc+" alt="Speaking Up on West Tampa Public Safety"></div>
         <div class="press-body">
-          <p class="press-date">July 2026</p>
-          <h3 class="press-title">Digital Neighborhood Project for America's 250th Anniversary</h3>
-          <p class="press-desc">Syndicated national coverage of the same digital neighborhood preservation project.</p>
-          <span class="press-more">Read Article →</span>
+          <p class="press-date">January 2023</p>
+          <h3 class="press-title">Speaking Up on West Tampa Public Safety</h3>
+          <p class="press-desc">A primary source for ABC Action News, speaking for area employers and calling for greater police presence.</p>
+          <span class="press-more">Read Story →</span>
         </div>
       </a>
 
-      <a class="press-card" href="https://www.wfla.com/news/hillsborough-county/valentines-day-gift-of-billboard-helps-wife-new-business-owner-start-up-dog-moms-in-south-tampa/" target="_blank" rel="noopener">
-        <div class="press-thumb">
-          <img class="press-outlet-logo" src="wfla-logo.png" alt="WFLA News Channel 8 logo">
-        </div>
+      <a class="press-card" href="story-dog-rescue.html">
+        <div class="press-thumb"><img class="press-cover-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMzAwIj4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiMwRjFFMzUiLz4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9InVybCgjZykiLz4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMUIyQTRBIiBzdG9wLW9wYWNpdHk9IjAuNCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzBGMUUzNSIgc3RvcC1vcGFjaXR5PSIwLjkiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPGxpbmUgeDE9IjQwIiB5MT0iMTUwIiB4Mj0iMTIwIiB5Mj0iMTUwIiBzdHJva2U9IiNDOUE5NkUiIHN0cm9rZS13aWR0aD0iMSIvPgo8dGV4dCB4PSI0MCIgeT0iMTQwIiBmb250LWZhbWlseT0iQ29ybW9yYW50IEdhcmFtb25kLHNlcmlmIiBmb250LXNpemU9IjM0IiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiNGQUY4RjQiPkJpbGxib2FyZCBTdXJwcmlzZTwvdGV4dD4KPHRleHQgeD0iNDAiIHk9IjE4MCIgZm9udC1mYW1pbHk9Ikpvc3Qsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGV0dGVyLXNwYWNpbmc9IjIiIGZpbGw9IiNDOUE5NkUiIHRleHQtdHJhbnNmb3JtPSJ1cHBlcmNhc2UiPldGTEEgOCBPTiBZT1VSIFNJREU8L3RleHQ+Cgo8L3N2Zz4=" alt="A Valentine's Billboard for a New Tampa Business"></div>
         <div class="press-body">
-          <p class="press-date">March 2021</p>
-          <h3 class="press-title">Billboard Gift Helps Launch "Dog Moms in South Tampa"</h3>
-          <p class="press-desc">A Valentine's Day billboard gift that helped a new South Tampa business get off the ground.</p>
-          <span class="press-more">Read Article →</span>
+          <p class="press-date">2023</p>
+          <h3 class="press-title">A Valentine's Billboard for a New Tampa Business</h3>
+          <p class="press-desc">WFLA on a South Tampa entrepreneur's surprise gift — a story of local business and community.</p>
+          <span class="press-more">Read Story →</span>
         </div>
       </a>
+</div></div></section>
 
-      <a class="press-card" href="https://www.tampabay.com/news/humaninterest/romp-then-rinse/2277484/?template=amp" target="_blank" rel="noopener">
-        <div class="press-thumb">
-          <img class="press-outlet-logo" src="tampa-bay-times-logo.png" alt="Tampa Bay Times logo">
-        </div>
+<section class="press-section" style="background:var(--cream)"><div class="press-inner">
+<div class="section-header"><div><p class="section-eyebrow">Before Real Estate</p><h2 class="section-title">Earlier <em>Career</em></h2></div></div>
+<div class="press-grid">
+      <a class="press-card" href="story-dog-rescue.html">
+        <div class="press-thumb"><img class="press-cover-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMzAwIj4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiMwRjFFMzUiLz4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9InVybCgjZykiLz4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMUIyQTRBIiBzdG9wLW9wYWNpdHk9IjAuNCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzBGMUUzNSIgc3RvcC1vcGFjaXR5PSIwLjkiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPGxpbmUgeDE9IjQwIiB5MT0iMTUwIiB4Mj0iMTIwIiB5Mj0iMTUwIiBzdHJva2U9IiNDOUE5NkUiIHN0cm9rZS13aWR0aD0iMSIvPgo8dGV4dCB4PSI0MCIgeT0iMTQwIiBmb250LWZhbWlseT0iQ29ybW9yYW50IEdhcmFtb25kLHNlcmlmIiBmb250LXNpemU9IjM0IiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiNGQUY4RjQiPkZhc3QgNTAg4oCUIE5vLiA4PC90ZXh0Pgo8dGV4dCB4PSI0MCIgeT0iMTgwIiBmb250LWZhbWlseT0iSm9zdCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZXR0ZXItc3BhY2luZz0iMiIgZmlsbD0iI0M5QTk2RSIgdGV4dC10cmFuc2Zvcm09InVwcGVyY2FzZSI+VEFNUEEgQkFZIEJVU0lORVNTIEpPVVJOQUw8L3RleHQ+Cgo8L3N2Zz4=" alt="Tampa Bay Business Journal Fast 50 — No. 8"></div>
         <div class="press-body">
-          <p class="press-date">May 2016</p>
-          <h3 class="press-title">Romp Then Rinse</h3>
-          <p class="press-desc">A community profile on the dog-washing station at Davis Islands Dog Park.</p>
-          <span class="press-more">Read Article →</span>
+          <p class="press-date">2023</p>
+          <h3 class="press-title">Tampa Bay Business Journal Fast 50 — No. 8</h3>
+          <p class="press-desc">Profiled as top executive of a Tampa logistics firm ranked among the region's fastest-growing companies.</p>
+          <span class="press-more">Read Story →</span>
         </div>
       </a>
 
-      <a class="press-card" href="https://www.businessobserverfl.com/news/2011/nov/25/tampa-chamber-revamps-style/" target="_blank" rel="noopener">
-        <div class="press-thumb">
-          <img class="press-outlet-logo" src="businessobserver-logo.png" alt="Business Observer FL logo">
-        </div>
+      <a class="press-card" href="story-dog-rescue.html">
+        <div class="press-thumb"><img class="press-cover-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMzAwIj4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiMwRjFFMzUiLz4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9InVybCgjZykiLz4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMUIyQTRBIiBzdG9wLW9wYWNpdHk9IjAuNCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzBGMUUzNSIgc3RvcC1vcGFjaXR5PSIwLjkiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPGxpbmUgeDE9IjQwIiB5MT0iMTUwIiB4Mj0iMTIwIiB5Mj0iMTUwIiBzdHJva2U9IiNDOUE5NkUiIHN0cm9rZS13aWR0aD0iMSIvPgo8dGV4dCB4PSI0MCIgeT0iMTQwIiBmb250LWZhbWlseT0iQ29ybW9yYW50IEdhcmFtb25kLHNlcmlmIiBmb250LXNpemU9IjM0IiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiNGQUY4RjQiPkVPIFNlcnZpY2UgQXdhcmQ8L3RleHQ+Cjx0ZXh0IHg9IjQwIiB5PSIxODAiIGZvbnQtZmFtaWx5PSJKb3N0LHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxldHRlci1zcGFjaW5nPSIyIiBmaWxsPSIjQzlBOTZFIiB0ZXh0LXRyYW5zZm9ybT0idXBwZXJjYXNlIj5UQU1QQSBCQVkgQlVTSU5FU1MgSk9VUk5BTDwvdGV4dD4KCjwvc3ZnPg==" alt="Entrepreneurs' Organization Service Award"></div>
         <div class="press-body">
           <p class="press-date">November 2011</p>
-          <h3 class="press-title">Tampa Chamber Revamps Style</h3>
-          <p class="press-desc">Coverage of the Greater Tampa Chamber of Commerce's rebrand.</p>
-          <span class="press-more">Read Article →</span>
+          <h3 class="press-title">Entrepreneurs' Organization Service Award</h3>
+          <p class="press-desc">Recognized with the Tampa Bay Chapter of EO for service on behalf of the South Tampa Chamber of Commerce.</p>
+          <span class="press-more">Read Story →</span>
         </div>
       </a>
 
-      <a class="press-card" href="https://www.tampabay.com/archive/2007/10/10/rivalry-tickets-worth-a-wait/" target="_blank" rel="noopener">
-        <div class="press-thumb">
-          <img class="press-outlet-logo" src="tampa-bay-times-logo.png" alt="Tampa Bay Times logo">
-        </div>
+      <a class="press-card" href="story-dog-rescue.html">
+        <div class="press-thumb"><img class="press-cover-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMzAwIj4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiMwRjFFMzUiLz4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9InVybCgjZykiLz4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMUIyQTRBIiBzdG9wLW9wYWNpdHk9IjAuNCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzBGMUUzNSIgc3RvcC1vcGFjaXR5PSIwLjkiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPGxpbmUgeDE9IjQwIiB5MT0iMTUwIiB4Mj0iMTIwIiB5Mj0iMTUwIiBzdHJva2U9IiNDOUE5NkUiIHN0cm9rZS13aWR0aD0iMSIvPgo8dGV4dCB4PSI0MCIgeT0iMTQwIiBmb250LWZhbWlseT0iQ29ybW9yYW50IEdhcmFtb25kLHNlcmlmIiBmb250LXNpemU9IjM0IiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiNGQUY4RjQiPkNvbGxlZ2UgSHVua3M8L3RleHQ+Cjx0ZXh0IHg9IjQwIiB5PSIxODAiIGZvbnQtZmFtaWx5PSJKb3N0LHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxldHRlci1zcGFjaW5nPSIyIiBmaWxsPSIjQzlBOTZFIiB0ZXh0LXRyYW5zZm9ybT0idXBwZXJjYXNlIj5UQU1QQSBCQVkgQlVTSU5FU1MgSk9VUk5BTDwvdGV4dD4KCjwvc3ZnPg==" alt="'College Hunks' Franchisor Does Heavy Lifting"></div>
         <div class="press-body">
-          <p class="press-date">October 2007</p>
-          <h3 class="press-title">Rivalry Tickets Worth a Wait</h3>
-          <p class="press-desc">A personal story from Ignacio's college days at USF, waiting in line for rivalry game tickets.</p>
-          <span class="press-more">Read Article →</span>
+          <p class="press-date">August 2011</p>
+          <h3 class="press-title">'College Hunks' Franchisor Does Heavy Lifting</h3>
+          <p class="press-desc">Featured as director of sales and operations in a TBBJ profile of the fast-growing Tampa franchisor.</p>
+          <span class="press-more">Read Story →</span>
         </div>
       </a>
 
-    </div>
-  </div>
-</section>
+      <a class="press-card" href="story-dog-rescue.html">
+        <div class="press-thumb"><img class="press-cover-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMzAwIj4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiMwRjFFMzUiLz4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9InVybCgjZykiLz4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMUIyQTRBIiBzdG9wLW9wYWNpdHk9IjAuNCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzBGMUUzNSIgc3RvcC1vcGFjaXR5PSIwLjkiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPGxpbmUgeDE9IjQwIiB5MT0iMTUwIiB4Mj0iMTIwIiB5Mj0iMTUwIiBzdHJva2U9IiNDOUE5NkUiIHN0cm9rZS13aWR0aD0iMSIvPgo8dGV4dCB4PSI0MCIgeT0iMTQwIiBmb250LWZhbWlseT0iQ29ybW9yYW50IEdhcmFtb25kLHNlcmlmIiBmb250LXNpemU9IjM0IiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiNGQUY4RjQiPlJlZCBCdWxsIEZsdWd0YWc8L3RleHQ+Cjx0ZXh0IHg9IjQwIiB5PSIxODAiIGZvbnQtZmFtaWx5PSJKb3N0LHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxldHRlci1zcGFjaW5nPSIyIiBmaWxsPSIjQzlBOTZFIiB0ZXh0LXRyYW5zZm9ybT0idXBwZXJjYXNlIj5UQU1QQSBCQVkgwrcgVEVBTSA1PC90ZXh0PgoKPC9zdmc+" alt="Red Bull Flugtag Tampa Bay"></div>
+        <div class="press-body">
+          <p class="press-date">October 2011</p>
+          <h3 class="press-title">Red Bull Flugtag Tampa Bay</h3>
+          <p class="press-desc">Team 5 of five, flying a homemade craft off the pier into Tampa Bay. Finished 13th.</p>
+          <span class="press-more">Read Story →</span>
+        </div>
+      </a>
 
-<div class="cta-band" id="ctaBand">
-  <h2>Have a Real Estate<br><em>Question?</em></h2>
-  <p>Whether you're buying, selling, or just curious about the Tampa Bay market — I'm always happy to chat. No pressure, just honest advice.</p>
-  <a href="/#contact" class="btn-primary">Let's Connect</a>
-</div>
+      <div class="press-card press-card-static">
+        <div class="press-thumb"><img class="press-cover-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMzAwIj4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiMwRjFFMzUiLz4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9InVybCgjZykiLz4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMUIyQTRBIiBzdG9wLW9wYWNpdHk9IjAuNCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzBGMUUzNSIgc3RvcC1vcGFjaXR5PSIwLjkiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPGxpbmUgeDE9IjQwIiB5MT0iMTUwIiB4Mj0iMTIwIiB5Mj0iMTUwIiBzdHJva2U9IiNDOUE5NkUiIHN0cm9rZS13aWR0aD0iMSIvPgo8dGV4dCB4PSI0MCIgeT0iMTQwIiBmb250LWZhbWlseT0iQ29ybW9yYW50IEdhcmFtb25kLHNlcmlmIiBmb250LXNpemU9IjM0IiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiNGQUY4RjQiPkJlc3QgUGxhY2VzIHRvIFdvcms8L3RleHQ+Cjx0ZXh0IHg9IjQwIiB5PSIxODAiIGZvbnQtZmFtaWx5PSJKb3N0LHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxldHRlci1zcGFjaW5nPSIyIiBmaWxsPSIjQzlBOTZFIiB0ZXh0LXRyYW5zZm9ybT0idXBwZXJjYXNlIj5UQU1QQSBCQVkgQlVTSU5FU1MgSk9VUk5BTDwvdGV4dD4KPHJlY3QgeD0iMjQiIHk9IjI0IiB3aWR0aD0iOTEiIGhlaWdodD0iMzAiIGZpbGw9IiNDOUE5NkUiLz48dGV4dCB4PSIzOCIgeT0iNDQiIGZvbnQtZmFtaWx5PSJKb3N0LHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMwRjFFMzUiIGxldHRlci1zcGFjaW5nPSIxIj4yIFlFQVJTPC90ZXh0Pgo8L3N2Zz4=" alt="Best Places to Work — Named Source"></div>
+        <div class="press-body">
+          <p class="press-date">2024 & 2025</p>
+          <h3 class="press-title">Best Places to Work — Named Source</h3>
+          <p class="press-desc">Named source two years running speaking on hiring and leadership in Tampa's logistics sector.</p>
+          
+        </div>
+      </div>
 
-<footer>
-  <div class="footer-inner">
-    <a href="/" class="footer-logo"><span class="footer-name-logo">Ignacio <em>Toraño</em></span></a>
-    <p class="footer-copy">Ignacio Toraño, Realtor® · <a href="https://www.agilegrouprealty.com/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Agile Group Realty</a> · <a href="https://thekeringroup.com/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">The Kerin Group</a> · 607 W Horatio St, Tampa, FL 33606</p>
-    <ul class="footer-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/#about">About</a></li>
-      <li><a href="videos.html">Videos</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="/#contact">Contact</a></li>
-    </ul>
-  </div>
-</footer>
+      <div class="press-card press-card-static">
+        <div class="press-thumb"><img class="press-cover-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgMzAwIj4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiMwRjFFMzUiLz4KPHJlY3Qgd2lkdGg9IjQ4MCIgaGVpZ2h0PSIzMDAiIGZpbGw9InVybCgjZykiLz4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMUIyQTRBIiBzdG9wLW9wYWNpdHk9IjAuNCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzBGMUUzNSIgc3RvcC1vcGFjaXR5PSIwLjkiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPGxpbmUgeDE9IjQwIiB5MT0iMTUwIiB4Mj0iMTIwIiB5Mj0iMTUwIiBzdHJva2U9IiNDOUE5NkUiIHN0cm9rZS13aWR0aD0iMSIvPgo8dGV4dCB4PSI0MCIgeT0iMTQwIiBmb250LWZhbWlseT0iQ29ybW9yYW50IEdhcmFtb25kLHNlcmlmIiBmb250LXNpemU9IjM0IiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiNGQUY4RjQiPkZhbWlseSBvZiB0aGUgWWVhcjwvdGV4dD4KPHRleHQgeD0iNDAiIHk9IjE4MCIgZm9udC1mYW1pbHk9Ikpvc3Qsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGV0dGVyLXNwYWNpbmc9IjIiIGZpbGw9IiNDOUE5NkUiIHRleHQtdHJhbnNmb3JtPSJ1cHBlcmNhc2UiPlNULiBQRVRFUlNCVVJHIFRJTUVTPC90ZXh0PgoKPC9zdmc+" alt="Area's Hispanic-American Family of the Year"></div>
+        <div class="press-body">
+          <p class="press-date">St. Petersburg Times</p>
+          <h3 class="press-title">Area's Hispanic-American Family of the Year</h3>
+          <p class="press-desc">Frank and Kay Toraño named Family of the Year for Tampa Bay — pictured with sons Francisco and a 4-year-old Ignacio.</p>
+          
+        </div>
+      </div>
+</div></div></section>
 
-<script>
-const nav=document.getElementById('navbar');
-window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>40));
-const hamburger=document.getElementById('hamburger');
-const navLinks=document.getElementById('navLinks');
-hamburger.addEventListener('click',()=>navLinks.classList.toggle('open'));
-navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('open')));
-</script>
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/6a10abc8db67011c34f84f86/1jp8hu2bb';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
-</body>
-</html>
+<div class="cta-band"><h2>Let's tell your <em>Tampa story</em></h2><p>Buying or selling in South Tampa? Let's connect.</p><a href="#" class="btn-primary">Get in Touch</a></div>
+</body></html>
