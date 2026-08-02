@@ -1,0 +1,53 @@
+name: Generate post draft (PR for approval)
+
+# Every day at 9:00 AM Eastern (13:00 UTC during EDT).
+# Also runnable any time from the Actions tab.
+on:
+  schedule:
+    - cron: '0 13 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: generate-post
+  cancel-in-progress: false
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Generate blog post + GBP draft
+        id: gen
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python automation/generate_post.py
+
+      - name: Open approval pull request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLUG: ${{ steps.gen.outputs.slug }}
+          TITLE: ${{ steps.gen.outputs.title }}
+        run: |
+          BRANCH="post/${SLUG}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add "blog/${SLUG}/" automation/pending/ automation/topics.csv
+          git commit -m "Draft: ${TITLE}"
+          git push -u origin "$BRANCH"
+          gh pr create \
+            --title "Publish: ${TITLE}" \
+            --body-file automation/pr_body.md \
+            --base main \
+            --head "$BRANCH"

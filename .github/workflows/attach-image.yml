@@ -1,0 +1,84 @@
+name: Attach image from PR comment
+
+# Drop an image into a comment on a draft post PR and this workflow
+# saves it as the post's feature image on that branch automatically.
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: attach-image-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  attach:
+    # Only on PR comments, from the repo owner, that contain an attachment/image URL
+    if: >
+      github.event.issue.pull_request != null &&
+      github.event.comment.author_association == 'OWNER' &&
+      (contains(github.event.comment.body, 'user-attachments') ||
+       contains(github.event.comment.body, 'user-images.githubusercontent.com'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get PR branch
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH=$(gh pr view ${{ github.event.issue.number }} \
+            --repo ${{ github.repository }} --json headRefName -q .headRefName)
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+          echo "slug=${BRANCH#post/}" >> "$GITHUB_OUTPUT"
+
+      - name: Check out PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.pr.outputs.branch }}
+
+      - name: Extract image URL from comment
+        id: img
+        env:
+          COMMENT_BODY: ${{ github.event.comment.body }}
+        run: |
+          URL=$(printf '%s' "$COMMENT_BODY" | grep -oE \
+            'https://(github\.com/user-attachments/assets/[A-Za-z0-9-]+|user-images\.githubusercontent\.com/[^" )]+)' \
+            | head -1)
+          if [ -z "$URL" ]; then
+            echo "No image URL found"; exit 1
+          fi
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Pillow
+        run: pip install --quiet pillow
+
+      - name: Save image as feature image
+        env:
+          IMAGE_URL: ${{ steps.img.outputs.url }}
+          SLUG: ${{ steps.pr.outputs.slug }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python automation/attach_image.py
+
+      - name: Commit to PR branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add blog/
+          git commit -m "Add feature image for ${{ steps.pr.outputs.slug }}"
+          git push
+
+      - name: Confirm on the PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment ${{ github.event.issue.number }} \
+            --repo ${{ github.repository }} \
+            --body "✅ Image attached as the feature image for this post. It will appear on the blog and the GBP post when you merge."

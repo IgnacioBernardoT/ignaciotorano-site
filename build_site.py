@@ -94,7 +94,7 @@ def read_meta(tag_html, slug):
 
 
 def post_date(folder):
-    """Most recent mtime of files in the post folder (newest-first sort key)."""
+    """Most recent mtime of files in the post folder (fallback sort key only)."""
     latest = 0
     for root, _, files in os.walk(folder):
         for f in files:
@@ -103,6 +103,30 @@ def post_date(folder):
             except OSError:
                 pass
     return latest or os.path.getmtime(folder)
+
+
+def true_date(tag_html):
+    """Read the real publish date from the post's own HTML.
+
+    1. <!--POSTDATE-->August 4, 2026<!--/POSTDATE-->  (automated posts)
+    2. Byline fallback: "· July 2026 ·"                (older posts)
+    Returns (datetime, label) or (None, None) if nothing found.
+    """
+    m = re.search(r"<!--POSTDATE-->(.*?)<!--/POSTDATE-->", tag_html, re.S)
+    if m:
+        label = m.group(1).strip()
+        try:
+            return datetime.strptime(label, "%B %d, %Y"), label
+        except ValueError:
+            pass
+    m = re.search(r"[·\u00b7]\s*([A-Z][a-z]+ \d{4})\s*[·\u00b7]", tag_html)
+    if m:
+        label = m.group(1).strip()
+        try:
+            return datetime.strptime(label, "%B %Y"), label
+        except ValueError:
+            pass
+    return None, None
 
 
 def collect_posts():
@@ -122,14 +146,20 @@ def collect_posts():
         img = f"blog/{name}/{feat}" if os.path.isfile(os.path.join(folder, feat)) \
             else "tampa_banner.png"
         mtime = post_date(folder)
+        dt, label = true_date(tag_html)
+        if dt is None:                       # no date in HTML: fall back to mtime
+            dt = datetime.fromtimestamp(mtime)
+            label = dt.strftime("%B %Y")
         posts.append({
             "slug": name, "title": title, "excerpt": excerpt,
             "category": category, "img": img,
             "mtime": mtime,
-            "date_label": datetime.fromtimestamp(mtime).strftime("%B %Y"),
-            "lastmod": datetime.fromtimestamp(mtime).strftime("%Y-%m-%d"),
+            "sort_dt": dt,
+            "date_label": label,
+            "lastmod": dt.strftime("%Y-%m-%d"),
         })
-    posts.sort(key=lambda p: p["mtime"], reverse=True)  # newest first
+    # newest first by true date; mtime breaks ties within the same day/month
+    posts.sort(key=lambda p: (p["sort_dt"], p["mtime"]), reverse=True)
     return posts
 
 
