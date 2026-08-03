@@ -50,7 +50,7 @@ jobs:
             echo "No changes to blog.html or sitemap.xml — nothing to commit."
             exit 0
           fi
-          git commit -m "Auto-rebuild blog cards + sitemap [skip ci]"
+          git commit -m "Auto-rebuild blog cards + sitemap [skip actions]"
           # Make.com commits a post in two steps (html, then image), so two
           # Action runs can race. Retry the push, rebasing on the latest main
           # if the branch moved underneath us.
