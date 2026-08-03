@@ -106,27 +106,53 @@ def post_date(folder):
 
 
 def true_date(tag_html):
-    """Read the real publish date from the post's own HTML.
+    """Read the real publish date from the post's own HTML, across all template eras.
 
-    1. <!--POSTDATE-->August 4, 2026<!--/POSTDATE-->  (automated posts)
-    2. Byline fallback: "· July 2026 ·"                (older posts)
-    Returns (datetime, label) or (None, None) if nothing found.
+    1. <!--POSTDATE-->August 4, 2026<!--/POSTDATE-->        (automated posts)
+    2. "· July 22, 2026 ·" or "· July 2026 ·" bylines        (Make-era posts,
+       tolerating &nbsp; around the middots)
+    3. <span class="blog-meta-item">May 2026</span>          (earliest template)
+    Returns (datetime, label) or (None, None).
     """
     m = re.search(r"<!--POSTDATE-->(.*?)<!--/POSTDATE-->", tag_html, re.S)
     if m:
         label = m.group(1).strip()
-        try:
-            return datetime.strptime(label, "%B %d, %Y"), label
-        except ValueError:
-            pass
-    m = re.search(r"[·\u00b7]\s*([A-Z][a-z]+ \d{4})\s*[·\u00b7]", tag_html)
-    if m:
-        label = m.group(1).strip()
-        try:
-            return datetime.strptime(label, "%B %Y"), label
-        except ValueError:
-            pass
+        for fmt in ("%B %d, %Y", "%B %Y"):
+            try:
+                return datetime.strptime(label, fmt), label
+            except ValueError:
+                pass
+    SEP = r"(?:&nbsp;|\s)*"
+    patterns = [
+        (r"[\u00b7]" + SEP + r"([A-Z][a-z]+ \d{1,2}, \d{4})" + SEP + r"[\u00b7]", "%B %d, %Y"),
+        (r"[\u00b7]" + SEP + r"([A-Z][a-z]+ \d{4})" + SEP + r"[\u00b7]", "%B %Y"),
+        (r'blog-meta-item">\s*([A-Z][a-z]+ \d{1,2}, \d{4})\s*<', "%B %d, %Y"),
+        (r'blog-meta-item">\s*([A-Z][a-z]+ \d{4})\s*<', "%B %Y"),
+    ]
+    for pat, fmt in patterns:
+        m = re.search(pat, tag_html)
+        if m:
+            label = m.group(1).strip()
+            try:
+                return datetime.strptime(label, fmt), label
+            except ValueError:
+                continue
     return None, None
+
+
+def git_date(folder):
+    """First-commit date of the post folder — its true original publish date.
+    Needs full git history (fetch-depth: 0 in the workflow)."""
+    import subprocess
+    try:
+        out = subprocess.run(
+            ["git", "log", "--diff-filter=A", "--format=%aI", "-1", "--", folder],
+            capture_output=True, text=True, timeout=30).stdout.strip().splitlines()
+        if out and out[0]:
+            return datetime.fromisoformat(out[0]).replace(tzinfo=None)
+    except Exception:
+        pass
+    return None
 
 
 def collect_posts():
@@ -147,9 +173,13 @@ def collect_posts():
             else "tampa_banner.png"
         mtime = post_date(folder)
         dt, label = true_date(tag_html)
-        if dt is None:                       # no date in HTML: fall back to mtime
-            dt = datetime.fromtimestamp(mtime)
-            label = dt.strftime("%B %Y")
+        if dt is None:                       # no date in HTML: ask git history
+            dt = git_date(folder)
+            if dt is not None:
+                label = dt.strftime("%B %-d, %Y")
+            else:                            # last resort: file mtime
+                dt = datetime.fromtimestamp(mtime)
+                label = dt.strftime("%B %Y")
         posts.append({
             "slug": name, "title": title, "excerpt": excerpt,
             "category": category, "img": img,
