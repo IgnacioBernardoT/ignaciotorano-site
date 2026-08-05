@@ -6,7 +6,7 @@
 <title>Tampa Parks Guide | Ignacio Toraño</title>
 <meta name="description" content="Explore Tampa's best parks — rated and reviewed by South Tampa native and realtor Ignacio Toraño. Find parks by amenity, neighborhood, or distance from your home.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800;9..144,900&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -155,22 +155,23 @@ body{font-family:'DM Sans',sans-serif;background:var(--off);color:var(--text);mi
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
 /* CARD */
-.pcard{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:transform .18s,box-shadow .18s,border-color .18s}
-.pcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--gold)}
-.pphoto{width:100%;height:180px;background:var(--off);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.pphoto img{width:100%;height:100%;object-fit:cover}
+.pcard{background:var(--white);border:none;border-radius:20px;overflow:hidden;cursor:pointer;transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .22s;box-shadow:0 4px 20px rgba(15,31,61,.08)}
+.pcard:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(15,31,61,.16)}
+.pphoto{width:100%;height:190px;background:var(--off);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.pphoto img{width:100%;height:100%;object-fit:cover;transition:transform .35s}
+.pcard:hover .pphoto img{transform:scale(1.06)}
 .nophoto{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--text-muted)}
 .nophoto svg{width:32px;height:32px;opacity:.25}
 .nophoto span{font-size:11px;opacity:.5}
-.tbadge{position:absolute;top:10px;left:10px;background:var(--navy);color:#fff;font-size:10px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;padding:3px 9px;border-radius:2px}
-.rbadge{position:absolute;top:10px;right:10px;background:var(--gold);color:var(--navy);font-size:11px;font-weight:700;padding:3px 9px;border-radius:2px;display:flex;align-items:center;gap:3px}
-.rbadge svg{width:10px;height:10px;fill:var(--navy)}
-.pinfo{padding:14px 16px 16px}
-.pname{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:500;color:var(--text);line-height:1.2;margin-bottom:3px}
-.paddr{font-size:12px;color:var(--text-muted);margin-bottom:10px}
-.ptags{display:flex;flex-wrap:wrap;gap:4px}
-.ptag{font-size:10px;background:var(--gold-pale);color:#8B6914;border:1px solid #E8D59A;padding:2px 8px;border-radius:20px}
-.pmore{font-size:11px;color:var(--text-muted);align-self:center}
+.tbadge{position:absolute;top:12px;left:12px;background:rgba(15,31,61,.9);color:#fff;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;padding:5px 12px;border-radius:20px;backdrop-filter:blur(4px);font-family:'Nunito',sans-serif}
+.rbadge{position:absolute;top:12px;right:52px;background:#FFD54A;color:#0F1F3D;font-size:11px;font-weight:800;padding:5px 10px;border-radius:20px;display:flex;align-items:center;gap:3px;font-family:'Nunito',sans-serif;box-shadow:0 3px 10px rgba(255,213,74,.5)}
+.rbadge svg{width:10px;height:10px;fill:#0F1F3D}
+.pinfo{padding:16px 18px 18px}
+.pname{font-family:'Fraunces','Cormorant Garamond',serif;font-size:19px;font-weight:700;color:#0F1F3D;line-height:1.2;margin-bottom:4px;letter-spacing:-.3px}
+.paddr{font-size:12px;color:#6B7280;margin-bottom:12px;font-weight:500}
+.ptags{display:flex;flex-wrap:wrap;gap:5px}
+.ptag{font-size:11px;background:#F0F7EE;color:#3D8054;border:none;padding:4px 11px;border-radius:14px;font-weight:700;font-family:'DM Sans',sans-serif}
+.pmore{font-size:11px;color:#94A3B8;align-self:center;font-weight:600}
 
 /* MAP */
 #map-view{display:none;height:calc(100vh - 158px);overflow:visible}
@@ -414,7 +415,7 @@ body { overflow-x: hidden; max-width: 100vw; }
 .auth-err{font-size:12px;color:#B91C1C;margin-bottom:10px;display:none}
 .auth-msg{font-size:13px;color:#2E7D52;padding:12px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:var(--r);margin-top:10px;display:none}
 /* FAVORITE BUTTON */
-.fav-btn{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.92);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;transition:transform .15s,background .15s;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.fav-btn{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;background:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;transition:transform .18s cubic-bezier(.34,1.56,.64,1),background .15s;box-shadow:0 3px 10px rgba(15,31,61,.15)}
 .fav-btn:hover{transform:scale(1.12);background:#fff}
 .fav-btn svg{width:16px;height:16px;stroke:#B8965A;fill:none;transition:fill .15s}
 .fav-btn.faved svg{fill:#B8965A}
@@ -429,7 +430,7 @@ body { overflow-x: hidden; max-width: 100vw; }
   70%{box-shadow:0 0 0 14px rgba(66,133,244,0)}
   100%{box-shadow:0 0 0 0 rgba(66,133,244,0)}
 }
-.signin-banner{background:linear-gradient(90deg,#FAF6EC 0%,#F5EDD8 100%);border-bottom:1px solid var(--border);padding:16px 40px}
+.signin-banner{background:linear-gradient(90deg,#FFE9DA 0%,#FFDBE1 100%);border-bottom:none;padding:16px 40px}
 .signin-banner-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:20px}
 .signin-emoji{font-size:36px;flex-shrink:0;filter:drop-shadow(0 1px 2px rgba(0,0,0,.08))}
 .signin-text{flex:1;min-width:0}
@@ -457,6 +458,107 @@ body { overflow-x: hidden; max-width: 100vw; }
   .nav-dropdown > a::after{display:none}
   .nav-dropdown .dropdown-menu{position:static;transform:none;opacity:1;visibility:visible;border:none;box-shadow:none;background:transparent;padding:0 0 0 12px;margin-top:4px}
   .nav-dropdown .dropdown-menu a{padding:8px 12px;color:rgba(255,255,255,.7)}
+}
+/* TESTIMONIAL BLOCK - Modern Fun */
+.testimonial-section{background:linear-gradient(135deg,#FFF4D6 0%,#FFE6B8 100%);padding:70px 40px;position:relative;overflow:hidden}
+.testimonial-section::before{content:'☀️';position:absolute;top:26px;right:80px;font-size:44px;opacity:.75;animation:sunPulse 4s ease-in-out infinite}
+.testimonial-section::after{content:'❤️';position:absolute;bottom:34px;left:80px;font-size:30px;opacity:.6;animation:heartbeat 1.6s ease-in-out infinite}
+.testimonial-inner{max-width:1050px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr;gap:50px;align-items:center;position:relative;z-index:2;background:rgba(255,255,255,.7);backdrop-filter:blur(10px);border-radius:32px;padding:40px;box-shadow:0 20px 50px rgba(15,31,61,.1)}
+.testimonial-quote{padding-right:20px}
+.tq-icon{margin-bottom:16px;filter:drop-shadow(0 3px 8px rgba(255,192,50,.4))}
+.tq-text{font-family:'Fraunces','Cormorant Garamond',serif;font-size:26px;line-height:1.4;color:#0F1F3D;margin:0 0 22px;font-weight:600;letter-spacing:-.3px}
+.tq-name{font-family:'Nunito','DM Sans',sans-serif;font-weight:800;color:#FF5A7A;font-size:15px;margin-bottom:2px}
+.tq-role{font-size:13px;color:#6B7280;font-weight:500}
+.testimonial-image{display:flex;justify-content:center;position:relative}
+.testimonial-image::before{content:'';position:absolute;top:-15px;right:-15px;width:60%;height:60%;background:radial-gradient(circle,rgba(255,90,122,.2) 0%,transparent 70%);border-radius:50%;z-index:0}
+.testimonial-image img{max-width:280px;width:100%;border-radius:28px;box-shadow:0 16px 40px rgba(15,31,61,.22);object-fit:cover;aspect-ratio:1/1;position:relative;z-index:1}
+.testimonial-image-placeholder{width:260px;height:260px;background:#fff;border:3px dashed #E0C98A;border-radius:28px;align-items:center;justify-content:center;text-align:center;font-size:13px;color:#6B7280;font-style:italic;padding:20px;position:relative;z-index:1}
+
+/* NEWSLETTER BAR - Modern Fun */
+.newsletter-bar{background:linear-gradient(90deg,#E1F4D8 0%,#DBEEFF 100%);padding:36px 40px;border-top:1px solid rgba(15,31,61,.05);position:relative;overflow:hidden}
+.newsletter-bar::before{content:'✈️';position:absolute;top:50%;right:20%;font-size:24px;transform:translateY(-50%) rotate(-15deg);opacity:.4}
+.newsletter-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;position:relative;z-index:2}
+.newsletter-msg{display:flex;align-items:center;gap:16px}
+.newsletter-msg svg{background:#fff;padding:10px;width:44px;height:44px;border-radius:50%;box-shadow:0 4px 12px rgba(15,31,61,.1);flex-shrink:0}
+.nl-title{font-family:'Fraunces','Cormorant Garamond',serif;font-size:24px;font-weight:700;color:#0F1F3D;line-height:1.15;letter-spacing:-.3px}
+.nl-sub{font-size:13px;color:#4A5568;margin-top:3px;font-weight:500}
+.nl-form{display:flex;gap:8px;background:#fff;border-radius:36px;padding:6px;box-shadow:0 6px 20px rgba(15,31,61,.1);flex:0 1 500px;min-width:280px}
+.nl-form input{flex:1;border:none;outline:none;padding:12px 22px;font-size:14px;font-family:'DM Sans',sans-serif;background:transparent;color:#0F1F3D;min-width:0;font-weight:500}
+.nl-form button{background:linear-gradient(135deg,#FF5A7A 0%,#EE4062 100%);color:#fff;border:none;padding:12px 26px;border-radius:30px;font-family:'Nunito','DM Sans',sans-serif;font-weight:800;font-size:14px;cursor:pointer;transition:transform .18s cubic-bezier(.34,1.56,.64,1),box-shadow .18s;flex-shrink:0;box-shadow:0 4px 12px rgba(255,90,122,.35)}
+.nl-form button:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 8px 20px rgba(255,90,122,.5)}
+@media(max-width:900px){
+  .testimonial-section{padding:40px 20px}
+  .testimonial-inner{grid-template-columns:1fr;gap:30px;text-align:center;padding:30px 20px}
+  .testimonial-quote{padding-right:0}
+  .tq-text{font-size:20px}
+  .newsletter-bar{padding:28px 20px}
+  .newsletter-inner{flex-direction:column;text-align:center}
+  .newsletter-msg{flex-direction:column;text-align:center;gap:10px}
+}
+/* FUN FAMILY HERO - Modern Playful Style */
+.fun-hero{background:linear-gradient(180deg,#C8E7FF 0%,#DDF0FF 40%,#EEF7FE 75%,#F7FDF4 100%);padding:36px 40px 110px;position:relative;overflow:hidden}
+/* Sun in corner */
+.fun-hero::before{content:'';position:absolute;top:24px;right:8%;width:56px;height:56px;background:radial-gradient(circle,#FFD54A 0%,#FFB020 100%);border-radius:50%;box-shadow:0 0 50px rgba(255,192,50,.55);pointer-events:none;z-index:1;animation:sunPulse 5s ease-in-out infinite}
+@keyframes sunPulse{0%,100%{box-shadow:0 0 40px rgba(255,192,50,.45)}50%{box-shadow:0 0 60px rgba(255,192,50,.65)}}
+/* Floating leaf left */
+.fun-hero::after{content:'';position:absolute;bottom:80px;left:-20px;width:120px;height:180px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 180'%3E%3Cpath d='M60 15 C15 40, 5 90, 30 165 C55 130, 90 100, 105 25 C90 30, 75 22, 60 15 Z' fill='%2338B57D' opacity='0.75'/%3E%3Cpath d='M60 20 C25 45, 20 90, 40 155' stroke='%23227a52' stroke-width='2' fill='none' opacity='.6'/%3E%3C/svg%3E") no-repeat center/contain;animation:leafSway 6s ease-in-out infinite;pointer-events:none;z-index:1}
+@keyframes leafSway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+/* Flower right */
+.fun-hero-flower{position:absolute;bottom:110px;right:40px;width:56px;height:56px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 56'%3E%3Cg%3E%3Cellipse cx='28' cy='14' rx='7' ry='11' fill='%23FFD54A'/%3E%3Cellipse cx='42' cy='28' rx='11' ry='7' fill='%23FFD54A'/%3E%3Cellipse cx='28' cy='42' rx='7' ry='11' fill='%23FFD54A'/%3E%3Cellipse cx='14' cy='28' rx='11' ry='7' fill='%23FFD54A'/%3E%3Ccircle cx='28' cy='28' r='7' fill='%23FF9E3D'/%3E%3C/g%3E%3C/svg%3E") no-repeat center/contain;animation:leafSway 4s ease-in-out infinite;z-index:1}
+.fun-hero-inner{max-width:1300px;margin:0 auto;display:grid;grid-template-columns:1.05fr 1fr;gap:50px;align-items:center;position:relative;z-index:3}
+.fun-hero-content{max-width:600px}
+.fun-hero-title{font-family:'Fraunces','Cormorant Garamond',serif;font-size:56px;font-weight:800;line-height:1.02;letter-spacing:-1.5px;color:#0F1F3D;margin:0 0 16px}
+.fh-accent{color:#FF5A7A;position:relative;display:inline-block;font-style:italic;font-weight:700}
+.fh-heart{display:inline-block;vertical-align:middle;margin:0 6px;animation:heartbeat 1.2s ease-in-out infinite;filter:drop-shadow(0 3px 8px rgba(255,90,122,.35))}
+@keyframes heartbeat{0%,100%{transform:scale(1) rotate(-5deg)}50%{transform:scale(1.15) rotate(0deg)}}
+.fun-hero-sub{font-family:'DM Sans',sans-serif;font-size:18px;color:#3F4A5F;margin:0 0 30px;line-height:1.5;font-weight:400}
+.fun-search{display:flex;align-items:center;background:#fff;border-radius:44px;padding:7px;box-shadow:0 8px 30px rgba(15,31,61,.14);margin-bottom:26px;position:relative;max-width:560px;border:2px solid rgba(255,255,255,.9)}
+.fh-search-icon{position:absolute;left:24px;color:#94A3B8;pointer-events:none}
+.fun-search input{flex:1;border:none;outline:none;padding:16px 22px 16px 56px;font-size:16px;font-family:'DM Sans',sans-serif;background:transparent;border-radius:44px;color:#0F1F3D;min-width:0;font-weight:500}
+.fun-search input::placeholder{color:#9AA5B4;font-weight:400}
+.fun-search button{background:linear-gradient(135deg,#5CC77A 0%,#3DA85B 100%);color:#fff;border:none;padding:14px 32px;border-radius:36px;font-family:'Nunito','DM Sans',sans-serif;font-weight:800;font-size:15px;cursor:pointer;transition:transform .18s cubic-bezier(.34,1.56,.64,1),box-shadow .18s;flex-shrink:0;box-shadow:0 4px 14px rgba(92,199,122,.35)}
+.fun-search button:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 8px 22px rgba(92,199,122,.5)}
+.fun-quick-filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px}
+.fqf{display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid #EAF0F8;padding:6px 18px 6px 6px;border-radius:28px;font-size:14px;font-weight:700;color:#0F1F3D;cursor:pointer;font-family:'Nunito','DM Sans',sans-serif;transition:all .18s cubic-bezier(.34,1.56,.64,1);box-shadow:0 3px 10px rgba(15,31,61,.06)}
+.fqf:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(15,31,61,.14)}
+.fqf-ico{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;font-size:16px}
+.fqf.fqf-active{background:linear-gradient(135deg,#FF5A7A 0%,#EE4062 100%);border-color:transparent;color:#fff;box-shadow:0 6px 20px rgba(255,90,122,.45);transform:translateY(-2px)}
+.fqf.fqf-active .fqf-ico{background:rgba(255,255,255,.95) !important}
+.fun-hero-buttons{display:flex;gap:14px;flex-wrap:wrap}
+.fun-btn-primary{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#FF5A7A 0%,#EE4062 100%);color:#fff;border:none;padding:16px 30px;border-radius:36px;font-family:'Nunito','DM Sans',sans-serif;font-weight:800;font-size:15px;cursor:pointer;transition:transform .18s cubic-bezier(.34,1.56,.64,1),box-shadow .18s;box-shadow:0 6px 20px rgba(255,90,122,.4)}
+.fun-btn-primary:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 10px 28px rgba(255,90,122,.55)}
+.fun-btn-secondary{display:inline-flex;align-items:center;gap:10px;background:#fff;color:#0F1F3D;border:2px solid #EAF0F8;padding:14px 28px;border-radius:36px;font-family:'Nunito','DM Sans',sans-serif;font-weight:700;font-size:15px;cursor:pointer;transition:all .18s}
+.fun-btn-secondary:hover{border-color:#0F1F3D;transform:translateY(-2px);box-shadow:0 6px 16px rgba(15,31,61,.1)}
+.fun-hero-image{position:relative;display:flex;align-items:center;justify-content:center;min-height:420px}
+.fun-hero-image img{max-width:100%;width:100%;height:auto;max-height:480px;object-fit:cover;border-radius:32px;box-shadow:0 24px 60px rgba(15,31,61,.22);position:relative;z-index:2}
+/* Decorative circle behind image */
+.fun-hero-image::before{content:'';position:absolute;top:-12px;left:-12px;width:60%;height:60%;background:radial-gradient(circle,rgba(255,213,74,.3) 0%,transparent 70%);border-radius:50%;z-index:1}
+.fun-hero-image::after{content:'';position:absolute;bottom:-16px;right:-16px;width:50%;height:50%;background:radial-gradient(circle,rgba(76,178,226,.25) 0%,transparent 70%);border-radius:50%;z-index:1}
+.fun-hero-placeholder{align-items:center;justify-content:center;width:100%;padding:40px;background:#fff;border-radius:32px;border:3px dashed #B4C7DE;position:relative;z-index:2}
+/* Wavy grass at bottom */
+.fun-hero-wave{position:absolute;bottom:-1px;left:0;width:100%;height:100px;display:block;z-index:2}
+
+/* Force sections below hero to blend into grass */
+.signin-banner{background:linear-gradient(90deg,#FFE9DA 0%,#FFDBE1 100%);border-bottom:none;padding:20px 40px;position:relative;z-index:1}
+
+@media(max-width:1000px){
+  .fun-hero{padding:24px 20px 90px}
+  .fun-hero-inner{grid-template-columns:1fr;gap:24px}
+  .fun-hero-image{min-height:auto;order:-1;padding:0 10px}
+  .fun-hero-image img{max-height:280px;border-radius:24px}
+  .fun-hero-title{font-size:38px;text-align:center;letter-spacing:-1px}
+  .fun-hero-sub{text-align:center;font-size:16px}
+  .fun-search{max-width:100%}
+  .fun-hero-buttons{justify-content:center}
+  .fun-quick-filters{justify-content:center}
+  .fun-hero-flower{display:none}
+  .fun-hero::after{display:none}
+}
+@media(max-width:520px){
+  .fun-hero-title{font-size:30px}
+  .fun-search button{padding:12px 20px;font-size:13px}
+  .fqf{font-size:12px;padding:5px 14px 5px 5px}
+  .fqf-ico{width:26px;height:26px;font-size:14px}
 }
 </style>
 </head>
@@ -513,45 +615,59 @@ body { overflow-x: hidden; max-width: 100vw; }
   </div>
 </header>
 
-<div class="hero">
-  <div class="hero-in">
-    <div class="hero-badges">
-      <span class="hero-badge">🌳 300+ Parks</span>
-      <span class="hero-badge">🚽 Bathrooms</span>
-      <span class="hero-badge">🏀 Courts</span>
-      <span class="hero-badge">🎠 Playgrounds</span>
-      <span class="hero-badge">🚧 Fenced</span>
-      <span class="hero-badge">🐕 Dog Friendly</span>
-      <span class="hero-badge">💦 Splash Pads</span>
+<!-- FUN FAMILY HERO -->
+<div class="fun-hero">
+  <div class="fun-hero-flower"></div>
+  <div class="fun-hero-inner">
+    <div class="fun-hero-content">
+      <h1 class="fun-hero-title">Find the Best Parks &<br>Playgrounds for <span class="fh-accent">Your Family <svg class="fh-heart" width="34" height="34" viewBox="0 0 24 24" fill="#FF6B6B" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span></h1>
+      <p class="fun-hero-sub">Explore, play, and make memories together.</p>
+      <form class="fun-search" onsubmit="event.preventDefault(); document.getElementById('sb').value=document.getElementById('fun-search-input').value; document.getElementById('sb').dispatchEvent(new Event('input')); document.querySelector('.toolbar').scrollIntoView({behavior:'smooth'});">
+        <svg class="fh-search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="fun-search-input" type="text" placeholder="Search parks, playgrounds, or cities…">
+        <button type="submit">Search</button>
+      </form>
+      <div class="fun-quick-filters">
+        <button class="fqf" onclick="quickFilter('SPLASHPAD','splash')" title="Splash Pad"><span class="fqf-ico" style="background:#DBEEFF;">💦</span>Splash Pad</button>
+        <button class="fqf" onclick="quickFilter('SHADE','shade')" title="Shady spots"><span class="fqf-ico" style="background:#E1F4D8;">🌳</span>Shade</button>
+        <button class="fqf" onclick="quickFilter('RESTROOMS','bathrooms')" title="Bathrooms"><span class="fqf-ico" style="background:#FFE9DA;">🚽</span>Bathrooms</button>
+        <button class="fqf" onclick="quickFilter('FENCED','fenced')" title="Fenced Playground"><span class="fqf-ico" style="background:#FFF3CE;">🚧</span>Fenced</button>
+        <button class="fqf" onclick="quickFilter('PLAYGROUND','play')" title="Playground"><span class="fqf-ico" style="background:#FFDBE1;">🎠</span>Playground</button>
+        <button class="fqf" onclick="quickFilter('DOGPARK','dogs')" title="Dog Park"><span class="fqf-ico" style="background:#EAE1FF;">🐕</span>Dog Friendly</button>
+      </div>
+      <div class="fun-hero-buttons">
+        <button class="fun-btn-primary" onclick="useMyLocation()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg>
+          Parks Near Me
+        </button>
+        <button class="fun-btn-secondary" onclick="document.getElementById('feedback-section').scrollIntoView({behavior:'smooth'})">
+          💬 Share Feedback
+        </button>
+      </div>
     </div>
-    <h1>Every Park. Every Feature.<br><em>Easily Searchable For You.</em></h1>
-    <p class="hero-sub">Find the perfect playground that meets your family's needs — bathrooms, shade, swings, splash pads and more. Our mission is to make your parks experience with your kids <strong>simple</strong>.</p>
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <span class="hero-stat-num">300+</span>
-        <span class="hero-stat-label">Tampa Bay Parks</span>
+    <div class="fun-hero-image">
+      <img src="/family_hero.webp" alt="Tampa family enjoying a park" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="fun-hero-placeholder" style="display:none;">
+        <svg viewBox="0 0 300 260" style="width:100%;max-width:300px;">
+          <circle cx="80" cy="90" r="34" fill="#FFDBB5"/>
+          <path d="M46 130 Q46 170 80 170 Q114 170 114 130 Z" fill="#FF6B6B"/>
+          <circle cx="150" cy="120" r="20" fill="#FFDBB5"/>
+          <path d="M130 145 Q130 175 150 175 Q170 175 170 145 Z" fill="#FFC145"/>
+          <circle cx="220" cy="100" r="30" fill="#FFDBB5"/>
+          <path d="M190 140 Q190 180 220 180 Q250 180 250 140 Z" fill="#4CB2E2"/>
+          <ellipse cx="150" cy="240" rx="140" ry="20" fill="#A8D5B5"/>
+          <text x="150" y="250" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#6B7280" font-style="italic">Your family photo goes here</text>
+        </svg>
       </div>
-      <div class="hero-stat-div"></div>
-      <div class="hero-stat">
-        <span class="hero-stat-num">20+</span>
-        <span class="hero-stat-label">Amenities Tracked</span>
-      </div>
-      <div class="hero-stat-div"></div>
-      <div class="hero-stat">
-        <span class="hero-stat-num">100%</span>
-        <span class="hero-stat-label">Free & Family Friendly</span>
-      </div>
-    </div>
-    <div class="hero-btns">
-      <button class="hero-btn-primary" onclick="useMyLocation()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
-        📍 Parks Near Me
-      </button>
-      <button class="hero-btn-secondary" onclick="document.getElementById('feedback-section').scrollIntoView({behavior:'smooth'})">
-        💬 Share Feedback
-      </button>
     </div>
   </div>
+  <!-- Wavy grass at bottom -->
+  <svg class="fun-hero-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,50 Q120,0 240,40 T480,40 T720,40 T960,40 T1200,40 T1440,40 L1440,90 L0,90 Z" fill="#F7FDF4"/>
+    <ellipse cx="180" cy="70" rx="10" ry="4" fill="#5FAE7F" opacity=".5"/>
+    <ellipse cx="620" cy="70" rx="12" ry="4" fill="#5FAE7F" opacity=".5"/>
+    <ellipse cx="1080" cy="70" rx="10" ry="4" fill="#5FAE7F" opacity=".5"/>
+  </svg>
 </div>
 
 <!-- SIGN-IN PROMPT BANNER (hidden when logged in) -->
@@ -1366,7 +1482,7 @@ function renderGrid(){
     const hasContent = photo || rating > 0 || (e.blogLinks && e.blogLinks.length) || (e.socialLinks && e.socialLinks.length);
     return `<div class="pcard" onclick="openPark(${p.OBJECTID})">
       <div class="pphoto">
-        ${photo ? `<img src="${photo}" alt="${p.NAME}" loading="lazy">` : placeholderSVG(p)}
+        ${photo ? `<img src="${photo}" alt="${p.NAME}" loading="lazy" onerror="this.outerHTML=this.dataset.fallback" data-fallback='${placeholderSVG(p).replace(/'/g,"&#39;")}'>` : placeholderSVG(p)}
         <span class="tbadge">${typeLabel}</span>
         ${rating > 0 ? `<div class="rbadge"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>${rating}/5</div>` : ''}
         <button class="fav-btn ${userFavorites.has(String(p.OBJECTID))?'faved':''}" onclick="toggleFavorite(${p.OBJECTID},'${p.NAME.replace(/'/g,"\\'")}',event)" title="${userFavorites.has(String(p.OBJECTID))?'Remove from favorites':'Save to favorites'}">
@@ -1431,6 +1547,26 @@ async function applyRadius(){
   } catch(e){ alert('Could not find that address. Please try again.'); }
 }
 function clearRadius(){ radCenter=null; radMi=0; document.getElementById('rad-badge').style.display='none'; document.getElementById('rad-addr').value=''; if(radCircle){radCircle.remove();radCircle=null;} filterParks(); }
+
+function quickFilter(amenityKey, chipId){
+  // Toggle the amenity in selAm and update matching filter checkbox if present
+  if(selAm.has(amenityKey)) selAm.delete(amenityKey);
+  else selAm.add(amenityKey);
+  // Sync any matching checkbox in the filter dropdown
+  document.querySelectorAll(`input[data-a="${amenityKey}"]`).forEach(cb=>{
+    cb.checked = selAm.has(amenityKey);
+    const chip = cb.closest('.fcb');
+    if(chip){ chip.classList.toggle('on', selAm.has(amenityKey)); }
+  });
+  // Visually mark the quick-filter chip in the hero
+  document.querySelectorAll('.fqf').forEach(b=>{
+    if(b.getAttribute('onclick') && b.getAttribute('onclick').includes(amenityKey)){
+      b.classList.toggle('fqf-active', selAm.has(amenityKey));
+    }
+  });
+  filterParks();
+  document.querySelector('.toolbar').scrollIntoView({behavior:'smooth'});
+}
 
 function filterParks(){
   const q = document.getElementById('srch').value.toLowerCase();
@@ -2122,6 +2258,44 @@ init();
   <img class="lightbox-img" id="lightbox-img" src="" alt="">
   <button class="lightbox-next" onclick="event.stopPropagation();lightboxNav(1)">›</button>
 </div>
+
+<!-- TESTIMONIAL / QUOTE BLOCK -->
+<section class="testimonial-section">
+  <div class="testimonial-inner">
+    <div class="testimonial-quote">
+      <svg class="tq-icon" width="42" height="42" viewBox="0 0 24 24" fill="#FFD54A" aria-hidden="true"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+      <p class="tq-text">This all started because Malayna and I were tired of showing up to parks that didn't have bathrooms, shade, or a fence for our boys. So I built the guide I wish I had — for every family in Tampa Bay.</p>
+      <div class="tq-author">
+        <div class="tq-name">— Ignacio Toraño</div>
+        <div class="tq-role">South Tampa dad · Realtor · Neighborhood songs guy</div>
+      </div>
+    </div>
+    <div class="testimonial-image">
+      <img src="/family_square.webp" alt="The Toraño family" onerror="this.src='/family_hero.webp';this.onerror=function(){this.style.display='none';this.nextElementSibling.style.display='flex'}">
+      <div class="testimonial-image-placeholder" style="display:none;">
+        <div>Your family photo goes here</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER SIGNUP -->
+<section class="newsletter-bar">
+  <div class="newsletter-inner">
+    <div class="newsletter-msg">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1C2B47" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      <div>
+        <div class="nl-title">Never miss a fun day out!</div>
+        <div class="nl-sub">Get new parks, playground reviews, and family tips in your inbox.</div>
+      </div>
+    </div>
+    <form class="nl-form" name="parks-newsletter" method="POST" data-netlify="true" onsubmit="setTimeout(()=>{this.querySelector('input[type=email]').value=''; this.querySelector('button').textContent='Thanks! ✓';}, 100)">
+      <input type="hidden" name="form-name" value="parks-newsletter">
+      <input type="email" name="email" placeholder="Enter your email address" required>
+      <button type="submit">Sign Me Up!</button>
+    </form>
+  </div>
+</section>
 
 <!-- FEEDBACK SECTION -->
 <section id="feedback-section">
