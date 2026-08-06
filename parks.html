@@ -497,8 +497,11 @@ body { overflow-x: hidden; max-width: 100vw; }
   .testimonial-quote{padding-right:0}
   .tq-text{font-size:20px}
   .newsletter-bar{padding:28px 20px}
-  .newsletter-inner{flex-direction:column;text-align:center}
+  .newsletter-inner{flex-direction:column;text-align:center;gap:18px}
   .newsletter-msg{flex-direction:column;text-align:center;gap:10px}
+  .nl-form{flex-direction:column;flex:1 1 auto;width:100%;max-width:400px;padding:8px;gap:8px;align-items:stretch}
+  .nl-form input{padding:14px 20px;text-align:center;height:48px;box-sizing:border-box}
+  .nl-form button{width:100%;padding:14px 22px;height:48px;box-sizing:border-box}
 }
 /* FUN FAMILY HERO - Modern Playful Style */
 .fun-hero{background:linear-gradient(180deg,#C8E7FF 0%,#DDF0FF 40%,#EEF7FE 75%,#F7FDF4 100%);padding:36px 40px 110px;position:relative;overflow:hidden}
@@ -544,6 +547,20 @@ body { overflow-x: hidden; max-width: 100vw; }
 .fun-hero-wave{position:absolute;bottom:-1px;left:0;width:100%;height:100px;display:block;z-index:2}
 
 /* Force sections below hero to blend into grass */
+/* MAP LOCATION BUTTON */
+.leaflet-control .map-loc-btn{display:flex !important;align-items:center;gap:8px;background:linear-gradient(135deg,#FF5A7A 0%,#EE4062 100%);color:#fff !important;padding:12px 18px;border-radius:30px;text-decoration:none;font-family:'Nunito','DM Sans',sans-serif;font-weight:800;font-size:13px;letter-spacing:.3px;box-shadow:0 6px 20px rgba(255,90,122,.5),0 0 0 4px rgba(255,255,255,.9);transition:all .2s cubic-bezier(.34,1.56,.64,1);animation:mapBtnPulse 2.5s ease-in-out infinite;border:none !important;width:auto !important;height:auto !important;margin:8px !important;white-space:nowrap}
+.leaflet-control .map-loc-btn:hover{transform:scale(1.06);box-shadow:0 10px 28px rgba(255,90,122,.7),0 0 0 4px rgba(255,255,255,1)}
+.leaflet-control .map-loc-btn.loading{animation:none;opacity:.8}
+.leaflet-control .map-loc-btn svg{flex-shrink:0}
+@keyframes mapBtnPulse{
+  0%,100%{box-shadow:0 6px 20px rgba(255,90,122,.5),0 0 0 4px rgba(255,255,255,.9),0 0 0 0 rgba(255,90,122,.5)}
+  50%{box-shadow:0 6px 20px rgba(255,90,122,.5),0 0 0 4px rgba(255,255,255,.9),0 0 0 14px rgba(255,90,122,0)}
+}
+@media(max-width:520px){
+  .leaflet-control .map-loc-btn span{display:none}
+  .leaflet-control .map-loc-btn{padding:14px}
+}
+
 .signin-banner{background:linear-gradient(90deg,#FFE9DA 0%,#FFDBE1 100%);border-bottom:none;padding:20px 40px;position:relative;z-index:1}
 
 @media(max-width:1000px){
@@ -1608,7 +1625,12 @@ function initMap(){
       options: { position: 'topright' },
       onAdd: function(){
         const c = L.DomUtil.create('div','leaflet-bar leaflet-control');
-        c.innerHTML = `<a href="#" title="Show my location" style="background:#fff;color:#0E1A2B;width:34px;height:34px;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:18px" onclick="event.preventDefault();showMyLocationOnMap();return false;">📍</a>`;
+        c.style.border = 'none';
+        c.style.background = 'transparent';
+        c.innerHTML = `<a href="#" title="Show my location" class="map-loc-btn" onclick="event.preventDefault();showMyLocationOnMap();return false;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg>
+          <span>My Location</span>
+        </a>`;
         L.DomEvent.disableClickPropagation(c);
         return c;
       }
@@ -1622,25 +1644,25 @@ let userLocMarker = null;
 let userLocAccuracy = null;
 function showMyLocationOnMap(){
   if(!navigator.geolocation){ alert('Geolocation is not supported by your browser.'); return; }
-  const btn = document.querySelector('.leaflet-control a[title="Show my location"]');
-  if(btn) btn.innerHTML = '⏳';
+  const btn = document.querySelector('.map-loc-btn');
+  if(btn){ btn.classList.add('loading'); btn.querySelector('span').textContent = 'Finding you…'; }
   navigator.geolocation.getCurrentPosition(pos=>{
     const lat = pos.coords.latitude, lng = pos.coords.longitude, acc = pos.coords.accuracy;
     if(userLocMarker){ userLocMarker.remove(); userLocMarker=null; }
     if(userLocAccuracy){ userLocAccuracy.remove(); userLocAccuracy=null; }
     // Pulsing blue dot
     const dot = L.divIcon({
-      html: `<div style="position:relative;width:16px;height:16px;">
-        <div style="position:absolute;inset:0;background:#4285F4;border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 rgba(66,133,244,.6);animation:pulseDot 2s infinite"></div>
+      html: `<div style="position:relative;width:18px;height:18px;">
+        <div style="position:absolute;inset:0;background:#4285F4;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 rgba(66,133,244,.6),0 2px 6px rgba(0,0,0,.3);animation:pulseDot 2s infinite"></div>
       </div>`,
-      iconSize:[16,16], iconAnchor:[8,8], className:''
+      iconSize:[18,18], iconAnchor:[9,9], className:''
     });
-    userLocMarker = L.marker([lat,lng],{icon:dot,zIndexOffset:1000}).addTo(lmap).bindPopup('You are here');
+    userLocMarker = L.marker([lat,lng],{icon:dot,zIndexOffset:1000}).addTo(lmap).bindPopup('<b>You are here</b>').openPopup();
     userLocAccuracy = L.circle([lat,lng],{radius:acc,color:'#4285F4',fillColor:'#4285F4',fillOpacity:.08,weight:1,opacity:.4}).addTo(lmap);
     lmap.setView([lat,lng],14);
-    if(btn) btn.innerHTML = '📍';
+    if(btn){ btn.classList.remove('loading'); btn.querySelector('span').textContent = 'My Location'; }
   }, err=>{
-    if(btn) btn.innerHTML = '📍';
+    if(btn){ btn.classList.remove('loading'); btn.querySelector('span').textContent = 'My Location'; }
     alert('Could not get your location. Please enable location access in your browser and try again.');
   }, { enableHighAccuracy:true, timeout:10000, maximumAge:60000 });
 }
