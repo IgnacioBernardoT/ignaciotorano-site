@@ -12,6 +12,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Purchasing Power Quiz | Ignacio Toraño · South Tampa Real Estate</title>
 <link rel="canonical" href="https://ignaciotorano.com/resources/quiz">
+<meta name="description" content="Find out how much home you can afford in South Tampa in about 5 minutes. Free Purchasing Power Quiz from bilingual Realtor Ignacio Toraño — no sign-up, no obligation.">
+<meta property="og:title" content="Purchasing Power Quiz | Ignacio Toraño · South Tampa Real Estate">
+<meta property="og:description" content="Find out how much home you can afford in South Tampa in about 5 minutes. Free, no sign-up.">
+<meta property="og:url" content="https://ignaciotorano.com/resources/quiz">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Purchasing Power Quiz — How Much Home Can You Afford in South Tampa?",
+  "url": "https://ignaciotorano.com/resources/quiz",
+  "description": "A free 5-minute quiz that estimates what type of home you can afford in South Tampa, with tips on credit, savings, debt, and income from Realtor Ignacio Toraño.",
+  "isPartOf": {"@type": "WebSite", "name": "Ignacio Toraño · South Tampa Real Estate", "url": "https://ignaciotorano.com"},
+  "author": {
+    "@type": "RealEstateAgent",
+    "name": "Ignacio Toraño",
+    "url": "https://ignaciotorano.com",
+    "telephone": "813-390-2228",
+    "address": {"@type": "PostalAddress","streetAddress": "607 W Horatio St","addressLocality": "Tampa","addressRegion": "FL","postalCode": "33606"}
+  }
+}
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600;1,800&family=Montserrat:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -133,6 +155,10 @@
   /* title */
   .title-screen{text-align:center}
   .presents{font-family:'Courier Prime',monospace;font-size:.72rem;letter-spacing:.34em;color:var(--muted);text-transform:uppercase}
+  .seo-intro{max-width:640px;margin:0 auto 22px;padding:0 18px;color:var(--muted);font-size:.95rem;line-height:1.8}
+  .seo-intro h1{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(1.6rem,4.5vw,2.2rem);line-height:1.15;color:var(--cream);margin:0 0 12px}
+  .seo-intro a{color:var(--gold-light)}
+  body.playing .seo-intro{display:none}
   .movie-title{margin-top:18px;font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(2.4rem,8vw,4.4rem);line-height:1.05;color:var(--cream)}
   .movie-title em{font-style:italic;color:var(--gold-light);display:block;font-weight:600;font-size:.5em;margin-top:10px;letter-spacing:.06em}
   .title-rule{width:70px;height:2px;background:var(--gold);margin:28px auto}
@@ -381,7 +407,7 @@
 
 
 <div class="bar top">
-  <a class="brand-mini" href="index.html">Ignacio <em>Toraño</em></a>
+  <a class="brand-mini" href="/">Ignacio <em>Toraño</em></a>
   <span class="film-info" id="filmInfo">First-Time Buyer Hub</span>
 </div>
 <div class="bar bottom"></div>
@@ -611,7 +637,7 @@ function titleScreen(){
   swap(`
     <div class="title-screen">
       <div class="presents">Ignacio Toraño Presents</div>
-      <h1 class="movie-title">Purchasing Power<em>the quiz</em></h1>
+      <div class="movie-title" role="heading" aria-level="2">Purchasing Power<em>the quiz</em></div>
       <div class="title-rule"></div>
       <p class="logline">In 5 minutes, you'll find out <b style="color:var(--gold-light)">what type of house you can afford</b> — plus
       the tips that put you in a position to succeed when it comes to buying a home.
@@ -644,6 +670,7 @@ function redoScene(){         /* from a beat/follow-up: undo this answer, re-ask
 }
 
 function playScene(){
+  document.body.classList.add("playing");
   takeSnap();
   const s = SCRIPT[sceneNum];
   setInfo(`Scene ${sceneNum+1} of ${TOTAL_SCENES}`);
