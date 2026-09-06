@@ -89,6 +89,47 @@ from = "/resources/quiz/"
 to = "/resources/quiz.html"
 status = 200
 
+[[redirects]]
+from = "/tampa-parks-guide.html"
+to = "/parks"
+status = 301
+[[redirects]]
+from = "/tampa-parks-guide"
+to = "/parks"
+status = 301
+[[redirects]]
+from = "/news/videos.html"
+to = "/videos"
+status = 301
+[[redirects]]
+from = "/news/blog.html"
+to = "/blog"
+status = 301
+[[redirects]]
+from = "/blog-port-tampa.html"
+to = "/blog/port-tampa-living/"
+status = 301
+[[redirects]]
+from = "/blog/*/videos.html"
+to = "/videos"
+status = 301
+[[redirects]]
+from = "/blog/davis-islands-worth-it-2026/"
+to = "/neighborhoods/communities/davis-islands"
+status = 301
+[[redirects]]
+from = "/resources/index.html"
+to = "/"
+status = 301
+[[redirects]]
+from = "/resources"
+to = "/"
+status = 301
+[[redirects]]
+from = "/resources/"
+to = "/"
+status = 301
+
 [context]
   [context.production]
     [context.production.functions]
