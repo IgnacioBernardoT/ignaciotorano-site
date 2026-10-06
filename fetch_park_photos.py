@@ -1,24 +1,18 @@
-# fetch_park_photos.py
-# Refreshes Google Places photos for every park in parks_data.js
-# and writes park_photos.js. Google photo IDs expire, so rerun periodically.
-#
-# HOW TO RUN (Windows):
-#   1. Put this file in your ignaciotorano-site folder
-#   2. Open Command Prompt in that folder
-#   3. set GOOGLE_API_KEY=your_places_api_key
-#      set PHOTO_KEY=your_referrer_restricted_public_key
-#      python fetch_park_photos.py
-#   4. Commit ONLY the generated park_photos.js to your repo — NOT this file.
+# fetch_park_photos.py — v2 with rate limit handling
+# Refreshes Google Places photos for every park in parks_data.js.
+# Includes automatic retry on 429 Too Many Requests errors.
 
-import json, os, re, time, urllib.request
+import json, os, re, time, urllib.request, urllib.error
 
 API_KEY = os.environ.get("GOOGLE_API_KEY", "").strip()
 if not API_KEY:
-    raise SystemExit("Set GOOGLE_API_KEY first:  set GOOGLE_API_KEY=your_key")
+    raise SystemExit("Set GOOGLE_API_KEY first")
 PHOTO_KEY = os.environ.get("PHOTO_KEY", API_KEY).strip()
 
 MAX_PHOTOS_PER_PARK = 3
 PHOTO_WIDTH = 800
+BASE_DELAY = 0.6   # 600ms between requests (was 150ms) — stays under quota
+RETRY_DELAYS = [2, 5, 15, 30, 60]  # back-off waits when hit with 429
 
 with open("parks_data.js", "r", encoding="utf-8") as f:
     raw = f.read()
@@ -31,7 +25,7 @@ def search_place(park):
         "textQuery": f"{park['NAME']}, {park.get('FULLADDR','')}, Tampa FL",
         "locationBias": {"circle": {
             "center": {"latitude": park.get("_lat", 27.95),
-                        "longitude": park.get("_lng", -82.46)},
+                       "longitude": park.get("_lng", -82.46)},
             "radius": 2000.0}},
         "pageSize": 1,
     }).encode()
@@ -44,8 +38,22 @@ def search_place(park):
             "X-Goog-FieldMask": "places.id,places.displayName,places.photos",
         })
     with urllib.request.urlopen(req, timeout=20) as r:
-        data = json.loads(r.read().decode())
-    return (data.get("places") or [None])[0]
+        return json.loads(r.read().decode())
+
+def search_with_retry(park):
+    """Search with automatic retry on 429."""
+    for attempt, delay in enumerate([0] + RETRY_DELAYS):
+        if delay > 0:
+            print(f"    rate limited — waiting {delay}s before retry {attempt}...")
+            time.sleep(delay)
+        try:
+            data = search_place(park)
+            places = data.get("places") or [None]
+            return places[0]
+        except urllib.error.HTTPError as e:
+            if e.code == 429 and attempt < len(RETRY_DELAYS):
+                continue  # retry with longer delay
+            raise
 
 result = {}
 result_by_name = {}
@@ -53,7 +61,7 @@ missing = []
 for i, p in enumerate(parks, 1):
     oid = str(p["OBJECTID"])
     try:
-        place = search_place(p)
+        place = search_with_retry(p)
         photos = (place or {}).get("photos") or []
         urls = []
         for ph in photos[:MAX_PHOTOS_PER_PARK]:
@@ -68,11 +76,20 @@ for i, p in enumerate(parks, 1):
             print(f"[{i}/{len(parks)}] {p['NAME']}: {len(urls)} photo(s)")
         else:
             missing.append(p["NAME"])
-            print(f"[{i}/{len(parks)}] {p['NAME']}: no photos found")
+            print(f"[{i}/{len(parks)}] {p['NAME']}: no photos")
     except Exception as e:
         missing.append(p["NAME"])
         print(f"[{i}/{len(parks)}] {p['NAME']}: ERROR {e}")
-    time.sleep(0.15)
+    # Save progress every 20 parks so a crash doesn't lose everything
+    if i % 20 == 0:
+        with open("park_photos.js", "w", encoding="utf-8") as f:
+            f.write("const PARK_PHOTOS = ")
+            json.dump(result, f)
+            f.write(";\n")
+            f.write("const PARK_PHOTOS_BY_NAME = ")
+            json.dump(result_by_name, f)
+            f.write(";\n")
+    time.sleep(BASE_DELAY)
 
 with open("park_photos.js", "w", encoding="utf-8") as f:
     f.write("const PARK_PHOTOS = ")
@@ -82,8 +99,7 @@ with open("park_photos.js", "w", encoding="utf-8") as f:
     json.dump(result_by_name, f)
     f.write(";\n")
 
-print(f"\nDone. {len(result)} parks with photos -> park_photos.js")
+print(f"\nDone. {len(result)}/{len(parks)} parks with photos.")
 if missing:
-    print(f"{len(missing)} parks had no Google photos (illustrated placeholders will show):")
-    for n in missing:
-        print("  -", n)
+    print(f"{len(missing)} missing (will show illustrated placeholders):")
+    for n in missing: print("  -", n)

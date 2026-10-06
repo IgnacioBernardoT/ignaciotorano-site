@@ -1,8 +1,6 @@
-# fetch_custom_park_photos.py
-# Refreshes Google Places photos for every park in custom_parks.js
-# and writes custom_park_photos.js.
+# fetch_custom_park_photos.py — v2 with rate limit handling
 
-import json, os, re, time, urllib.request
+import json, os, re, time, urllib.request, urllib.error
 
 API_KEY = os.environ.get("GOOGLE_API_KEY","").strip()
 PHOTO_KEY = os.environ.get("PHOTO_KEY", API_KEY).strip()
@@ -11,6 +9,8 @@ if not API_KEY:
 
 MAX_PHOTOS = 3
 PHOTO_WIDTH = 800
+BASE_DELAY = 0.6
+RETRY_DELAYS = [2, 5, 15, 30, 60]
 
 with open("custom_parks.js","r",encoding="utf-8") as f:
     raw = f.read()
@@ -18,7 +18,7 @@ raw = re.sub(r"^\s*const\s+CUSTOM_PARKS\s*=\s*","",raw).rstrip().rstrip(";")
 parks = json.loads(raw)
 print(f"Loaded {len(parks)} parks from custom_parks.js")
 
-def search(name, addr, lat, lng):
+def search_once(name, addr, lat, lng):
     body = json.dumps({
         "textQuery": f"{name}, {addr}",
         "locationBias": {"circle": {
@@ -36,6 +36,18 @@ def search(name, addr, lat, lng):
         })
     with urllib.request.urlopen(req, timeout=20) as r:
         return json.loads(r.read().decode())
+
+def search(name, addr, lat, lng):
+    for attempt, delay in enumerate([0] + RETRY_DELAYS):
+        if delay > 0:
+            print(f"    rate limited — waiting {delay}s before retry {attempt}...")
+            time.sleep(delay)
+        try:
+            return search_once(name, addr, lat, lng)
+        except urllib.error.HTTPError as e:
+            if e.code == 429 and attempt < len(RETRY_DELAYS):
+                continue
+            raise
 
 photos_by_id, photos_by_name = {}, {}
 missing = []
@@ -58,11 +70,19 @@ for i, p in enumerate(parks, 1):
             print(f"[{i}/{len(parks)}] {p['NAME']}: {len(urls)} photo(s)")
         else:
             missing.append(p["NAME"])
-            print(f"[{i}/{len(parks)}] {p['NAME']}: no photos found")
+            print(f"[{i}/{len(parks)}] {p['NAME']}: no photos")
     except Exception as e:
         missing.append(p["NAME"])
         print(f"[{i}/{len(parks)}] {p['NAME']}: ERROR {e}")
-    time.sleep(0.15)
+    if i % 20 == 0:
+        with open("custom_park_photos.js","w",encoding="utf-8") as f:
+            f.write("const CUSTOM_PARK_PHOTOS = ")
+            json.dump(photos_by_id, f)
+            f.write(";\n")
+            f.write("const CUSTOM_PARK_PHOTOS_BY_NAME = ")
+            json.dump(photos_by_name, f)
+            f.write(";\n")
+    time.sleep(BASE_DELAY)
 
 with open("custom_park_photos.js","w",encoding="utf-8") as f:
     f.write("const CUSTOM_PARK_PHOTOS = ")
@@ -72,7 +92,7 @@ with open("custom_park_photos.js","w",encoding="utf-8") as f:
     json.dump(photos_by_name, f)
     f.write(";\n")
 
-print(f"\nDone. {len(photos_by_id)} parks with photos -> custom_park_photos.js")
+print(f"\nDone. {len(photos_by_id)}/{len(parks)} parks with photos.")
 if missing:
-    print(f"{len(missing)} parks without Google photos (illustrated placeholders):")
+    print(f"{len(missing)} missing:")
     for n in missing: print("  -", n)
