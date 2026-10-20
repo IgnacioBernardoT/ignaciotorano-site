@@ -1,13 +1,21 @@
-FAMOUS TAMPA HOMES BATCH — 2026-10-20
+FAMOUS TAMPA HOMES — REVIEW BUILD V2
+Updated: 2026-10-20
 
-Drop the contents of this folder into the repo root.
+This is the corrected review build. Review the Netlify deploy preview before publishing.
 
-Includes:
-- famous-tampa-homes/index.html — updated interactive numbered Leaflet map + 10 cards
-- updated No. 1, No. 2 and Jackson Rooming House pages
-- new No. 3 T.C. Taliaferro page
-- new Stovall, Dorchester, D.P. Davis, Plant-Hatton, George Guida Sr., and 1801 Bayshore pages
-- famous-tampa-homes/images/ — current user-provided images converted/organized as WebP
-- update_famous_homes_sitemap.py — idempotent sitemap.xml + llms.txt updater
+CHANGES:
+- Removed 1801 Bayshore Boulevard.
+- Removed all Stovall and D.P. Davis images with unresolved provenance/usage rights.
+- Replaced boilerplate source sections with specific linked sources.
+- Removed invented Ignacio quotes from new pages.
+- Corrected Taliaferro dating to c. 1893 with the source conflict disclosed.
+- Reframed 116 W. Davis Boulevard to match what the National Register record supports.
+- Added privacy language for private residences.
+- Revised the interactive map to nine homes.
+- Expanded the new article copy.
 
-Important: Cards without user-provided photos use a branded placeholder tile. Add photos later without changing the page URLs.
+INSTALL:
+1. Copy famous-tampa-homes/ into the repo root, replacing the existing folder.
+2. Copy update_famous_homes_sitemap.py into the repo root.
+3. Run: python update_famous_homes_sitemap.py
+4. Commit in GitHub Desktop and review the Netlify deploy preview before pushing live.
